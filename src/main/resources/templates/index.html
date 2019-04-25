@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="total_package"></div>
+    <link th:href="@{/custom/css/checkForm.css}" rel="stylesheet"/>
+    <link th:href="@{/plugins/verify/css/verify.css}" rel="stylesheet"/>
+    <link href="../static/custom/css/index.css"
+          th:href="@{/custom/css/index.css}" rel="stylesheet"/>
+    <link href="../static/custom/css/effect.css"
+          th:href="@{/custom/css/effect.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="container-fluid row">
+    <!--导航栏-->
+    <div th:replace="nav::myNav"></div>
+    <!--page1-->
+    <div class="page1 row">
+        <!--日期-->
+        <div class="col-md-1 datediv animated fadeInUp">
+            <h1></h1><h4></h4>
+        </div>
+
+        <div class="col-md-offset-4 col-md-5">
+            <img class="imgsize" src="../static/image/human.png" th:src="@{/image/human.png}">
+        </div>
+
+        <!--左侧小导航-->
+        <nav class="navbar-fixed-bottom navbar-left navicon animated fadeInUp">
+            <ul>
+                <li><a href="#"><i class="fa fa-music"></i></a></li>
+                <li><a href="#"><i class="fa fa-vcard"></i></a></li>
+                <li><a href="#"><i class="fa fa-cog"></i></a></li>
+            </ul>
+        </nav>
+        <!--滚动按钮-->
+        <div class="scrollbtn btn animated fadeInUp">next<i class="fa fa-angle-double-down"></i></div>
+        <!--右侧小标语-->
+        <div class="animated fadeInUp">
+            <label class="rotatetitle">What sounds you want to find</label>
+        </div>
+        <!--标语-->
+        <label class="col-md-4 label_title animated fadeInUp">
+            Discove<br>
+            your better<br>
+            sound
+        </label>
+    </div>
+    <div class="mid_bar">
+        <div class="fade">
+            <img  class="violin" src="../static/image/violin.png" th:src="@{/image/violin.png}">
+            <label class="mid_label_1">音乐的形式如此丰富?</label>
+            <label class="mid_label_2">它等着你去发现，我们永远缺一个你的idea</label>
+            <img  class="mp3img" src="../static/image/mp3.png" th:src="@{/image/mp3.png}">
+        </div>
+    </div>
+    <!--分割栏begin-->
+    <div class="iconBox btn btn-sm active fade">
+        <span class="fa fa-list-alt"></span>论坛
+    </div>
+    <!--分割栏end-->
+    <!--背景图-->
+    <div class="photo"></div>
+    <!--遮罩层-->
+    <div class="cover"></div>
+
+    <!--page2-->
+    <div class="page2">
+        <!--标语-->
+        <div class="fade">
+            <label class="midlogo"><h1>MusicLab</h1></label>
+            <label class="midmark">我的音乐论坛</label>
+        </div>
+        <!--论坛分区begin-->
+        <div class="messagediv col-md-12 row">
+            <div class="row fade">
+                <div class="col-md-2 col-md-offset-2">
+                    <div class="hovereffect_ACG">
+                        <img src="../static/image/classical.jpg" th:src="@{/image/classical.jpg}" class="imgsize">
+                        <div class="overlay_ACG">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>古典</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hovereffect_ACG">
+                        <img src="../static/image/jazz.jpg" th:src="@{/image/jazz.jpg}" class="imgsize">
+                        <div class="overlay_ACG">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>爵士</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hovereffect_ACG">
+                        <img src="../static/image/pop.jpg" th:src="@{/image/pop.jpg}" class="imgsize">
+                        <div class="overlay_ACG">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>流行</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hovereffect_ACG">
+                        <img src="../static/image/ballad.jpg" th:src="@{/image/ballad.jpg}" class="imgsize">
+                        <div class="overlay_ACG">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>民谣</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row fade">
+                <div class="col-md-2 col-md-offset-2">
+                    <div class="hovereffect_classical">
+                        <img src="../static/image/electronic.jpg" th:src="@{/image/electronic.jpg}" class="imgsize">
+                        <div class="overlay_classical">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>电子</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hovereffect_classical">
+                        <img src="../static/image/hiphop.jpg" th:src="@{/image/hiphop.jpg}" class="imgsize">
+                        <div class="overlay_classical">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>嘻哈</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hovereffect_classical">
+                        <img src="../static/image/lightmusic.jpg" th:src="@{/image/lightmusic.jpg}" class="imgsize">
+                        <div class="overlay_classical">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>轻音乐</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="hovereffect_classical">
+                    <img src="../static/image/blus.jpg" th:src="@{/image/blus.jpg}" class="imgsize">
+                        <div class="overlay_classical">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>布鲁斯</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row fade">
+                <div class="col-md-4 col-md-offset-2">
+                    <div class="hovereffect_ACG">
+                    <img src="../static/image/rock.jpg" th:src="@{/image/rock.jpg}" class="imgsize">
+                        <div class="overlay_ACG">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>摇滚</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="hovereffect_ACG">
+                    <img src="../static/image/comment.jpg" th:src="@{/image/comment.jpg}" class="imgsize">
+                        <div class="overlay_ACG">
+                            <p>
+                                <a href="#"></a>
+                            </p>
+                            <h2>留言</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--论坛分区end-->
+    </div>
+    <!--底部信息栏-->
+    <div class="homeFooter">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="footer-img"></div>
+                    <div class="box-content">
+                        <h3 class="title">Contact information</h3>
+                        <span class="post"></span>
+                    </div>
+                    <ul class="icon">
+                        <li><a href="#"><i class="fa fa-qq"></i></a></li>
+                        <li><a href="#"><i class="fa fa-weibo"></i></a></li>
+                        <li><a href="#"><i class="fa fa-wechat"></i></a></li>
+                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../static/custom/js/index.js"
+        th:src="@{/custom/js/index.js}"></script>
+<script th:src="@{/custom/js/checkForm.js}"></script>
+<script th:src="@{/plugins/verify/js/verify.min.js}"></script>
+<script type="text/javascript">
+    new Vue({
+        el:'#myNav',
+        data: {
+            mLabUser:{
+                name:'',
+                head_img:''
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

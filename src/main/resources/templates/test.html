@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/static/plugins/jquery/js/jquery-3.4.0.min.js" th:src="@{/plugins/jquery/js/jquery-3.4.0.min.js}"></script>
+    <script type="text/javascript" src="/static/plugins/vue/js/vue.min.js" th:src="@{/plugins/vue/js/vue.min.js}"></script>
+    <script type="text/javascript" src="/static/plugins/vue/js/axios.min.js" th:src="@{/plugins/vue/js/axios.min.js}"></script>
+    <style type="text/css">
+        #svg-canvas {
+        position: relative;
+            width: 450px;
+        height: 200px;
+        }
+        .title {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 8s linear forwards;
+            -webkit-animation: draw 8s linear forwards;
+            -moz-animation: draw 8s linear forwards;
+            -o-animation: draw 8s linear forwards;
+            font-weight: bold;
+            font-family: Amatic SC;
+            -inkscape-font-specification: Amatic SC Bold"
+        }
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        @-webkit-keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @-moz-keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        @-o-keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="div1">
+        <svg id="svg-canvas">
+            <path class="title" fill-opacity="0" stroke="#000" stroke-width="1.5" d="M73,108c-6,0-12,0-18,0c0.115-24.468,3.353-54.472-1-77c-1,0-2,0-3,0
+	c0,0.667,0,1.333,0,2c-2.52,4.023-1,15.066-1,21c0,17.998,0,36.002,0,54c-6,0-12,0-18,0c0.177-21.915,3.957-59.424-2-77
+	c-1.754,0.631-0.971,0.193-2,1c-3.224,4.251-2,14.71-2,22c0,17.998,0,36.002,0,54c-6,0-12,0-18,0C7.515,80.614,2.928,15.853,16,3
+	c3.216-3.162,8.408-3.091,15-3c1.021,0.804,0.274,0.355,2,1c1.716,2.977,6.875,10.702,8,11c6.699-7.479,5.535-12.387,21-12
+	c2.834,3.771,7.2,7.173,9,12c3.166,8.486,2,20.923,2,32C73,65.331,73,86.669,73,108z"/>
+            <path class="title" fill-opacity="0" stroke="#000" stroke-width="1.5" d="M154,0c4.845-0.081,9.475,0.276,13,1c0,10.333,0,20.667,0,31
+	c-3.046-1.099-3.927-1.287-6,1c-7.206,9.718,9.132,32.243,5,50c-3.792,16.294-8.164,18.532-18,28c-18.553,0.466-13.67-17.028-13-34
+	c0.333,0,0.667,0,1,0c1.737,2.022,2.146,1.869,6,2c2.231-3.543,3.097-5.374,3-12c-8.185-10.178-8.458-42.593-2-55
+	C145.523,7.152,150.353,3.789,154,0z"/>
+            <path class="title" fill-opacity="0" stroke="#000" stroke-width="1.5" d="M268,46c-6.666,0.667-13.334,1.333-20,2
+	c-1.011-12.6-7.059-18.451-19-15c-5.478,10.273-13.058,39.393,3,45c1.69,1.142,4.896,1.066,8,1c4.495-6.8,8.223-11.679,9-23
+	c6.333,0.333,12.667,0.667,19,1c0.177,24.187-15.638,68.517-44,51c-17.548-10.838-27.432-52.725-17-81
+	c5.309-14.39,12.064-17.887,22-27C257.672-0.339,266.424,20.497,268,46z"/>
+            <path class="title" fill-opacity="0" stroke="#000" stroke-width="1.5" d="M352,108c-6,0-12,0-18,0c0.044-25.035-0.824-51.483-1-75
+	c-2.091-1.122-1.832-1.435-5-2c-1.302,2.418-1.801,2.833-2,7c-2.066,3.151-1.13,12.069-1,17c1.667,0,3.333,0,5,0
+	c0,9.333,0,18.667,0,28c-1.667,0-3.333,0-5,0c0,8.333,0,16.667,0,25c-6,0-12,0-18,0c-0.567-33.031-6.228-99.167,16-108
+	c5,0,10,0,15,0c3.454,4.467,8.802,7.121,11,13C356.151,32.13,352.044,82.299,352,108z"/>
+            <path class="title" fill-opacity="0" stroke="#000" stroke-width="1.5" d="M83,2c6,0,12,0,18,0c-0.157,24.78-2.595,55.601,2,77
+	c1.333,0,2.667,0,4,0c0.333-1,0.667-2,1-3c2.52-4.022,1-15.066,1-21c0-17.665,0-35.335,0-53c6,0,12,0,18,0
+	c0.419,25.868,4.915,81.951-5,98c-4.325,7.001-10.269,11.094-22,11c-5.521-5.204-10.817-7.205-14-15
+	C78.859,78.512,82.911,26.427,83,2z"/>
+            <path class="title" fill-opacity="0" stroke="#000" stroke-width="1.5" d="M177,2c6,0,12,0,18,0c0,35.33,0,70.67,0,106c-6,0-12,0-18,0
+	C177,72.67,177,37.33,177,2z"/>
+            <path class="title" fill-opacity="0" stroke="#000" stroke-width="1.5" d="M276,2c6,0,12,0,18,0c-0.157,23.863-2.409,53.49,2,74
+	c0.667,0,1.333,0,2,0c1.18,0.803,1.681,0.773,4,1c0,10.333,0,20.667,0,31c-3.474,0.131-8.032,0.334-10-1
+	C268.994,100.588,275.729,33.256,276,2z"/>
+            <path class="title" fill-opacity="0" stroke="#000" stroke-width="1.5" d="M363,2c9.016-0.22,25.435-2.035,31,2c17.084,5.143,10.885,36.179,5,48
+	c7.176,2.701,12.886,19.915,10,32c-3.31,13.858-5.977,24.518-24,24c0-8.999,0-18.001,0-27c2-0.333,4-0.667,6-1
+	c1.873-3.952,3.073-7.059-2-9c-1.18-0.803-1.681-0.773-4-1c0-9.333,0-18.667,0-28c0.667,0,1.333,0,2,0c2.128-2.469,1.895-5.233,2-10
+	c-1.604-0.558-2.404-0.8-5-1c-1.567-1.243-0.51-0.642-2,0c-2.629,4.2-1,15.85-1,22c0,18.332,0,36.668,0,55c-6,0-12,0-18,0
+	C363,72.67,363,37.33,363,2z"/>
+        </svg>
+
+
+
+    <!--<table align="center" >
+        <tr>
+            <td>a</td>
+            <td>b</td>
+        </tr>
+        <tr v-for="hero in mLabUsers">
+            <td>{{hero.name}}</td>
+            <td>{{hero.pwd}}</td>
+        </tr>
+
+    </table>-->
+
+</div>
+<script type="text/javascript">
+    /*var a={
+        mLabUsers:[],
+        pagination:{}
+    }
+    //viewmodel
+    var vue =new Vue({
+        el:'#div1',
+        data:a,
+        mounted:function () {
+            // this.listUser();
+        },
+        methods:{
+          listUser:function () {
+              var url="test"
+              axios.get(url).then(function (value) {
+                  vue.mLabUsers = value.data;
+              })
+          }
+        }
+    })*/
+</script>
+</body>
+</html>

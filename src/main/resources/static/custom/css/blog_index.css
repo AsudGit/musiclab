@@ -1,0 +1,70 @@
+.page_container{
+    width: 84%;
+    margin: auto;
+}
+.page_content{
+    position: absolute;
+    top: 9%;
+    width: 100%;
+}
+/*导航栏css*/
+#myNav2{
+    height: 9%;
+    width: 84%;
+    z-index: 2;
+    position: fixed;
+    background-color:black;
+}
+#myNav2 ul{
+    margin-right: 20px;
+}
+.home_log{
+    float: left;
+    font-size: 20px;
+    padding: 10px;
+    margin-left: 20px;
+    font-family: "Adobe Arabic";
+    color: whitesmoke;
+}
+#myNav2>.input-group{
+    width: 30%;
+    float: left;
+    margin-top: 10px;
+}
+ul>li{
+    float: right;
+    font-size: 20px;
+    margin: 10px;
+}
+#myNav2 ul a{
+    color: #737373;
+}
+#myNav2 ul a:hover{
+    color: white;
+}
+
+
+.left_menu{
+    text-align: center;
+    width: 16%;
+    height: 91%;
+    position: fixed;
+    background-color:#f8f8f8;
+}
+.blog_content{
+    position: absolute;
+    margin-left: 16%;
+    width: 48%;
+}
+.right_nav{
+    margin-left: 64%;
+    position: absolute;
+    width: 20%;
+}
+.circle {
+    width: 130px;
+    height: 130px;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin-top: 20px;
+}

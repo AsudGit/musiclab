@@ -1,0 +1,64 @@
+/*解决bootstrap多次弹窗导致页面左移*/
+body {
+    overflow-x: hidden;
+    padding-right:0!important;
+}
+*.modal-open {
+    overflow-y: scroll;
+    padding-right: 0 !important;
+}
+/*解决bootstrap多次弹窗导致页面左移END*/
+
+
+#login_modal, #regitser_modal {
+    position: fixed;
+    left: 60%;
+}
+
+#login_modal {
+    top: 10%;
+}
+
+.navbar-right .navbar-form {
+    padding-top: 10px;
+}
+
+.dropdown_btn {
+    padding: 0px !important;
+}
+
+.login_btn {
+    margin-right: 20px;
+    top: 20px;
+}
+
+#phone_code {
+    width: 120px;
+    display: inline;
+}
+
+#post_pcode {
+    float: right;
+    margin-right: 40px;
+}
+
+#slidecode {
+    margin-top: 100px;
+}
+
+.verify-img-out, .verify-sub-block {
+    position: absolute !important;
+    /*display: none;*/
+}
+
+.verify-img-panel {
+    top: -140px;
+}
+
+.circle {
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin-top: 10px;
+}
