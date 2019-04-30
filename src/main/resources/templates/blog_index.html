@@ -4,7 +4,12 @@
     <title>hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <div th:replace="total_package"></div>
+    <link rel="stylesheet" th:href="@{/plugins/jquery/css/jquery.mCustomScrollbar.min.css}"/>
+    <link rel="stylesheet" th:href="@{/plugins/jqueryemoji/css/jquery.emoji.css}"/>
     <link th:href="@{/custom/css/blog_index.css}" rel="stylesheet">
+    <script th:src="@{/plugins/wangEditor/js/wangEditor.min.js}"></script>
+    <script th:src="@{/plugins/jquery/js/jquery.mCustomScrollbar.min.js}"></script>
+    <script th:src="@{/plugins/jqueryemoji/js/jquery.emoji.min.js}"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -53,10 +58,26 @@
                 <div class="blog_content">
                     <div class="myeditor">
                         <div id="editor_area">
-                            <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                            <p>这里可以写下自己的心情 <br/><b>--MusicLab</b></p>
                         </div>
-                        <div id="toolbar" class="toolbar">
+                        <div id="toolbar" class="toolbar"></div>
+                    </div>
+                    <div class="blog_option">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="搜索">
+                            <span class="input-group-addon">
+                                <a><i class="fa fa-search"></i></a>
+                            </span>
                         </div>
+                        <ul>
+                            <li>原创</li>
+                            <li>视频</li>
+                            <li>图片</li>
+                            <li>音乐</li>
+                        </ul>
+                    </div>
+                    <div class="blog_item">
+                        <img th:src="@{/image/ballad.jpg}" class="circle">
                     </div>
                 </div>
 <!--                右菜单栏-->
@@ -67,19 +88,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" th:src="@{/plugins/wangEditor/js/wangEditor.min.js}"></script>
-<script type="text/javascript" th:src="@{/custom/js/blog_index.js}"></script>
-<script type="text/javascript">
-    new Vue({
-        el:'#myNav',
-        data: {
-            mLabUser:{
-                name:null,
-                head_img:''
-            }
-        }
-    })
-</script>
+<script th:src="@{/custom/js/blog_index.js}"></script>
 </body>
 
 </html>

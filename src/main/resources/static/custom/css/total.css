@@ -2,3 +2,4 @@
 a {text-decoration: none !important;color: black}
 ul,ol,li{list-style-type:none;}
 html,body{height: 100%;}
+.circle {border: 1px solid black;border-radius: 50%;}

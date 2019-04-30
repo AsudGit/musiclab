@@ -8,7 +8,7 @@
 .page_content{
     position: absolute;
     top: 9%;
-    width: 100%;
+    width: 1170px;
 }
 /*导航栏css*/
 #myNav2{
@@ -77,11 +77,10 @@
 .bottom_info>.col-md-4{
     color: #737373;
 }
-.circle {
+
+.user_header>.circle{
     width: 130px;
     height: 130px;
-    border: 1px solid black;
-    border-radius: 50%;
     margin-top: 20px;
 }
 .user_header{
@@ -115,13 +114,14 @@
 
 /*显示博客区域css*/
 .blog_content{
+    background-color: rgba(238,238,238,0.8);
     position: absolute;
     margin-left: 220px;
     width: 710px;
 }
 /*富文本编辑器css*/
 .myeditor{
-    /*height: 150px;*/
+    background-color: white;
     border: 1px solid #ccc;
 }
 .toolbar{
@@ -129,8 +129,40 @@
     width: 590px;
 }
 #editor_area{
-    margin: 20px auto 0px auto;
+    margin: 50px auto 0px auto;
     border: 1px solid #ccc;
     height: 100px;
     width: 680px;
+}
+.emoji_btn{
+    width: 20px;
+    height: 20px;
+}
+
+.blog_option{
+    background-color: white;
+    margin:10px auto;
+    height: 46px;
+    border: 1px solid #ccc;
+}
+.blog_option>ul>li{
+    display: block;
+    padding: 13px 20px;
+    float: left;
+}
+.blog_option .input-group{
+    float: right;
+    padding: 6px;
+    width: 200px;
+}
+
+.blog_item{
+    margin: 20px;
+    height: 200px;
+}
+
+.blog_item>.circle{
+    width: 45px;
+    height: 45px;
+    margin: 30px;
 }
