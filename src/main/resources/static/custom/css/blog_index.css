@@ -1,5 +1,8 @@
+.container-fluid,.container-fluid>.row,.page_container{
+    height: 100%;
+}
 .page_container{
-    width: 84%;
+    width: 1170px;
     margin: auto;
 }
 .page_content{
@@ -10,7 +13,7 @@
 /*导航栏css*/
 #myNav2{
     height: 9%;
-    width: 84%;
+    width: 1170px;
     z-index: 2;
     position: fixed;
     background-color:black;
@@ -31,7 +34,7 @@
     float: left;
     margin-top: 10px;
 }
-ul>li{
+#myNav2>ul>li{
     float: right;
     font-size: 20px;
     margin: 10px;
@@ -43,23 +46,36 @@ ul>li{
     color: white;
 }
 
-
+.right_nav{
+    margin-left: 930px;
+    position: absolute;
+    width: 240px;
+}
+/*左菜单栏css*/
 .left_menu{
+    /* 父容器设置宽度, 并超出部分不显示,用于隐藏滚动条 */
     text-align: center;
-    width: 16%;
+    width: 220px;
     height: 91%;
     position: fixed;
     background-color:#f8f8f8;
+    overflow: hidden;
 }
-.blog_content{
-    position: absolute;
-    margin-left: 16%;
-    width: 48%;
+.left_menu>.scroll_info{
+    /* 子容器比父容器的宽度多 17 px, 经测正好是滚动条的默认宽度 */
+    width: 237px;
+    height: 92%;
+    overflow-y: scroll;
 }
-.right_nav{
-    margin-left: 64%;
+
+.bottom_info{
+    width: 220px;
+    height: 40px;
     position: absolute;
-    width: 20%;
+    bottom: 5px;
+}
+.bottom_info>.col-md-4{
+    color: #737373;
 }
 .circle {
     width: 130px;
@@ -67,4 +83,54 @@ ul>li{
     border: 1px solid black;
     border-radius: 50%;
     margin-top: 20px;
+}
+.user_header{
+    border-bottom: white 2px solid;
+}
+.left_menu_nav>ul>li{
+    text-align: left;
+    width: 100%;
+    height: 40px;
+    padding: 10px 20px;
+}
+.left_menu_nav i{
+    margin-right: 12px;
+}
+.left_menu_nav .fa-angle-right{
+    font-size: 18px;
+    float: right;
+    padding: auto 10px;
+}
+.left_menu_nav a{
+    color: #737373;
+}
+.left_menu_nav li:hover{
+    color: #737373;
+    background-color: rgba(125,125,125,0.3);
+}
+.left_menu_nav p{
+    text-align: left;
+    margin: 10px 30px;
+}
+
+/*显示博客区域css*/
+.blog_content{
+    position: absolute;
+    margin-left: 220px;
+    width: 710px;
+}
+/*富文本编辑器css*/
+.myeditor{
+    /*height: 150px;*/
+    border: 1px solid #ccc;
+}
+.toolbar{
+    margin: 5px auto;
+    width: 590px;
+}
+#editor_area{
+    margin: 20px auto 0px auto;
+    border: 1px solid #ccc;
+    height: 100px;
+    width: 680px;
 }
