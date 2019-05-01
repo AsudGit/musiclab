@@ -1,0 +1,282 @@
+/* Set element that can be painted to overflow hidden */
+.paint-area {
+	overflow: hidden;
+	position: relative;
+	-webkit-transition: background 0.2s, color 0.2s;
+	transition: background 0.2s, color 0.2s;
+}
+
+.paint--active.paint-area {
+	-webkit-transition: none;
+	transition: none;
+}
+
+.paint--active.paint-area--text {
+	-webkit-transition: color 0.3s;
+	transition: color 0.3s;
+}
+
+.paint-area.paint-area--highlight:not(.paint-area--text) {
+	box-shadow: inset 0 0 0 3px rgb(133,125,255);
+}
+
+.paint-area--text.paint-area--highlight {
+	text-shadow:
+		-1px -1px 0 rgba(133,125,255,0.5),
+		1px -1px 0 rgba(133,125,255,0.5),
+		-1px 1px 0 rgba(133,125,255,0.5),
+		1px 1px 0 rgba(133,125,255,0.5);
+}
+
+.paint-area * {
+	position: relative;
+	z-index: 10;
+	cursor: default;
+}
+
+.paint {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+}
+
+.paint circle {
+	fill-opacity: 0;
+	-webkit-transform: scale3d(0,0,1);
+	transform: scale3d(0,0,1);
+	-webkit-transition: -webkit-transform 0.8s, fill-opacity 0.4s;
+	transition: transform 0.8s, fill-opacity 0.4s;
+	-webkit-transition-timing-function: ease-out;
+	transition-timing-function: ease-out;
+}
+
+.paint--active .paint circle {
+	fill-opacity: 1;
+	-webkit-transform: scale3d(1,1,1);
+	transform: scale3d(1,1,1);
+}
+
+
+/* Customizer */
+.customizer {
+	background: #444;
+	position: fixed;
+	top: 20%;
+	left: 0;
+	max-height: 100%;
+	z-index: 10000;
+	padding: 15px 10px;
+	border-radius: 0 5px 5px 0;
+	-webkit-transform: translate3d(0, -50%, 0);
+	transform: translate3d(0, -50%, 0);
+}
+
+.color-tool {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+}
+
+.color-tool li {
+	width: 30px;
+	height: 30px;
+	display: block;
+	margin: 5px;
+}
+
+.color-1 { background: #333; color: #333;}
+.color-2 { background: #f0f0f0; color: #f0f0f0; }
+.color-3 { background: #c0c3d5; color: #c0c3d5; }
+.color-4 { background: #5FA1E0; color: #5FA1E0; }
+.color-5 { background: #c1d5c0; color: #c1d5c0; }
+.color-6 { background: #47AE73; color: #47AE73; }
+.color-7 { background: #eae7c4; color: #eae7c4; }
+.color-8 { background: #FB6964; color: #FB6964; }
+
+.drag-element {
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.drag-element:hover {
+	cursor: move;
+	cursor: -webkit-grab;
+	cursor: grab;
+}
+
+.drag-element:active {
+	cursor: -webkit-grabbing;
+	cursor: grabbing;
+}
+
+.drop {
+	width: 20px;
+	height: 20px;
+	top: 5px;
+	left: 5px;
+	position: absolute;
+	border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+	-webkit-transform: rotate3d(0,0,1,-45deg);
+	transform: rotate3d(0,0,1,-45deg);
+}
+
+.drop-helper-1,
+.drop-helper-2,
+.drop-helper-3,
+.drop-helper-4 {
+	position: absolute;
+	display: block;
+	width: 6px;
+	height: 6px;
+	bottom: -10px;
+	left: 50%;
+	margin-left: -3px;
+	border-radius: 50%;
+	pointer-events: none;
+	opacity: 0;
+}
+
+.drop-helper-3,
+.drop-helper-4 {
+	width: 10px;
+	height: 10px;
+	margin-left: -5px;
+}
+
+.drop-helper-1 {
+	-webkit-transform-origin: -33px 50%;
+	transform-origin: -33px 50%;
+}
+
+.drop-helper-2 {
+	-webkit-transform-origin: 45px 50%;
+	transform-origin: 45px 50%;
+}
+
+.drop-helper-3 {
+	-webkit-transform-origin: -18px 50%;
+	transform-origin: -18px 50%;
+}
+
+.drop-helper-4 {
+	-webkit-transform-origin: 30px 50%;
+	transform-origin: 30px 50%;
+}
+
+.drag-element--dropped .drop {
+	-webkit-transition: -webkit-transform 0.2s, opacity 0.2s;
+	transition: transform 0.2s, opacity 0.2s;
+	-webkit-transition-timing-function: cubic-bezier(0.6,0.04,0.98,0.335);
+	transition-timing-function: cubic-bezier(0.6,0.04,0.98,0.335);
+	-webkit-transform: translate3d(0,25px,0) rotate3d(0,0,1,-45deg) scale3d(0.2,0.2,1);
+	transform: translate3d(0,25px,0) rotate3d(0,0,1,-45deg) scale3d(0.2,0.2,1);
+	opacity: 0;
+}
+
+.drag-element--dropped .drop-helper-1,
+.drag-element--dropped .drop-helper-3 {
+	-webkit-animation: drop-anim-1 0.3s ease-out 0.15s forwards;
+	animation: drop-anim-1 0.3s ease-out 0.15s forwards;
+}
+
+.drag-element--dropped .drop-helper-2,
+.drag-element--dropped .drop-helper-4  {
+	-webkit-animation: drop-anim-2 0.3s ease-out 0.15s forwards;
+	animation: drop-anim-2 0.3s ease-out 0.15s forwards;
+}
+
+.drag-element--dropped .drop-helper-4 {
+	-webkit-animation-duration: 0.2s;
+	animation-duration: 0.2s;
+}
+
+@-webkit-keyframes drop-anim-1 {
+	0% {
+		-webkit-transform: rotate3d(0,0,1,5deg);
+		transform: rotate3d(0,0,1,5deg);
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		-webkit-transform: rotate3d(0,0,1,-90deg);
+		transform: rotate3d(0,0,1,-90deg);
+		opacity: 0;
+	}
+}
+
+@keyframes drop-anim-1 {
+	0% {
+		-webkit-transform: rotate3d(0,0,1,5deg);
+		transform: rotate3d(0,0,1,5deg);
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		-webkit-transform: rotate3d(0,0,1,-90deg);
+		transform: rotate3d(0,0,1,-90deg);
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes drop-anim-2 {
+	0% {
+		-webkit-transform: rotate3d(0,0,1,-5deg);
+		transform: rotate3d(0,0,1,-5deg);
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		-webkit-transform: rotate3d(0,0,1,90deg);
+		transform: rotate3d(0,0,1,90deg);
+		opacity: 0;
+	}
+}
+
+@keyframes drop-anim-2 {
+	0% {
+		-webkit-transform: rotate3d(0,0,1,-5deg);
+		transform: rotate3d(0,0,1,-5deg);
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		-webkit-transform: rotate3d(0,0,1,90deg);
+		transform: rotate3d(0,0,1,90deg);
+		opacity: 0;
+	}
+}
+
+.drag-element--dropped-text .drop {
+	-webkit-transition: opacity 0.3s;
+	transition: opacity 0.3s;
+	opacity: 0;
+}
+
+.reset-button {
+	background: none;
+	padding: 0;
+	margin: 0;
+	border: none;
+	width: 30px;
+	height: 30px;
+	margin: 0;
+	color: transparent;
+	font-size: 0px;
+	background: url(/image/drop_reset.svg) no-repeat center center;
+	background-size: 100%;
+}

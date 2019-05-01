@@ -2,6 +2,7 @@ $(function () {
     /*富文本编辑器初始化*/
     var E = window.wangEditor;
     var editor = new E("#toolbar","#editor_area");
+    editor.customConfig.zIndex =0;
     //初始化菜单栏
     editor.customConfig.menus = [
         'head',  // 标题
@@ -52,5 +53,15 @@ $(function () {
         }]
     });
 
-
+    /*油画工具淡入淡出*/
+    $(".fa-paint-brush").click(function () {
+        var $paint=$(".customizer");
+        if (!$paint.hasClass("fadeInLeft")){
+            $(".customizer").removeClass("animated fadeOutLeft")
+                .addClass("animated fadeInLeft");
+        }else {
+            $paint.removeClass("animated fadeInLeft")
+                .addClass("animated fadeOutLeft");
+        }
+    })
 })

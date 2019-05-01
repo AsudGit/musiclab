@@ -21,6 +21,11 @@ public class MLabUserController {
         return "test";
     }
 
+    @RequestMapping("/test1")
+    public String test1(){
+        return "test1";
+    }
+
     @RequestMapping("/blogIndex")
     public String blog(){
         return "blog_index";

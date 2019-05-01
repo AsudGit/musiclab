@@ -1,20 +1,27 @@
-.container-fluid,.container-fluid>.row,.page_container{
+.container-fluid,.container-fluid>.row{
     height: 100%;
 }
 .page_container{
+    background-color: rgba(238,238,238,0.8);
+    height: 300%;
     width: 1170px;
     margin: auto;
+    -moz-box-shadow:0px 0px 20px #696969;
+    -webkit-box-shadow:0px 0px 20px #696969;
+    box-shadow:0px 0px 20px #696969;
 }
 .page_content{
     position: absolute;
+    height: 291%;
     top: 9%;
     width: 1170px;
 }
+
 /*导航栏css*/
 #myNav2{
     height: 9%;
     width: 1170px;
-    z-index: 2;
+    z-index: 100;
     position: fixed;
     background-color:black;
 }
@@ -46,18 +53,15 @@
     color: white;
 }
 
-.right_nav{
-    margin-left: 930px;
-    position: absolute;
-    width: 240px;
-}
+
+
 /*左菜单栏css*/
 .left_menu{
     /* 父容器设置宽度, 并超出部分不显示,用于隐藏滚动条 */
     text-align: center;
     width: 220px;
     height: 91%;
-    position: fixed;
+    position: fixed !important;
     background-color:#f8f8f8;
     overflow: hidden;
 }
@@ -114,8 +118,7 @@
 
 /*显示博客区域css*/
 .blog_content{
-    background-color: rgba(238,238,238,0.8);
-    position: absolute;
+    position: absolute !important;
     margin-left: 220px;
     width: 710px;
 }
@@ -137,12 +140,15 @@
 .emoji_btn{
     width: 20px;
     height: 20px;
+    z-index: 98 !important;
 }
-
+.emoji_container,.w-e-menu{
+    z-index: 98 !important;
+}
 .blog_option{
     background-color: white;
     margin:10px auto;
-    height: 46px;
+    height: 48px;
     border: 1px solid #ccc;
 }
 .blog_option>ul>li{
@@ -154,15 +160,105 @@
     float: right;
     padding: 6px;
     width: 200px;
+    z-index: 0 !important;
 }
 
 .blog_item{
     margin: 20px;
-    height: 200px;
+    background-color: white;
+    padding: 30px;
 }
 
 .blog_item>.circle{
     width: 45px;
     height: 45px;
-    margin: 30px;
+    float: left;
+    margin-right: 30px;
+}
+.blog_item>h3{
+    float: left;
+    margin: 0px;
+}
+.blog_item>p{
+    margin-top: 40px;
+    color: #737373;
+    line-height: 30px;
+}
+.blog_item .fa-chevron-down{
+    float: right;
+    color: #737373;
+}
+.blog_item_info{
+    border-top: 1px solid #ccc;
+    position: relative;
+    bottom: 0px;
+    padding-top: 10px;
+}
+.blog_item_info>a{
+    margin-right: 20px;
+    color: #737373;
+}
+
+/*右侧导航栏*/
+.right_nav{
+    background-color: white;
+    height: 100%;
+    margin-left: 930px;
+    position: absolute;
+    width: 240px;
+}
+.right_nav>.col-md-4{
+    color: #737373;
+    font-size: 20px;
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+.right_nav h4{
+    color: #6a6a6a;
+}
+.mybtn_active{
+    border-bottom: 1px solid black !important;
+}
+.blog_nav_item{
+    padding: 15px 20px;
+}
+.blog_nav_item>.row{
+    margin-top: 20px;
+}
+.blog_nav_item .circle{
+    height: 40px;
+    width: 40px;
+    float: left;
+    margin-left: 15px;
+}
+.blog_nav_item .col-md-8{
+    padding-right: 0px;
+    color: #737373;
+}
+.blog_nav_item small{
+    margin-left: 5px;
+}
+.myblog_count{
+    margin-top: 30px;
+}
+.myblog_count>.btn-group-vertical{
+    width: 100%;
+}
+.btn-group-vertical>button{
+    color: #737373;
+    padding: 10px 20px;
+}
+.myblog_count i{
+    float: left;
+}
+.btn-group-vertical .badge{
+    background-color: #7e7e7e;
+    float: right;
+}
+.blogtags{
+    margin-top: 40px;
+}
+.blogtags>.label-default{
+    line-height: 30px;
 }
