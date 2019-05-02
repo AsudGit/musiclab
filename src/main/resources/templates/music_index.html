@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link th:href="@{/plugins/fontawesome/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet"  th:href="@{/plugins/slideswitch/css/component.css}" />
+    <link rel="stylesheet" th:href="@{/custom/css/music_index.css}"/>
+</head>
+<body>
+<div class="container">
+    <header id="header" class="codrops-header">
+        <h1>MusicLab player</h1>
+        <button class="slider-switch">Switch view</button>
+    </header>
+    <div id="slideshow" class="dragslider">
+        <section class="img-dragger img-dragger-large dragdealer">
+            <div class="handle">
+                <div class="slide" data-content="content-1">
+                    <div class="img-wrap">
+                        <!--                        <img th:src="@{/image/1.jpg}" alt="img1"/>-->
+                    </div>
+                    <h2>网易云音乐<span>听见 · 好时光！</span></h2>
+                    <button class="content-switch"></button>
+                </div>
+                <div class="slide" data-content="content-2">
+                    <div class="img-wrap">
+                        <!--                        <img th:src="@{/image/2.jpg}" alt="img2"/>-->
+                    </div>
+                    <h2>QQ音乐<span>音乐你的生活</span></h2>
+                    <button class="content-switch"></button>
+                </div>
+                <div class="slide" data-content="content-3">
+                    <div class="img-wrap">
+                        <!--                        <img th:src="@{/image/ballad.jpg}" alt="img3"/>-->
+                    </div>
+                    <h2>酷狗音乐<span>音乐总有新玩法</span></h2>
+                    <button class="content-switch"></button>
+                </div>
+                <div class="slide" data-content="content-4">
+                    <div class="img-wrap">
+                        <!--                        <img th:src="@{/image/ballad.jpg}" alt="img3"/>-->
+                    </div>
+                    <h2>酷我音乐<span>好音质用酷我</span></h2>
+                    <button class="content-switch"></button>
+                </div>
+                <div class="slide" data-content="content-5">
+                    <div class="img-wrap">
+                        <!--                        <img th:src="@{/image/ballad.jpg}" alt="img3"/>-->
+                    </div>
+                    <h2>MusicLab<span>我们永远缺一个你的idea</span></h2>
+                    <button class="content-switch"></button>
+                </div>
+            </div>
+        </section><!-- /img-dragger-->
+        <!-- Content section -->
+        <section class="pages">
+            <div class="content" data-content="content-1">
+                <h2>Lorem Waldy <span>Distilling design and other interesting methods</span></h2>
+                <p>It was not child's play tackling those horses. Some of the kind-hearted station folk in the backblocks had sent down some wild warrigals of the West; bucking brumbies that beat the band; old outlaws off the grass that the station hands could never master. But Colonel Cox ("Fighting Charlie" we called him) had in his command some of the crack rough-riders of Australia. And it was a joy to see these men tackle the outlaws. There were Crouch of Wagga, McDonald of Barrington, Whiteley of Wellington, Bullock of Melbourne, Sievewright of Gunnedah, Kennedy of Gloucester, Rex Moffatt of Goulburn, Harry Heath of Moree, and a score of others. Nearly every man in the regiment could sit a buck, or puff nonchalantly at his pipe while his mount pigrooted merrily. So when the wild horses were led forth there were hundreds volunteering for the honour of riding the rebels. One after another the horses were saddled up, and while the regiment cheered itself hoarse, there was enacted again and again the old-time struggle for mastery. There were plunging and reefing and rooting and sidling and rearing and bucking, as the panting chargers swung this way and that in vain endeavour to dislodge the riders. But the bush boys stuck to the saddles as the Old Man of the Sea stuck to Sindbad the Sailor, and one after another the bucking brumbies were broken and led away.</p>
+                <div>
+                    <img th:src="@{/image/ballad.jpg}">
+                </div>
+            </div>
+            <div class="content" data-content="content-2">
+                <h2>Lorem Waldy <span>Distilling design and other interesting methods</span></h2>
+                <p>It was not child's play tackling those horses. Some of the kind-hearted station folk in the backblocks had sent down some wild warrigals of the West; bucking brumbies that beat the band; old outlaws off the grass that the station hands could never master. But Colonel Cox ("Fighting Charlie" we called him) had in his command some of the crack rough-riders of Australia. And it was a joy to see these men tackle the outlaws. There were Crouch of Wagga, McDonald of Barrington, Whiteley of Wellington, Bullock of Melbourne, Sievewright of Gunnedah, Kennedy of Gloucester, Rex Moffatt of Goulburn, Harry Heath of Moree, and a score of others. Nearly every man in the regiment could sit a buck, or puff nonchalantly at his pipe while his mount pigrooted merrily. So when the wild horses were led forth there were hundreds volunteering for the honour of riding the rebels. One after another the horses were saddled up, and while the regiment cheered itself hoarse, there was enacted again and again the old-time struggle for mastery. There were plunging and reefing and rooting and sidling and rearing and bucking, as the panting chargers swung this way and that in vain endeavour to dislodge the riders. But the bush boys stuck to the saddles as the Old Man of the Sea stuck to Sindbad the Sailor, and one after another the bucking brumbies were broken and led away.</p>
+                <div>
+                    <img th:src="@{/image/ballad.jpg}">
+                </div>
+            </div>
+            <div class="content" data-content="content-3">
+                <h2>Lorem Waldy <span>Distilling design and other interesting methods</span></h2>
+                <p>It was not child's play tackling those horses. Some of the kind-hearted station folk in the backblocks had sent down some wild warrigals of the West; bucking brumbies that beat the band; old outlaws off the grass that the station hands could never master. But Colonel Cox ("Fighting Charlie" we called him) had in his command some of the crack rough-riders of Australia. And it was a joy to see these men tackle the outlaws. There were Crouch of Wagga, McDonald of Barrington, Whiteley of Wellington, Bullock of Melbourne, Sievewright of Gunnedah, Kennedy of Gloucester, Rex Moffatt of Goulburn, Harry Heath of Moree, and a score of others. Nearly every man in the regiment could sit a buck, or puff nonchalantly at his pipe while his mount pigrooted merrily. So when the wild horses were led forth there were hundreds volunteering for the honour of riding the rebels. One after another the horses were saddled up, and while the regiment cheered itself hoarse, there was enacted again and again the old-time struggle for mastery. There were plunging and reefing and rooting and sidling and rearing and bucking, as the panting chargers swung this way and that in vain endeavour to dislodge the riders. But the bush boys stuck to the saddles as the Old Man of the Sea stuck to Sindbad the Sailor, and one after another the bucking brumbies were broken and led away.</p>
+                <div>
+                    <img th:src="@{/image/ballad.jpg}">
+                </div>
+            </div>
+            <div class="content" data-content="content-4">
+                <h2>Lorem Waldy <span>Distilling design and other interesting methods</span></h2>
+                <p>It was not child's play tackling those horses. Some of the kind-hearted station folk in the backblocks had sent down some wild warrigals of the West; bucking brumbies that beat the band; old outlaws off the grass that the station hands could never master. But Colonel Cox ("Fighting Charlie" we called him) had in his command some of the crack rough-riders of Australia. And it was a joy to see these men tackle the outlaws. There were Crouch of Wagga, McDonald of Barrington, Whiteley of Wellington, Bullock of Melbourne, Sievewright of Gunnedah, Kennedy of Gloucester, Rex Moffatt of Goulburn, Harry Heath of Moree, and a score of others. Nearly every man in the regiment could sit a buck, or puff nonchalantly at his pipe while his mount pigrooted merrily. So when the wild horses were led forth there were hundreds volunteering for the honour of riding the rebels. One after another the horses were saddled up, and while the regiment cheered itself hoarse, there was enacted again and again the old-time struggle for mastery. There were plunging and reefing and rooting and sidling and rearing and bucking, as the panting chargers swung this way and that in vain endeavour to dislodge the riders. But the bush boys stuck to the saddles as the Old Man of the Sea stuck to Sindbad the Sailor, and one after another the bucking brumbies were broken and led away.</p>
+                <div>
+                    <img th:src="@{/image/ballad.jpg}">
+                </div>
+            </div>
+            <div class="content" data-content="content-5">
+                <h2>Lorem Waldy <span>Distilling design and other interesting methods</span></h2>
+                <p>It was not child's play tackling those horses. Some of the kind-hearted station folk in the backblocks had sent down some wild warrigals of the West; bucking brumbies that beat the band; old outlaws off the grass that the station hands could never master. But Colonel Cox ("Fighting Charlie" we called him) had in his command some of the crack rough-riders of Australia. And it was a joy to see these men tackle the outlaws. There were Crouch of Wagga, McDonald of Barrington, Whiteley of Wellington, Bullock of Melbourne, Sievewright of Gunnedah, Kennedy of Gloucester, Rex Moffatt of Goulburn, Harry Heath of Moree, and a score of others. Nearly every man in the regiment could sit a buck, or puff nonchalantly at his pipe while his mount pigrooted merrily. So when the wild horses were led forth there were hundreds volunteering for the honour of riding the rebels. One after another the horses were saddled up, and while the regiment cheered itself hoarse, there was enacted again and again the old-time struggle for mastery. There were plunging and reefing and rooting and sidling and rearing and bucking, as the panting chargers swung this way and that in vain endeavour to dislodge the riders. But the bush boys stuck to the saddles as the Old Man of the Sea stuck to Sindbad the Sailor, and one after another the bucking brumbies were broken and led away.</p>
+                <div>
+                    <img th:src="@{/image/ballad.jpg}">
+                </div>
+            </div>
+            <div class="content">
+                <!--用来防止chrome滚动条冻结-->
+            </div>
+        </section>
+    </div>
+</div><!-- /container -->
+<script th:src="@{/plugins/dragcolor/js/modernizr.custom.js}"></script>
+<script th:src="@{/plugins/slideswitch/js/dragdealer.js}"></script>
+<script th:src="@{/plugins/dragcolor/js/classie.js}"></script>
+<script th:src="@{/plugins/slideswitch/js/dragslideshow.js}"></script>
+<script th:src="@{/plugins/slideswitch/js/main.js}"></script>
+</body>
+
+</html>

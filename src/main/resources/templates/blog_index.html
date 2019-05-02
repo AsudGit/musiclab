@@ -6,12 +6,12 @@
     <div th:replace="total_package"></div>
     <link rel="stylesheet" th:href="@{/plugins/jquery/css/jquery.mCustomScrollbar.min.css}"/>
     <link rel="stylesheet" th:href="@{/plugins/jqueryemoji/css/jquery.emoji.css}"/>
-    <link th:href="@{/custom/css/blog_index.css}" rel="stylesheet">
+    <link rel="stylesheet"  th:href="@{/plugins/dragcolor/css/demo.css}" />
+    <link rel="stylesheet" th:href="@{/custom/css/blog_index.css}">
     <script th:src="@{/plugins/wangEditor/js/wangEditor.min.js}"></script>
     <script th:src="@{/plugins/jquery/js/jquery.mCustomScrollbar.min.js}"></script>
     <script th:src="@{/plugins/jqueryemoji/js/jquery.emoji.min.js}"></script>
     <script th:src="@{/custom/js/blog_index.js}"></script>
-    <link rel="stylesheet"  th:href="@{/plugins/dragcolor/css/demo.css}" />
 </head>
 <body>
 <div class="container-fluid">
@@ -57,97 +57,133 @@
                     </div>
                 </div>
 <!--                博客显示板块-->
-                <div class="blog_content paint-area">
-                    <div class="myeditor">
+                <div class="blog_content">
+<!--                    文本编辑区-->
+                    <!--<div class="myeditor">
                         <div id="editor_area">
                             <p>这里可以写下自己的心情</p>
-                            <p><b>--MusicLab</b></p>
+                            <p><b>&#45;&#45;MusicLab</b></p>
                         </div>
                         <div id="toolbar" class="toolbar"></div>
-                    </div>
-                    <div class="blog_option">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="搜索">
-                            <span class="input-group-addon">
-                                <a><i class="fa fa-search"></i></a>
-                            </span>
+                    </div>-->
+<!--                    板块信息-->
+                    <div class="plate">
+                        <div class="plateinfo">
+                            <h1>摇滚</h1>
+                            <ul>
+                                <li><h3>0</h3>博客</li>
+                                <li><p>|</p></li>
+                                <li><h3>0</h3>评论</li>
+                                <li><p>|</p></li>
+                                <li><h3>0</h3>新鲜事</li>
+                            </ul>
                         </div>
-                        <ul>
-                            <li class="mybtn_active">全部</li>
-                            <li>原创</li>
-                            <li>视频</li>
-                            <li>图片</li>
-                            <li>音乐</li>
-                        </ul>
+                        <div class="blurfilter"></div>
                     </div>
-                    <div class="blog_item paint-area">
-                        <img th:src="@{/image/ballad.jpg}" class="circle">
-                        <h3 class="paint-area paint-area--text">这个是标题</h3>
-                        <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
-                        <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
-                        <div class="blog_item_info">
-                            <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
-                            <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
-                            <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                    <div class="paint-area">
+                        <div class="blog_option paint-area">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="搜索">
+                                <span class="input-group-addon">
+                                    <a><i class="fa fa-search"></i></a>
+                                </span>
+                            </div>
+                            <ul>
+                                <li class="mybtn_active">全部</li>
+                                <li>原创</li>
+                                <li>视频</li>
+                                <li>图片</li>
+                                <li>音乐</li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="blog_item paint-area">
-                        <img th:src="@{/image/ballad.jpg}" class="circle">
-                        <h3 class="paint-area paint-area--text">这个是标题</h3>
-                        <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
-                        <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
-                        <div class="blog_item_info">
-                            <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
-                            <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
-                            <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                        <div class="blog_item paint-area">
+                            <img th:src="@{/image/ballad.jpg}" class="circle">
+                            <h3 class="paint-area paint-area--text">这个是标题</h3>
+                            <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
+                            <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
+                            <div class="blog_item_info">
+                                <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
+                                <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
+                                <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="blog_item paint-area">
-                        <img th:src="@{/image/ballad.jpg}" class="circle">
-                        <h3 class="paint-area paint-area--text">这个是标题</h3>
-                        <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
-                        <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
-                        <div class="blog_item_info">
-                            <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
-                            <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
-                            <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                        <div class="blog_item paint-area">
+                            <img th:src="@{/image/ballad.jpg}" class="circle">
+                            <h3 class="paint-area paint-area--text">这个是标题</h3>
+                            <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
+                            <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
+                            <div class="blog_item_info">
+                                <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
+                                <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
+                                <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="blog_item paint-area">
-                        <img th:src="@{/image/ballad.jpg}" class="circle">
-                        <h3 class="paint-area paint-area--text">这个是标题</h3>
-                        <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
-                        <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
-                        <div class="blog_item_info">
-                            <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
-                            <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
-                            <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                        <div class="blog_item paint-area">
+                            <img th:src="@{/image/ballad.jpg}" class="circle">
+                            <h3 class="paint-area paint-area--text">这个是标题</h3>
+                            <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
+                            <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
+                            <div class="blog_item_info">
+                                <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
+                                <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
+                                <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="blog_item paint-area">
-                        <img th:src="@{/image/ballad.jpg}" class="circle">
-                        <h3 class="paint-area paint-area--text">这个是标题</h3>
-                        <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
-                        <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
-                        <div class="blog_item_info">
-                            <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
-                            <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
-                            <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
-                            <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                        <div class="blog_item paint-area">
+                            <img th:src="@{/image/ballad.jpg}" class="circle">
+                            <h3 class="paint-area paint-area--text">这个是标题</h3>
+                            <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
+                            <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
+                            <div class="blog_item_info">
+                                <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
+                                <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
+                                <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                            </div>
+                        </div>
+                        <div class="blog_item paint-area">
+                            <img th:src="@{/image/ballad.jpg}" class="circle">
+                            <h3 class="paint-area paint-area--text">这个是标题</h3>
+                            <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
+                            <p class="paint-area paint-area--text">这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容这个是内容...</p>
+                            <div class="blog_item_info">
+                                <a href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
+                                <a href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
+                                <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
+                                <a href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
+                            </div>
+                        </div>
+                        <div class="pagenav">
+                            <ul class="pagination">
+                                <li>
+                                    <a href="#">
+                                        <span><i class="fa fa-angle-double-left"></i></span>
+                                    </a>
+                                </li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li>
+                                    <a href="#">
+                                        <span><i class="fa fa-angle-double-right"></i></span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -216,10 +252,15 @@
                         <span class="label label-default">乱七八七八糟</span>
                     </div>
                 </div>
+                <div class="footer_info paint-area">
+                    <p>© 2019 Copyright BY LinHuaSheng</p>
+                    <p>备案: 粤ICP备18046160号 Powered by LinHuaSheng | Theme by LinHuaSheng</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<!--油画工具-->
 <div class="customizer fade">
     <ul class="color-tool">
         <li class="color-1"><div class="drag-element" data-color="#333"><div class="drop color-1"></div><i class="drop-helper-1 color-1"></i><i class="drop-helper-2 color-1"></i><i class="drop-helper-3 color-1"></i><i class="drop-helper-4 color-1"></i></div></li>

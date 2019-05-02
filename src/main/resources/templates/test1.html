@@ -3,36 +3,70 @@
 <head>
     <title>hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    <link rel="stylesheet"  th:href="@{/plugins/dragcolor/css/demo.css}" />
+    <link th:href="@{/plugins/fontawesome/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet"  th:href="@{/plugins/slideswitch/css/component.css}" />
 </head>
 <body>
-    <div class="paint-area" style="width: 600px;height: 300px">
-        <p class="paint-area paint-area--text">sfassssssfassssssfassssssfassssss<br/>
-        sfassssssfassssssfassssssfassssss
-        sfassssssfassssssfassssssfassssss
-        sfassssssfassssssfassssssfassssss
-        sfassssssfassssssfassssssfassssss
-        sfassssssfassssssfassssssfassssss
-        ssssfassssssfassssssfassssssfassssssfasssss</p>
+<div class="container">
+    <header id="header" class="codrops-header">
+        <h1>MusicLab player</h1>
+        <button class="slider-switch">Switch view</button>
+    </header>
+    <div id="slideshow" class="dragslider">
+        <section class="img-dragger img-dragger-large dragdealer">
+            <div class="handle">
+                <div class="slide" data-content="content-1">
+                    <div class="img-wrap">
+<!--                        <img th:src="@{/image/1.jpg}" alt="img1"/>-->
+                    </div>
+                    <h2>Lorem Waldy<span>Distilling design ideas and other interesting topics</span></h2>
+                    <button class="content-switch">Read more</button>
+                </div>
+                <div class="slide" data-content="content-2">
+                    <div class="img-wrap">
+<!--                        <img th:src="@{/image/2.jpg}" alt="img2"/>-->
+                    </div>
+                    <h2>Round Table <span>King Arthur's creative team techniques</span></h2>
+                    <button class="content-switch">Read more</button>
+                </div>
+                <div class="slide" data-content="content-3">
+                    <div class="img-wrap">
+<!--                        <img th:src="@{/image/ballad.jpg}" alt="img3"/>-->
+                    </div>
+                    <h2>Taking Sneezes <span>Nothing is out there&mdash;let's try again</span></h2>
+                    <button class="content-switch">Read more</button>
+                </div>
+            </div>
+        </section><!-- /img-dragger-->
+        <!-- Content section -->
+        <section class="pages">
+            <div class="content" data-content="content-1">
+                <h2>Lorem Waldy <span>Distilling design and other interesting methods</span></h2>
+                <p>It was not child's play tackling those horses. Some of the kind-hearted station folk in the backblocks had sent down some wild warrigals of the West; bucking brumbies that beat the band; old outlaws off the grass that the station hands could never master. But Colonel Cox ("Fighting Charlie" we called him) had in his command some of the crack rough-riders of Australia. And it was a joy to see these men tackle the outlaws. There were Crouch of Wagga, McDonald of Barrington, Whiteley of Wellington, Bullock of Melbourne, Sievewright of Gunnedah, Kennedy of Gloucester, Rex Moffatt of Goulburn, Harry Heath of Moree, and a score of others. Nearly every man in the regiment could sit a buck, or puff nonchalantly at his pipe while his mount pigrooted merrily. So when the wild horses were led forth there were hundreds volunteering for the honour of riding the rebels. One after another the horses were saddled up, and while the regiment cheered itself hoarse, there was enacted again and again the old-time struggle for mastery. There were plunging and reefing and rooting and sidling and rearing and bucking, as the panting chargers swung this way and that in vain endeavour to dislodge the riders. But the bush boys stuck to the saddles as the Old Man of the Sea stuck to Sindbad the Sailor, and one after another the bucking brumbies were broken and led away.</p>
+                <p>But even a plague of locusts does not last for ever—and Egypt does. Egypt the wonderful! Egypt the kaleidoscopic! No, gentle reader, do not waste your sympathies on us. It was tiresome work, marching, training—training for the front, which for months never seemed to get any nearer, and some of "the boys"—those of them who were "spoiling for a fight," as the saying is—used at times to kick over the traces and paint the town vermilion; but there are compensations in Egypt for all who would seek them. What did it matter that we had no hot cross buns for Easter, no hard-boiled eggs, no ling, no salmon? We had omelettes and quail on toast, and chicken and curry and strawberries (no cream) and oranges and custard and jelly and Turkish coffee and Nile fish and pancakes and fritters and iced butter and beautiful jam and marmalade—and cigars. So we managed to get "a snack," you see. And I know that I, for one, had no desire just then to swap places with any man in Australia.</p>
+                <p>It was night when we got back to camp. Oh, those Egyptian nights! The winter cold has gone, and spring is in the air. The nights are fine and fair, clear and cloudless, with the moon pure silver. The reflections in the Nile are just wonderful. The huge date palms stand out sharply from a star-spangled sky that somehow has a tint of green in its blue. One thinks of the Arabian Nights. The very street scenes make one think of them. Motors glide up and down the streets with rich Syrians, Greeks, Egyptians, Italians, Frenchmen and Englishmen, going to the Continental, or to Shepheard's, or to private entertainments. It is a gorgeous splash of colour. They had no motor-cars that I remember in those old Arabian Nights, but the magic of the thing and the colour of it all were surely much the same. And the roads of Egypt—how beautiful they are!—clean and smooth as a billiard table. Are there any finer roads in the whole world than the Mena road and that to Heliopolis? Fifty miles an hour is easy. I sometimes shudder now when I recall the races that we used to have along those roads at night, crying "Egre! Egre!"—Faster! Faster!</p>
+            </div>
+            <div class="content" data-content="content-2">
+                <h2>Round Table <span>King Arthur's creative team techniques</span></h2>
+                <p>Passing by the rugged Socotra, we soon sighted the mountainous southern coast of Arabia, and by midday on January 20 we were focussing our binoculars on the picturesque gate of the Indian Ocean, Aden. Curious it is how Britain has secured all the great strategical points of the world—Gibraltar, Suez, Aden, Singapore, Thursday Island, the Cape of Good Hope, and the rest. And one has only to see Aden, with its rocky peaks piercing the skyline, to realize how strong it is, and how futile would be any effort to capture it. For all the defences of Aden seem to be hewn out of solid granite.</p>
+                <p>No sooner had we got anchored in the harbour than the Suevic was surrounded by swarms of boats, in which were crowded Asiatics of all descriptions yelling like demons in wild anxiety to sell their wares. Then the colliers came alongside and proceeded to coal. Scores of thin, undersized, but wiry Arabs did the work, and as they loaded the bunkers they kept up a perpetual yelling and singing, and the weird cacophony lasted all through the night.</p>
+                <p>Aden is a curious mixture of the Orient and the Occident. In the streets silent Arabs stalk along with camels, and Europeans buzz around in automobiles. One section of the port belongs to the Asiatics; the other is all Western. Arab dhows float across the harbour and steam tugs scurry hither and yon. One section of the town has thatched roofs; the other is all galvanized iron. And one of the natives sang us "Songs of Araby." They yelled harshly for baksheesh all the while. Clad in their own coloured loin cloths, or in discarded khaki tunics from the Force, they were a motley tatterdemalion crowd. Here East and West met—but did not mingle.</p>
+            </div>
+            <div class="content" data-content="content-3">
+                <h2>Taking Sneezes <span>Nothing is out there&mdash;let's try again</span></h2>
+                <p>I am living Egypt, living.... Your pyramids and your mosques and your old Nile can talk to me of things long past and gone, and I shall listen with interest to what they have to say, but I would rather be a living dog of an Egyptian than the dead lion of an Egyptian king—I would rather be a moving, talking native dressed in garish clothes than a Prince of the House of Rameses, sans eyes, sans ears, sans tongue, in the shrivelled brown form of a mummy.</p>
+                <p>For there is something about these living ones that brings the dead to life. Sometimes when I look into their eyes I seem to see a strange, mysterious light in them—a light that never was on sea or land. It is then that I think of the things these people have seen in the forty centuries of which Napoleon spoke. I don't believe in magic, but I have seen strange things—things that make me remember that the magicians of Pharaoh were able to turn their rods into serpents!</p>
+                <p>There came one day a very wise Egyptian—one whom I know as a Freemason—and he gave a valuable scarab, mounted in a gold ring, to Major Lynch. There was no doubt that the wise man valued it, and there is no doubt that he left an impression on Major Lynch. It is a talisman and a protection to the owner, but it has deadly powers. Nothing can harm the owner so long as he has it in his possession, and the owner can shrivel up an enemy by merely pointing at him and muttering incantations—just as the Northern Territory natives in Australia can will an enemy to die by pointing a bone at him. Major Lynch lost no time in putting the scarab to the test. There was a very troublesome native who used to bother him several times a day about things that don't matter, and the day after the wise Egyptian had made his presentation the major pointed at the native and muttered a powerful Australian incantation. Since then the native has not been seen.</p>
+            </div>
+        </section>
     </div>
-    <div class="customizer">
-        <ul class="color-tool">
-            <li class="color-1"><div class="drag-element" data-color="#333"><div class="drop color-1"></div><i class="drop-helper-1 color-1"></i><i class="drop-helper-2 color-1"></i><i class="drop-helper-3 color-1"></i><i class="drop-helper-4 color-1"></i></div></li>
-            <li class="color-2"><div class="drag-element" data-color="#f0f0f0"><div class="drop color-2"></div><i class="drop-helper-1 color-2"></i><i class="drop-helper-2 color-2"></i><i class="drop-helper-3 color-2"></i><i class="drop-helper-4 color-2"></i></div></li>
-            <li class="color-3"><div class="drag-element" data-color="#c0c3d5"><div class="drop color-3"></div><i class="drop-helper-1 color-3"></i><i class="drop-helper-2 color-3"></i><i class="drop-helper-3 color-3"></i><i class="drop-helper-4 color-3"></i></div></li>
-            <li class="color-4"><div class="drag-element" data-color="#5FA1E0"><div class="drop color-4"></div><i class="drop-helper-1 color-4"></i><i class="drop-helper-2 color-4"></i><i class="drop-helper-3 color-4"></i><i class="drop-helper-4 color-4"></i></div></li>
-            <li class="color-5"><div class="drag-element" data-color="#C1D5C0"><div class="drop color-5"></div><i class="drop-helper-1 color-5"></i><i class="drop-helper-2 color-5"></i><i class="drop-helper-3 color-5"></i><i class="drop-helper-4 color-5"></i></div></li>
-            <li class="color-6"><div class="drag-element" data-color="#47AE73"><div class="drop color-6"></div><i class="drop-helper-1 color-6"></i><i class="drop-helper-2 color-6"></i><i class="drop-helper-3 color-6"></i><i class="drop-helper-4 color-6"></i></div></li>
-            <li class="color-7"><div class="drag-element" data-color="#EAE7C4"><div class="drop color-7"></div><i class="drop-helper-1 color-7"></i><i class="drop-helper-2 color-7"></i><i class="drop-helper-3 color-7"></i><i class="drop-helper-4 color-7"></i></div></li>
-            <li class="color-8"><div class="drag-element" data-color="#FB6964"><div class="drop color-8"></div><i class="drop-helper-1 color-8"></i><i class="drop-helper-2 color-8"></i><i class="drop-helper-3 color-8"></i><i class="drop-helper-4 color-8"></i></div></li>
-            <li><button class="reset-button" title="Reser colors">Reset colors</button></li>
-        </ul>
-    </div>
+</div><!-- /container -->
+
 <script th:src="@{/plugins/dragcolor/js/modernizr.custom.js}"></script>
+<script th:src="@{/plugins/slideswitch/js/dragdealer.js}"></script>
 <script th:src="@{/plugins/dragcolor/js/classie.js}"></script>
-<script th:src="@{/plugins/dragcolor/js/interact-1.2.4.min.js}"></script>
-<script th:src="@{/plugins/dragcolor/js/main.js}"></script>
+<script th:src="@{/plugins/slideswitch/js/dragslideshow.js}"></script>
+<script th:src="@{/plugins/slideswitch/js/main.js}"></script>
 </body>
 
 </html>

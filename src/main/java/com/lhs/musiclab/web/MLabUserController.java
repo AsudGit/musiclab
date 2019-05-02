@@ -31,4 +31,9 @@ public class MLabUserController {
         return "blog_index";
     }
 
+    @RequestMapping("/musicIndex")
+    public String music(){
+        return "music_index";
+    }
+
 }

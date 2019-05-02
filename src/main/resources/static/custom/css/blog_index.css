@@ -1,9 +1,15 @@
-.container-fluid,.container-fluid>.row{
-    height: 100%;
+.container-fluid{
+    background-image: url("/image/rock.jpg");
+    overflow: hidden;
 }
+.container-fluid{
+    height: 320%;
+}
+.container-fluid>.row,.page_container{
+    height: 100%;
+ }
 .page_container{
     background-color: rgba(238,238,238,0.8);
-    height: 300%;
     width: 1170px;
     margin: auto;
     -moz-box-shadow:0px 0px 20px #696969;
@@ -12,7 +18,7 @@
 }
 .page_content{
     position: absolute;
-    height: 291%;
+    height: 311%;
     top: 9%;
     width: 1170px;
 }
@@ -121,6 +127,7 @@
     position: absolute !important;
     margin-left: 220px;
     width: 710px;
+    height: 100%;
 }
 /*富文本编辑器css*/
 .myeditor{
@@ -142,14 +149,51 @@
     height: 20px;
     z-index: 98 !important;
 }
-.emoji_container,.w-e-menu{
+.emoji_container,.w-e-menu,.w-e-droplist *{
     z-index: 98 !important;
+}
+
+/*板块信息*/
+.plate{
+    height: 300px;
+    width: 100%;
+    background-image: url("/image/rock.jpg");
+    background-size: cover;
+}
+.plateinfo{
+    height: 300px;
+    width: 100%;
+    position: absolute;
+    color:  white;
+}
+.plateinfo>h1{
+    margin: 50px;
+}
+.plateinfo>ul{
+    margin-right: 30px;
+}
+.plateinfo>ul p{
+    margin-top: 20px;
+    font-size: 20px;
+}
+.plateinfo li{
+    text-align: center;
+    float: right;
+    padding: 10px;
+}
+.plate>.blurfilter{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.51);
 }
 .blog_option{
     background-color: white;
     margin:10px auto;
     height: 48px;
     border: 1px solid #ccc;
+}
+.blog_option .mybtn_active{
+    line-height: normal;
 }
 .blog_option>ul>li{
     display: block;
@@ -197,6 +241,10 @@
 .blog_item_info>a{
     margin-right: 20px;
     color: #737373;
+}
+.pagenav{
+    width: 100%;
+    text-align: center;
 }
 
 /*右侧导航栏*/
@@ -261,4 +309,24 @@
 }
 .blogtags>.label-default{
     line-height: 30px;
+}
+
+/*底部信息栏*/
+.footer_info{
+    border-top: 1px solid #ccc;
+    position: absolute;
+    bottom: 0px;
+    height: 50px;
+    margin-left: 220px;
+    width: 950px;
+    background-color: #edf1f2;
+    color: #6c6c6c;
+    font-family: 黑体;
+    padding: 15px;
+}
+.footer_info>p:nth-child(1){
+    float: left;
+}
+.footer_info>p:nth-child(2){
+    float: right;
 }
