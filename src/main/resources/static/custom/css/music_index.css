@@ -13,3 +13,290 @@
 .img-dragger .slide:nth-child(5){
     background-color: #002944;
 }
+.myhiden{
+    opacity: 0 !important;
+}
+.show{
+    height: 100% !important;
+}
+
+.show>.content_top{
+    height: 60%;
+    background-color: #da0000;
+    overflow: hidden;
+    background-image: url("/image/hearts.png");
+}
+.show .row{
+    height: 100%;
+    width: 100%;
+}
+/*垂直居中*/
+.vertical_center{
+    position: absolute;
+    top: 50%;
+    transform:translate(0,-50%);
+}
+
+/*record*/
+#myrecord{
+    width: 100%;
+    height: 100%;
+}
+.record_rectangle{
+    height: 40%;
+    width: 25%;
+    z-index: 1;
+    background: -webkit-linear-gradient(black, #151515); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(black, #151515); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(black, #151515); /* Firefox 3.6 - 15 */
+    background: linear-gradient(black, #151515);
+}
+.record_lines{
+    /*自适应等比高宽*/
+    height: 0;
+    padding-bottom: 24%;
+    width: 24%;
+    left: 13%;
+    z-index: 3;
+    border: 0px;
+
+    /* Safari 5.1 - 6.0 */
+    background: -webkit-repeating-radial-gradient(#131112 2%, black 4%);
+    /* Opera 11.6 - 12.0 */
+    background: -o-repeating-radial-gradient(#131112 2%, black 4%);
+    /* Firefox 3.6 - 15 */
+    background: -moz-repeating-radial-gradient(#131112 2%, black 4%);
+
+    background: repeating-radial-gradient(#131112 2%, black 4%);
+}
+.record_edge{
+    /*自适应等比高宽*/
+    height: 0;
+    padding-bottom: 25%;
+    width: 25%;
+    left: 12.5%;
+    border: 0px;
+    background-color: black;
+    z-index: 2;
+
+    -moz-box-shadow:0px 0px 10px #0f0f0f;
+    -webkit-box-shadow:0px 0px 10px #0f0f0f;
+    box-shadow:0px 0px 10px #0f0f0f;
+}
+.record_center_cover{
+    /*自适应等比高宽*/
+    height: 0;
+    padding-bottom: 10%;
+    width: 10%;
+    left: 20%;
+    border: 0px;
+    background-color: #da0000;
+    z-index: 5;
+
+    font-family: "Adobe Caslon Pro Bold";
+    overflow: hidden;
+    text-align: center;
+    font-size: 30px;
+    color: black;
+}
+.record_center_edge{
+    /*自适应等比高宽*/
+    height: 0;
+    padding-bottom: 12%;
+    width: 12%;
+    left: 19%;
+    border: 0px;
+    background-color: black;
+    z-index: 4;
+}
+.record_center_dot{
+    /*自适应等比高宽*/
+    height: 0;
+    padding-bottom: 1%;
+    width: 1%;
+    left: 24.5%;
+    border: 0px;
+    background-color: black;
+    z-index: 7;
+}
+.record_center_dotedge{
+    /*自适应等比高宽*/
+    height: 0;
+    padding-bottom: 2%;
+    width: 2%;
+    left: 24%;
+    border: 0px;
+    background-color: #ab0000;
+    z-index: 6;
+}
+.red_line{
+    /*自适应等比高宽*/
+    z-index: 4;
+    height: 0;
+    padding-bottom: 20%;
+    width: 20%;
+    left: 15%;
+    border: solid 3px #da0000;
+}
+.white_line1{
+    /*自适应等比高宽*/
+    height: 0;
+    padding-bottom: 28%;
+    width: 28%;
+    left: 11%;
+    border-color: rgba(255,255,255,0.5);
+}
+.white_line2{
+    /*自适应等比高宽*/
+    height: 0;
+    padding-bottom: 32%;
+    width: 32%;
+    left: 9%;
+    border-color: rgba(255,255,255,0.3);
+}
+.white_line3{
+    /*自适应等比高宽*/
+    height: 0;
+    padding-bottom: 36%;
+    width: 36%;
+    left: 7%;
+    border-color: rgba(255,255,255,0.1);
+}
+
+
+.music_nav{
+    position: absolute;
+    right: 30px;
+    top: 40px;
+}
+.music_nav>a{
+    opacity: 0.8;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 20px;
+}
+
+.music_title{
+    top: 25%;
+    text-align: left;
+    color: white;
+    position: absolute;
+    left: 50%;
+}
+.music_random{
+    margin-top: 40px;
+    font-size: 22px;
+}
+.music_random>a{
+    -moz-border-radius:1em;
+    -webkit-border-radius:1em;
+    border-radius:1em;
+    font-size: 15px;
+    padding: 8px 20px;
+    border: white 1px solid;
+}
+
+.content_bottom{
+    height: 40%;
+    background-color: #f0f0f0;
+    overflow: hidden;
+}
+.content_bottom .col-md-9{
+    top: 25%;
+    left: 6.2%;
+    height: 100%;
+}
+#myrecord_min{
+    height: 100%;
+    width: 100%;
+}
+#myrecord_min>.record_center_cover{
+    background-image: url("/image/ballad.jpg");
+    background-size: cover;
+}
+.rotating{
+    -webkit-animation: spin 4s linear infinite;
+    top: 30%;
+}
+@-webkit-keyframes spin {
+    0%   {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+#myrecord_min>.record_lines{
+    text-align: center;
+}
+#myrecord_min>.record_lines>p{
+    color: white;
+    z-index: 4;
+    margin-top: 10%;
+}
+.content_bottom .songlist{
+    position: absolute;
+    width: 58%;
+    left: 39%;
+    background-color: white;
+    height: 100%;
+}
+
+.toggle_song{
+    position: absolute;
+    color: black;
+    left: 23.5%;
+    top: 7%;
+    line-height: 15px;
+}
+a.toggle_song{
+    color: black;
+}
+.toggle_song>i{
+    font-size: 40px;
+}
+.songlist{
+    color:black;
+}
+.songlist>h2{
+    text-align: left;
+    font-size: 30px;
+    margin: 3% 8% 2% 8%;
+}
+.songlist_content{
+    height: 70%;
+    overflow-y: scroll;
+}
+.songlist_content>.song_item{
+    -moz-border-radius:10em;
+    -webkit-border-radius:10em;
+    border-radius:10em;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    text-align: left;
+    margin-bottom: 20px;
+}
+.song_item:hover{
+    background-color: #da0000;
+    color: white;
+}
+.song_item:hover a {
+    color: white;
+}
+.song_item>a{
+    float: left;
+    color: #da0000;
+    margin-right:20px;
+}
+.song_item_info{
+    margin: 0px;
+    float: left;
+}
+.song_item_time{
+    margin: 0px;
+    float: right;
+}

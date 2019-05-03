@@ -206,10 +206,9 @@
 
 		// callback
 		this.options.onToggleContent();
-
 		// get page
 		var page = this._getContentPage( slide );
-		
+
 		if( this.isContent ) {
 			// enable the dragdealer
 			this.dd.enable();
