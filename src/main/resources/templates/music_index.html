@@ -4,9 +4,12 @@
     <title>hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title th:replace="total_package"></title>
-    <link th:href="@{/plugins/fontawesome/css/font-awesome.min.css}" rel="stylesheet"/>
-    <link rel="stylesheet"  th:href="@{/plugins/slideswitch/css/component.css}" />
-    <link rel="stylesheet" th:href="@{/custom/css/music_index.css}"/>
+    <link href="../static/plugins/slideswitch/css/component.css"
+            rel="stylesheet"  th:href="@{/plugins/slideswitch/css/component.css}" />
+    <link href="../static/plugins/aplayer/css/APlayer.min.css"
+            rel="stylesheet" th:href="@{/plugins/aplayer/css/APlayer.min.css}"/>
+    <link href="../static/custom/css/music_index.css"
+            rel="stylesheet" th:href="@{/custom/css/music_index.css}"/>
 </head>
 <body>
 <div class="container">
@@ -21,35 +24,35 @@
 <!--        封面集合-->
         <section class="img-dragger img-dragger-large dragdealer">
             <div class="handle">
-                <div class="slide" data-content="content-1">
+                <div class="slide redbcg" data-content="content-1">
                     <div class="img-wrap">
                         <!--                        <img th:src="@{/image/1.jpg}" alt="img1"/>-->
                     </div>
                     <h2>网易云音乐<span>听见 · 好时光！</span></h2>
                     <button class="content-switch"><i class="fa fa-angle-double-down"></i></button>
                 </div>
-                <div class="slide" data-content="content-2">
+                <div class="slide greenbcg" data-content="content-1">
                     <div class="img-wrap">
                         <!--                        <img th:src="@{/image/2.jpg}" alt="img2"/>-->
                     </div>
                     <h2>QQ音乐<span>音乐你的生活</span></h2>
                     <button class="content-switch"><i class="fa fa-angle-double-down"></i></button>
                 </div>
-                <div class="slide" data-content="content-3">
+                <div class="slide bluebcg" data-content="content-1">
                     <div class="img-wrap">
                         <!--                        <img th:src="@{/image/ballad.jpg}" alt="img3"/>-->
                     </div>
                     <h2>酷狗音乐<span>音乐总有新玩法</span></h2>
                     <button class="content-switch"><i class="fa fa-angle-double-down"></i></button>
                 </div>
-                <div class="slide" data-content="content-4">
+                <div class="slide yellowbcg" data-content="content-1">
                     <div class="img-wrap">
                         <!--                        <img th:src="@{/image/ballad.jpg}" alt="img3"/>-->
                     </div>
                     <h2>酷我音乐<span>好音质用酷我</span></h2>
                     <button class="content-switch"><i class="fa fa-angle-double-down"></i></button>
                 </div>
-                <div class="slide" data-content="content-5">
+                <div class="slide mlabbcg" data-content="content-1">
                     <div class="img-wrap">
                         <!--                        <img th:src="@{/image/ballad.jpg}" alt="img3"/>-->
                     </div>
@@ -61,103 +64,110 @@
 <!--         页面集合 -->
         <section class="pages">
             <div class="content" data-content="content-1">
-                <div class="col-md-12 content_top">
-                    <div class="row">
-                        <div id="myrecord" class="fade">
-                            <div class="record_center_dot circle vertical_center"></div>
-                            <div class="record_center_dotedge circle vertical_center"></div>
-                            <div class="record_center_cover circle vertical_center"><p class="vertical_center">MusicLab Player</p></div>
-                            <div class="record_center_edge circle vertical_center"></div>
-                            <div class="red_line circle vertical_center"></div>
-                            <div class="record_rectangle vertical_center"></div>
-                            <div class="record_lines circle vertical_center"></div>
-                            <div class="record_edge circle vertical_center"></div>
-                            <div class="white_line1 circle vertical_center"></div>
-                            <div class="white_line2 circle vertical_center"></div>
-                            <div class="white_line3 circle vertical_center"></div>
-                        </div>
-                        <div class="music_nav fade">
-                            <a href="#"><i class="fa fa-search"></i></a>
-                            <a href="#"><i class="fa fa-user-circle"></i></a>
-                        </div>
-                        <div class="music_title fade">
-                            <h3>-这里是</h3>
-                            <h1>网易云音乐热门歌曲排行版</h1>
-                            <a href="#">最新歌单</a>
-                            <a href="#">热门歌单</a>
-                            <a href="#">MV 排行榜</a>
-                            <a href="#">歌手排行榜</a>
-                            <a href="#">最新音乐</a>
-                            <a href="#">最新专辑</a>
-                            <div class="music_random">
-                                <i class="fa fa-random">随机播放一首歌</i>———
-                                <a href="#"><i class="fa fa-play"></i></a>
+                <div class="scrollview">
+                    <div class="col-md-12 content_top bcgcolor">
+                        <div class="row">
+                            <div id="myrecord" class="fade">
+                                <div class="record_center_dot circle vertical_center"></div>
+                                <div class="record_center_dotedge circle vertical_center"></div>
+                                <div class="record_center_cover bcgcolor circle vertical_center"><p class="vertical_center">MusicLab Player</p></div>
+                                <div class="record_center_edge circle vertical_center"></div>
+                                <div class="adorn_line circle vertical_center"></div>
+                                <div class="record_rectangle vertical_center"></div>
+                                <div class="record_lines circle vertical_center"></div>
+                                <div class="record_edge circle vertical_center"></div>
+                                <div class="white_line1 circle vertical_center"></div>
+                                <div class="white_line2 circle vertical_center"></div>
+                                <div class="white_line3 circle vertical_center"></div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 content_bottom fade">
-                    <div class="row">
-                        <a href="javascript:void(0)" class="toggle_song"><small>切歌</small><br/><i class="fa fa-angle-down"></i></a>
-                        <div class="col-md-9">
-                            <div class="row">
-                                <div id="myrecord_min">
-                                    <div class="record_center_dot circle vertical_center"></div>
-                                    <div class="record_center_dotedge circle vertical_center"></div>
-                                    <div class="record_center_cover circle vertical_center"></div>
-                                    <div class="record_center_edge circle vertical_center"></div>
-                                    <div class="record_lines circle vertical_center"><p>这是歌名</p></div>
-                                    <div class="record_edge circle vertical_center"></div>
-                                </div>
+                            <div class="music_nav fade">
+                                <a href="#"><i class="fa fa-search"></i></a>
+                                <a href="#"><i class="fa fa-user-circle"></i></a>
                             </div>
-                        </div>
-                        <div class="songlist">
-                            <h2>热歌榜</h2>
-                            <div class="songlist_content">
-                                <div class="song_item col-md-10 col-md-offset-1">
+                            <div class="music_title fade">
+                                <h3>-这里是</h3>
+                                <h1>网易云音乐热门歌曲排行版</h1>
+                                <a href="#">最新歌单</a>
+                                <a href="#">热门歌单</a>
+                                <a href="#">MV 排行榜</a>
+                                <a href="#">歌手排行榜</a>
+                                <a href="#">最新音乐</a>
+                                <a href="#">最新专辑</a>
+                                <div class="music_random">
+                                    <i class="fa fa-random">随机播放一首歌</i>———
                                     <a href="#"><i class="fa fa-play"></i></a>
-                                    <p class="song_item_info">歌名-歌手</p>
-                                    <p class="song_item_time">04:55</p>
-                                </div>
-                                <div class="song_item col-md-10 col-md-offset-1">
-                                    <a href="#"><i class="fa fa-play"></i></a>
-                                    <p class="song_item_info">歌名-歌手</p>
-                                    <p class="song_item_time">04:55</p>
-                                </div>
-                                <div class="song_item col-md-10 col-md-offset-1">
-                                    <a href="#"><i class="fa fa-play"></i></a>
-                                    <p class="song_item_info">歌名-歌手</p>
-                                    <p class="song_item_time">04:55</p>
-                                </div>
-                                <div class="song_item col-md-10 col-md-offset-1">
-                                    <a href="#"><i class="fa fa-play"></i></a>
-                                    <p class="song_item_info">歌名-歌手</p>
-                                    <p class="song_item_time">04:55</p>
-                                </div>
-                                <div class="song_item col-md-10 col-md-offset-1">
-                                    <a href="#"><i class="fa fa-play"></i></a>
-                                    <p class="song_item_info">歌名-歌手</p>
-                                    <p class="song_item_time">04:55</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="content" data-content="content-2">
-                <div>
-<!--                    <img th:src="@{/image/ballad.jpg}">-->
+                    <div class="col-md-12 content_bottom fade">
+                        <div class="row">
+                            <a href="javascript:void(0)" class="toggle_song"><small>切歌</small><br/><i class="fa fa-angle-down"></i></a>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div id="myrecord_min">
+                                        <div class="record_center_dot circle vertical_center"></div>
+                                        <div class="record_center_dotedge circle vertical_center"></div>
+                                        <div class="record_center_cover bcgcolor circle vertical_center"></div>
+                                        <div class="record_center_edge circle vertical_center"></div>
+                                        <div class="record_lines circle vertical_center"><p>这是歌名</p></div>
+                                        <div class="record_edge circle vertical_center"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="songlist">
+                                <h2>热歌榜</h2>
+                                <div class="songlist_content">
+                                    <div class="song_item col-md-10 col-md-offset-1">
+                                        <a href="#"><i class="fa fa-play"></i></a>
+                                        <p class="song_item_info">歌名-歌手</p>
+                                        <p class="song_item_time">04:55</p>
+                                    </div>
+                                    <div class="song_item col-md-10 col-md-offset-1">
+                                        <a href="#"><i class="fa fa-play"></i></a>
+                                        <p class="song_item_info">歌名-歌手</p>
+                                        <p class="song_item_time">04:55</p>
+                                    </div>
+                                    <div class="song_item col-md-10 col-md-offset-1">
+                                        <a href="#"><i class="fa fa-play"></i></a>
+                                        <p class="song_item_info">歌名-歌手</p>
+                                        <p class="song_item_time">04:55</p>
+                                    </div>
+                                    <div class="song_item col-md-10 col-md-offset-1">
+                                        <a href="#"><i class="fa fa-play"></i></a>
+                                        <p class="song_item_info">歌名-歌手</p>
+                                        <p class="song_item_time">04:55</p>
+                                    </div>
+                                    <div class="song_item col-md-10 col-md-offset-1">
+                                        <a href="#"><i class="fa fa-play"></i></a>
+                                        <p class="song_item_info">歌名-歌手</p>
+                                        <p class="song_item_time">04:55</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12"id="music_player">
+                    </div>
                 </div>
             </div>
         </section>
     </div>
 </div><!-- /container -->
-<script th:src="@{/plugins/dragcolor/js/modernizr.custom.js}"></script>
-<script th:src="@{/plugins/slideswitch/js/dragdealer.js}"></script>
-<script th:src="@{/plugins/dragcolor/js/classie.js}"></script>
-<script th:src="@{/plugins/slideswitch/js/dragslideshow.js}"></script>
-<script th:src="@{/plugins/slideswitch/js/main.js}"></script>
-<script th:src="@{/custom/js/music_index.js}"></script>
+<script src="../static/plugins/dragcolor/js/modernizr.custom.js"
+        th:src="@{/plugins/dragcolor/js/modernizr.custom.js}"></script>
+<script src="../static/plugins/slideswitch/js/dragdealer.js"
+        th:src="@{/plugins/slideswitch/js/dragdealer.js}"></script>
+<script src="../static/plugins/dragcolor/js/classie.js"
+        th:src="@{/plugins/dragcolor/js/classie.js}"></script>
+<script src="../static/plugins/slideswitch/js/dragslideshow.js"
+        th:src="@{/plugins/slideswitch/js/dragslideshow.js}"></script>
+<script src="../static/plugins/slideswitch/js/main.js"
+        th:src="@{/plugins/slideswitch/js/main.js}"></script>
+<script src="../static/plugins/aplayer/js/APlayer.min.js"
+        th:src="@{/plugins/aplayer/js/APlayer.min.js}"></script>
+<script src="../static/custom/js/music_index.js"
+        th:src="@{/custom/js/music_index.js}"></script>
 </body>
 
 </html>

@@ -332,7 +332,6 @@ button.content-switch::before {
 	left: 0;
 	height: 0;
 	width: 100%;
-	overflow: hidden;
 	-webkit-transition: height 0s 0.6s;
 	transition: height 0s 0.6s;
 }

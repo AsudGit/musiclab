@@ -4,14 +4,22 @@
     <title>hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title th:replace="total_package"></title>
-    <link rel="stylesheet" th:href="@{/plugins/jquery/css/jquery.mCustomScrollbar.min.css}"/>
-    <link rel="stylesheet" th:href="@{/plugins/jqueryemoji/css/jquery.emoji.css}"/>
-    <link rel="stylesheet"  th:href="@{/plugins/dragcolor/css/demo.css}" />
-    <link rel="stylesheet" th:href="@{/custom/css/blog_index.css}">
-    <script th:src="@{/plugins/wangEditor/js/wangEditor.min.js}"></script>
-    <script th:src="@{/plugins/jquery/js/jquery.mCustomScrollbar.min.js}"></script>
-    <script th:src="@{/plugins/jqueryemoji/js/jquery.emoji.min.js}"></script>
-    <script th:src="@{/custom/js/blog_index.js}"></script>
+    <link href="../static/plugins/jquery/css/jquery.mCustomScrollbar.min.css"
+            th:href="@{/plugins/jquery/css/jquery.mCustomScrollbar.min.css}" rel="stylesheet" />
+    <link href="../static/plugins/jqueryemoji/css/jquery.emoji.css"
+            th:href="@{/plugins/jqueryemoji/css/jquery.emoji.css}" rel="stylesheet"/>
+    <link href="../static/plugins/dragcolor/css/demo.css"
+            th:href="@{/plugins/dragcolor/css/demo.css}" rel="stylesheet"/>
+    <link href="../static/custom/css/blog_index.css"
+            th:href="@{/custom/css/blog_index.css}"rel="stylesheet"/>
+    <script src="../static/plugins/wangEditor/js/wangEditor.min.js"
+            th:src="@{/plugins/wangEditor/js/wangEditor.min.js}"></script>
+    <script src="../static/plugins/jquery/js/jquery.mCustomScrollbar.min.js"
+            th:src="@{/plugins/jquery/js/jquery.mCustomScrollbar.min.js}"></script>
+    <script src="../static/plugins/jqueryemoji/js/jquery.emoji.min.js"
+            th:src="@{/plugins/jqueryemoji/js/jquery.emoji.min.js}"></script>
+    <script src="../static/custom/js/blog_index.js"
+            th:src="@{/custom/js/blog_index.js}"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -274,10 +282,14 @@
         <li><button class="reset-button" title="Reser colors">Reset colors</button></li>
     </ul>
 </div>
-<script th:src="@{/plugins/dragcolor/js/modernizr.custom.js}"></script>
-<script th:src="@{/plugins/dragcolor/js/classie.js}"></script>
-<script th:src="@{/plugins/dragcolor/js/interact-1.2.4.min.js}"></script>
-<script th:src="@{/plugins/dragcolor/js/main.js}"></script>
+<script src="../static/plugins/dragcolor/js/modernizr.custom.js"
+        th:src="@{/plugins/dragcolor/js/modernizr.custom.js}"></script>
+<script src="../static/plugins/dragcolor/js/classie.js"
+        th:src="@{/plugins/dragcolor/js/classie.js}"></script>
+<script src="../static/plugins/dragcolor/js/interact-1.2.4.min.js"
+        th:src="@{/plugins/dragcolor/js/interact-1.2.4.min.js}"></script>
+<script src="../static/plugins/dragcolor/js/main.js"
+        th:src="@{/plugins/dragcolor/js/main.js}"></script>
 </body>
 
 </html>

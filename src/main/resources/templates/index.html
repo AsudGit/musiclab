@@ -4,8 +4,11 @@
     <title>hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title th:replace="total_package"></title>
-    <link th:href="@{/custom/css/checkForm.css}" rel="stylesheet"/>
-    <link th:href="@{/plugins/verify/css/verify.css}" rel="stylesheet"/>
+
+    <link href="../static/custom/css/checkForm.css"
+            th:href="@{/custom/css/checkForm.css}" rel="stylesheet"/>
+    <link href="../static/plugins/verify/css/verify.css"
+            th:href="@{/plugins/verify/css/verify.css}" rel="stylesheet"/>
     <link href="../static/custom/css/index.css"
           th:href="@{/custom/css/index.css}" rel="stylesheet"/>
     <link href="../static/custom/css/effect.css"
@@ -218,8 +221,10 @@
 
 <script src="../static/custom/js/index.js"
         th:src="@{/custom/js/index.js}"></script>
-<script th:src="@{/custom/js/checkForm.js}"></script>
-<script th:src="@{/plugins/verify/js/verify.min.js}"></script>
+<script src="../static/custom/js/checkForm.js"
+        th:src="@{/custom/js/checkForm.js}"></script>
+<script src="../static/plugins/verify/js/verify.min.js"
+        th:src="@{/plugins/verify/js/verify.min.js}"></script>
 <script type="text/javascript">
     new Vue({
         el:'#myNav',

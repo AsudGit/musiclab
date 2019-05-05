@@ -111,12 +111,11 @@ ul li a {
 }
 
 .photo {
-    position: fixed;
-    top: 0px;
-    min-height: 100%;
+    position: absolute;
+    height: 70%;
     min-width: 100%;
     z-index: -1;
-    background: no-repeat url("../../image/bgimg.jpg");
+    background: url("../../image/bgimg.jpg");
     background-position: 39% 40%;
     -webkit-filter: blur(1px);
     filter: blur(1px);
@@ -128,9 +127,6 @@ ul li a {
     background-color: black;
     filter: alpha(opacity:50);
     opacity: 0.5;
-}
-
-.cover {
     height: 70%;
 }
 

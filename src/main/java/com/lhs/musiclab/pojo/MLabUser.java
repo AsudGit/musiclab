@@ -1,9 +1,9 @@
 package com.lhs.musiclab.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MLabUser {
-    //    值由注册时间（精确到日）+手机号组成
+public class MLabUser implements Serializable {
     private String uid;
     private String name;
     private String pwd;
@@ -15,7 +15,9 @@ public class MLabUser {
     private Date birthday;
     private String email;
     private String head_img;
-    private Integer fans;
+    private String rqcode_img;
+    private String blogbcg_img;
+
 
     public String getUid() {
         return uid;
@@ -89,12 +91,20 @@ public class MLabUser {
         this.head_img = head_img;
     }
 
-    public Integer getFans() {
-        return fans;
+    public String getRqcode_img() {
+        return rqcode_img;
     }
 
-    public void setFans(Integer fans) {
-        this.fans = fans;
+    public void setRqcode_img(String rqcode_img) {
+        this.rqcode_img = rqcode_img;
+    }
+
+    public String getBlogbcg_img() {
+        return blogbcg_img;
+    }
+
+    public void setBlogbcg_img(String blogbcg_img) {
+        this.blogbcg_img = blogbcg_img;
     }
 
     @Override
@@ -109,7 +119,8 @@ public class MLabUser {
                 ", birthday=" + birthday +
                 ", email='" + email + '\'' +
                 ", head_img='" + head_img + '\'' +
-                ", fans=" + fans +
+                ", rqcode_img='" + rqcode_img + '\'' +
+                ", blogbcg_img='" + blogbcg_img + '\'' +
                 '}';
     }
 }
