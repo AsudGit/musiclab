@@ -7,4 +7,7 @@
     <select id="list" resultType="MLabUser">
         SELECT * FROM mlabuser
     </select>
+    <select id="get" resultType="MLabUser">
+        select * from mlabuser where uid = #{id}
+    </select>
 </mapper>

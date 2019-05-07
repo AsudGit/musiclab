@@ -4,6 +4,7 @@ import com.lhs.musiclab.pojo.MLabUser;
 import com.lhs.musiclab.service.MLabUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -44,5 +45,10 @@ public class MLabUserController {
     @ResponseBody
     public List<MLabUser> list(){
         return mLabUserService.list();
+    }
+    @RequestMapping("/get/{id}")
+    @ResponseBody
+    public MLabUser get(@PathVariable(value = "id") String id){
+        return mLabUserService.get(id);
     }
 }

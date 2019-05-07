@@ -4,6 +4,8 @@ import com.lhs.musiclab.dao.MLabUserMapper;
 import com.lhs.musiclab.pojo.MLabUser;
 import com.lhs.musiclab.service.MLabUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +36,7 @@ public class MLabUserServiceImpl implements MLabUserService {
     }
 
     @Override
-    public MLabUser get(Integer id) {
+    public MLabUser get(String id) {
         return mLabUserMapper.get(id);
     }
 }

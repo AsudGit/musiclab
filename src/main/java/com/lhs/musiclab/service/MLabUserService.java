@@ -13,5 +13,5 @@ public interface MLabUserService {
 
     public Integer update(MLabUser mLabUser);
 
-    public MLabUser get(Integer id);
+    public MLabUser get(String id);
 }

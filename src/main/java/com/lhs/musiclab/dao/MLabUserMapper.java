@@ -5,8 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
+
 public interface MLabUserMapper {
+
     public Integer add(MLabUser mLabUser);
 
     public List<MLabUser> list();
@@ -15,5 +16,5 @@ public interface MLabUserMapper {
 
     public Integer update(MLabUser mLabUser);
 
-    public MLabUser get(Integer id);
+    public MLabUser get(String id);
 }
