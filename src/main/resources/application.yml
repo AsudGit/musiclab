@@ -1,5 +1,7 @@
 #database
 spring:
+  profiles:
+    active: dev #设置为dev环境（开发环境）
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/musiclab_db?characterEncoding=UTF-8
     username: root
@@ -12,7 +14,9 @@ spring:
     minIdle: 5
     maxActive: 20
     maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
     timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
     minEvictableIdleTimeMillis: 300000
     validationQuery: SELECT 1 FROM DUAL
     testWhileIdle: true
@@ -20,7 +24,7 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-    filters: stat,wall,log4j
+    filters: stat,wall,logback
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
@@ -33,11 +37,15 @@ spring:
       content-type: text/html
   #mybatis
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
+  config-location: classpath:mybatis/mybatis-conf.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: com.lhs.musiclab.pojo
-logging:
-  level: debug
-  path: /spring/log
-  pattern:
-    console: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n
-    file: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n
+  #logging
+#logging:
+#  level:
+#    root: info
+#    com: debug
+#  path: /spring/log
+#  pattern:
+#    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
+#    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n'

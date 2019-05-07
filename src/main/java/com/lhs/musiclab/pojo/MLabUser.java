@@ -15,9 +15,27 @@ public class MLabUser implements Serializable {
     private Date birthday;
     private String email;
     private String head_img;
+    //  二维码图片
     private String rqcode_img;
+    //  博客背景图
     private String blogbcg_img;
 
+    @Override
+    public String toString() {
+        return "MLabUser{" +
+                "uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", phone='" + phone + '\'' +
+                ", sex=" + sex +
+                ", access=" + access +
+                ", birthday=" + birthday +
+                ", email='" + email + '\'' +
+                ", head_img='" + head_img + '\'' +
+                ", rqcode_img='" + rqcode_img + '\'' +
+                ", blogbcg_img='" + blogbcg_img + '\'' +
+                '}';
+    }
 
     public String getUid() {
         return uid;
@@ -105,22 +123,5 @@ public class MLabUser implements Serializable {
 
     public void setBlogbcg_img(String blogbcg_img) {
         this.blogbcg_img = blogbcg_img;
-    }
-
-    @Override
-    public String toString() {
-        return "MLabUser{" +
-                "uid='" + uid + '\'' +
-                ", name='" + name + '\'' +
-                ", pwd='" + pwd + '\'' +
-                ", phone='" + phone + '\'' +
-                ", sex=" + sex +
-                ", access=" + access +
-                ", birthday=" + birthday +
-                ", email='" + email + '\'' +
-                ", head_img='" + head_img + '\'' +
-                ", rqcode_img='" + rqcode_img + '\'' +
-                ", blogbcg_img='" + blogbcg_img + '\'' +
-                '}';
     }
 }

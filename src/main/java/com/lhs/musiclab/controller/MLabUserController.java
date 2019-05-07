@@ -1,4 +1,4 @@
-package com.lhs.musiclab.web;
+package com.lhs.musiclab.controller;
 
 import com.lhs.musiclab.pojo.MLabUser;
 import com.lhs.musiclab.service.MLabUserService;

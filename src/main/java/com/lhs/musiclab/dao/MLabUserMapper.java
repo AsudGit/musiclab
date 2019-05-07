@@ -1,11 +1,11 @@
-package com.lhs.musiclab.mapper;
+package com.lhs.musiclab.dao;
 
 import com.lhs.musiclab.pojo.MLabUser;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-@Mapper
+@Repository
 public interface MLabUserMapper {
     public Integer add(MLabUser mLabUser);
 

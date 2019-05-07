@@ -1,6 +1,6 @@
 package com.lhs.musiclab.service.serviceImpl;
 
-import com.lhs.musiclab.mapper.MLabUserMapper;
+import com.lhs.musiclab.dao.MLabUserMapper;
 import com.lhs.musiclab.pojo.MLabUser;
 import com.lhs.musiclab.service.MLabUserService;
 import org.springframework.beans.factory.annotation.Autowired;

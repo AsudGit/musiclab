@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lhs.musiclab.mapper.MLabUserMapper">
-    <select id="list" resultType="MLabUser">
-        SELECT * FROM mlabuser
+<mapper namespace="com.lhs.musiclab.dao.MLabUserCountMapper">
+    <select id="list" resultType="MLabUserCount">
+        SELECT * FROM mlabusercount
     </select>
 </mapper>
