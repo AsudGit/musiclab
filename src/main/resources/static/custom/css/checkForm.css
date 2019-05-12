@@ -43,7 +43,7 @@ body {
 }
 
 #slidecode {
-    margin-top: 100px;
+    margin-top: 150px;
 }
 
 .verify-img-out, .verify-sub-block {
@@ -59,4 +59,7 @@ body {
     width: 50px;
     height: 50px;
     margin-top: 10px;
+}
+#nonlogin,#logined,#loginedhead {
+    display: none;
 }

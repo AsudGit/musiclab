@@ -24,202 +24,239 @@ function slidcode() {
         //验证成功以后的回调
         success: function () {
             $(".slidecode").val("true");
+            //触发一下该input的input事件
         }
     });
 }
-
+//获取长度
+function getStrLength( str ){
+    return str.replace(/[\u0391-\uFFE5]/g,"aa").length; //"g" 表示全局匹配
+}
 $(function () {
-    slidcode();
+
     /*注册表单验证begin*/
     var reg = {
-        "userInfo.user_name": /^([\u4e00-\u9fa5][\u4e00-\u9fa5]{0,9}|[\u4e00-\u9fa5][_a-zA-Z0-9]{0,18}|[a-zA-Z][\u4e00-\u9fa5]{0,9}|[a-zA-Z][_a-zA-Z0-9]{0,19}){1}$/,
-        //用来判断用户名，第一位不能为数字，也就是小写字母或者大写字母，后面的内容\w表示字符（数字字母下划线）
+        "name": /^[a-zA-Z\u4e00-\u9fa5]+[_a-zA-Z0-9\u4e00-\u9fa5]*$/,
+        //用来判断用户名，第一位不能为数字，4-14个由英文或数字下划线组成的字符
         //要求是4-20位字符，所以出去第一位，还需要3-19位的\w
-        "userInfo.password": /^[\da-zA-Z]{8,20}$/,
+        "pwd": /^[\da-zA-Z]{8,20}$/,
         //用来判断密码，html结构中要求是数字字符8到20位，\d表示数字
-        "userInfo.email": /^[1-9a-zA-Z_]\w*@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})+$/,
+        "email": /^[1-9a-zA-Z_]\w*@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})+$/,
         //用来判断邮箱，通常邮箱没有以0开头的，所以第一位为1-9数字或者小写字母或者大写字母，第二位开始任意字符
         //也可以只有第一位没有第二位，*表示至少0个，@后面同理，小写字母或者大写字母或者数字，.需要转意符，所以写成\.
         //点后面通常是com或者cn或者com.cn，所以是小写字母或者大写字母至少两位
-        "userInfo.phone_num": /^1[34578]\d{9}$/
+        "phone": /^1[34578]\d{9}$/
         //用来判断电话号码，通常手机号第一位为1，第二位只可能出现3.4.5.7.8，后面剩下的9位数字随机
     };
     var prompt = {
-        "userInfo.user_name": "由英文或中文字符开头，20位字符组成<br>包含下划线",
-        "userInfo.password": "由8到20位数字字符组成，不包含下划线",
-        "userInfo.email": "以登录名@主机名.域名的格式",
-        "userInfo.phone_num": "以1开头，第二位为3,4,5,7,8的11位数字"
+        "name": "由英文或中文字符开头，14位字符组成<br>包含下划线,汉字最多为7个",
+        "pwd": "由8到20位数字字符组成，不包含下划线",
+        "email": "以登录名@主机名.域名的格式",
+        "phone": "以1开头，第二位为3,4,5,7,8的11位数字"
     }
     var arr = [
-        $("#user_name"),
+        $("#name"),
         $("#r_pwd"),
         $("#email"),
-        $("#phone_num")
+        $("#phone")
     ];
-    for (var i = 0; i < arr.length; i++) {
-        arr[i].blur(function () {
-            if ($(this).val() != "") {
-                if (!reg[$(this).prop("name")].test($(this).val())) {/*格式验证*/
-                    $(this).after("<h5 style='color: red'>" + prompt[$(this).prop("name")] + "</h5>");
-                } else if (reg[$(this).prop("name")] != "password") {
-                    $.ajax({
-                        type: "post",
-
-                        url: "checkParam",
-
-                        data: {
-                            val: $(this).val(),
-                            name: $(this).prop("name")
-                        },
-
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data.val == "exist") {
-                                $(data.id).after("<h5 style='color:red;'>该" + $(data.id).prev().text() + "已存在</h5>");
-                            }
-                        },
-                        error: function (e) {
-                            alert("error");
-                        }
-                    });
-                }
-            }
-            ;
-        });
-    }
-    ;
-    $("#checkpwd").blur(function () {
-        if ($("#checkpwd").val() != "") {
-            if ($("#r_pwd").val() != $(this).val()) {
-                $(this).after("<h5 style='color: red'>密码不一致</h5>");
-                checkform = false;
-            }
-        }
-    })
     $("#birthday").keydown(function (e) {
         e.preventDefault();
     })
-    $("#post_pcode").click(function () {
-        if ($("#phone_num").val() == "") {
-            alert("请先填写手机号");
-        } else {
-            $(this).text("已发送").prop("disabled", "disabled");
-            $.ajax({
-                type: "post",
+    new Vue({
+        el:"#myNav",
+        data:{
+            username:"",
+            headimg:"",
+            account:null,
+            l_pwd:null,
+            name:"",
+            pwd:"",
+            email:"",
+            birthday:"",
+            phone:"",
+            phone_code:"",
+            checkpwd:""
+        },
+        /*components:{
+            'usernav':{
+                props:['headimg','username'],
+                template:userNavTemplate
+            }
+        },*/
 
-                url: "songPhoneCode",
+        methods: {
+                register: function (event) {
+                    var $event = $("#" + event.target.id);
+                    var checkform = null;
+                    $("#register_form div input").each(function () {
+                        if ("" == $event.val()) {
+                            checkform = "表单有空项";
+                        }
+                    })
 
-                data: {phone_num: $("#phone_num").val()},
+                    if ($("#r_pwd").val() != $("#checkpwd").val()) {
+                        checkform = "密码不一致";
+                    }
 
-                dataType: 'json',
-
-                success: function (data) {
-                    alert(data.message);
+                    if (checkform != "表单有空项" && checkform != "密码不一致") {
+                        for (var i = 0; i < arr.length; i++) {
+                            if (reg[arr[i].prop("name")].test(arr[i].val())) {
+                                checkform = arr[i].prev().text() + "格式不正确";
+                            }
+                        }
+                        ;
+                    }
+                    if (checkform == null) {
+                        axios.get("/sendsms/code/" + $("#phone").val() + "/" + $("#phone_code").val())
+                            .then(function (value) {
+                                if (value.data.msg == "false") {
+                                    checkform = "验证码错误";
+                                }
+                                if (checkform == null) {
+                                    axios.post("/mlabuser/add", $("#register_form").serialize())
+                                        .then(function (value) {
+                                            if(value.data.msg=="true") {
+                                                $("#regitser_modal").modal('hide');
+                                                $("#nonlogin").css("display", "none");
+                                                if (value.data.headImg == "default" || value.data.headImg == null) {
+                                                    $("#logined").css("display", "block");
+                                                    $(".circle").attr("src", "/image/defaulthead.jpg");
+                                                    $(".login_btn").val(value.data.userName);
+                                                } else {
+                                                    $("#loginedhead").css("display", "block");
+                                                    $(".circle").attr("src", data.headImg);
+                                                    $(".login_btn").val(value.data.userName);
+                                                }
+                                            }else {
+                                                alert("注册失败")
+                                            }
+                                        }).catch(function (reason) {
+                                        console.log(reason)
+                                    })
+                                } else {
+                                    alert(checkform);
+                                    checkform = null;
+                                }
+                            }).catch(function (reason) {
+                            console.log(reason);
+                        })
+                    }
                 },
-                error: function (e) {
-                    alert("error");
+                login: function () {
+                    var checkform = null;
+                    if ($("#account").val() == "") {
+                        checkform = "请填写你的账号";
+                    }
+                    if ($("#l_pwd").val() == "") {
+                        checkform = "请填写你的密码";
+                    }
+                    if ($(".slidecode").val() != "true") {
+                        checkform = "请滑动完成验证";
+                    }
+                    if (checkform != null) {
+                        alert(checkform);
+                        slidereinit();
+                    } else {
+                        axios.post("/mlabuser/login",$("#login_form").serialize())
+                            .then(function (value) {
+                                slidereinit();
+                                if (value.data.msg=="true") {
+                                    $("#login_modal").modal('hide');
+                                    $("#nonlogin").css("display", "none");
+                                    if (value.data.headImg == "default" || value.data.headImg == null) {
+                                        $("#logined").css("display", "block");
+                                        $(".circle").attr("src", "/image/defaulthead.jpg");
+                                        $(".login_btn").val(value.data.userName);
+                                    } else {
+                                        $("#loginedhead").css("display", "block");
+                                        $(".circle").attr("src", data.headImg);
+                                        $(".login_btn").val(value.data.userName);
+                                    }
+                                }else {
+                                    alert("账号或密码错误");
+                                }
+                            }).catch(function (reason) {
+                            console.log(reason);
+                        })
+                    }
+                },
+                sendCode: function (event) {
+                    var $event = $("#" + event.target.id);
+                    if ($("#phone").val() == "") {
+                        alert("请先填写手机号");
+                    } else {
+                        $event.text("已发送").prop("disabled", "disabled");
+                        axios.get("/sendsms/phone/" + $("#phone").val())
+                            .then(function (value) {
+                                $("#phone").after("<h5 style='color:dodgerblue;'>验证码有效时间为10分钟，请勿重复发送</h5>")
+                            }).catch(function (reason) {
+                            console.log(reason);
+                        })
+                    }
+                },
+                checkRepeat: function (event) {
+                    var $event = $("#" + event.target.id);
+                    if ($event.val() != "") {
+                        var flag = true;
+                        if (!reg[$event.prop("name")].test($event.val())) {/*格式验证*/
+                            $event.after("<h5 style='color: red'>" + prompt[$event.prop("name")] + "</h5>");
+                            flag = false;
+                        } else if ($event.prop("name") == "name" && getStrLength($event.val()) > 14) {
+                            $event.after("<h5 style='color: red'>" + prompt[$event.prop("name")] + "</h5>");
+                            flag = false;
+                        }
+                        if (flag == true && $event.prop("name") != "pwd") {
+                            axios.get("/mlabuser/" + $event.prop("name") + "/" + $event.val())
+                                .then(function (value) {
+                                    if (value.data.msg == "true") {
+                                        $("#" + $event.prop("name")).after("<h5 style='color:red;'>该" + $("#" + $event.prop("name")).prev().text() + "已存在</h5>");
+                                    }
+                                }).catch(function (reason) {
+                                console.log(reason)
+                            })
+                        }
+                    }
+                    ;
+                },
+                checkPassword: function (event) {
+                    var $event = $("#" + event.target.id);
+                    if ($("#checkpwd").val() != "") {
+                        if ($("#r_pwd").val() != $event.val()) {
+                            $event.after("<h5 style='color: red'>密码不一致</h5>");
+                            checkform = false;
+                        }
+                    }
+                },
+                logout:function (event) {
+                    axios.get("/mlabuser/logout").then(function () {
+                        $("#logined").css("display","none");
+                        $("#loginedhead").css("display","none");
+                        $("#nonlogin").css("display","block");
+                    }).catch(function (reason) {
+                        console.log(reason);
+                    })
+                }
+            },
+        mounted:function(){
+            axios.get("/mlabuser/isLogin").then(function (value) {
+                console.log(value)
+                if (value.data.msg=="true"){
+                    if (value.data.headImg=="default") {
+                        $("#logined").css("display","block");
+                        $(".circle").attr("src", "/image/defaulthead.jpg");
+                        $(".login_btn").val(value.data.userName);
+                    }else {
+                        $("#loginedhead").css("display","block");
+                        $(".circle").attr("src", data.headImg);
+                        $(".login_btn").val(value.data.userName);
+                    }
+                }else {
+                    $("#nonlogin").css("display","block");
                 }
             })
-            setTimeout(function () {
-                $("#post_pcode").text("发送验证码").removeAttr("disabled");
-            }, 50000)
-        }
-    })
-
-    $("#regitser").click(function () {
-        var checkform = null;
-        $("#register_form div input").each(function () {
-            if ("" == $(this).val()) {
-                checkform = "表单有空项";
-            }
+        },
         })
-
-        if ($("#r_pwd").val() != $("#checkpwd").val()) {
-            checkform = "密码不一致";
-        }
-
-        if (checkform != "表单有空项" && checkform != "密码不一致") {
-            for (var i = 0; i < arr.length; i++) {
-                if (!reg[arr[i].prop("name")].test(arr[i].val())) {
-                    checkform = arr[i].prev().text() + "格式不正确";
-                }
-            }
-            ;
-        }
-        if (checkform == null) {
-            $.ajax({
-                type: "post",
-
-                url: "checkForm",
-
-                data: {
-                    user_name: arr[0].val(),
-                    email: arr[2].val(),
-                    phone_num: arr[3].val(),
-                    phone_code: $("#phone_code").val()
-
-                },
-
-                dataType: 'json',
-                success: function (data) {
-                    if (data.val == "exist") {
-                        alert($(data.id + "").prev().text() + "已经存在");
-                    } else if (data.message == "验证码不正确") {
-                        alert(data.message);
-                    } else {
-                        $("form:eq(0)").submit();
-                    }
-                },
-                error: function (e) {
-                    alert("error");
-                }
-            });
-        } else {
-            alert(checkform);
-            checkform = null;
-        }
-    })
-    $("#login").click(function () {
-        var checkform = null;
-        if ($("#account").val() == "") {
-            checkform = "请填写你的账号";
-        }
-        if ($("#l_pwd").val() == "") {
-            checkform = "请填写你的密码";
-        }
-        if ($(".slidecode").val() != "true") {
-            checkform = "请滑动完成验证";
-        }
-        if (checkform != null) {
-            alert(checkform);
-            $(".verify-img-out").remove();
-            $(".verify-bar-area").remove();
-            slidcode();
-        } else {
-            $.ajax({
-                type: "post",
-
-                url: "loginUser",
-
-                data: {
-                    "account": $("#account").val(),
-                    "password": $("#l_pwd").val()
-                },
-
-                dataType: 'json',
-                success: function (data) {
-                    if (data.message == "密码或账号错误") {
-                        alert(data.message);
-                    } else {
-                        window.location.reload();
-                    }
-                },
-                error: function (e) {
-                    alert("error");
-                }
-            })
-        }
-    })
     /*注册表单验证end*/
     /*表单非空验证begin*/
     $("form div input").blur(function () {
@@ -234,17 +271,24 @@ $(function () {
             })
         }
     })
-    /*表单非空验证end/
-    /*验证码滑动图淡入淡出*/
-    $(".verify-bar-area").mouseenter(function () {
-        setTimeout(function () {
-            $(".verify-img-out").show();
-            $(".verify-sub-block").show();
-        }, 100);
-    }).mouseleave(function () {
-        setTimeout(function () {
-            $(".verify-img-out").hide();
-            $(".verify-sub-block").hide();
-        }, 500);
-    })
+    /*表单非空验证end*/
+    function slidereinit() {
+        $(".verify-img-out").remove();
+        $(".verify-bar-area").remove();
+        slidcode();
+        /*验证码滑动图淡入淡出*/
+        $(".verify-bar-area").mouseenter(function () {
+            setTimeout(function () {
+                $(".verify-img-out").show();
+                $(".verify-sub-block").show();
+            }, 100);
+        }).mouseleave(function () {
+            setTimeout(function () {
+                $(".verify-img-out").hide();
+                $(".verify-sub-block").hide();
+            }, 500);
+        })
+    }
+
+    slidereinit();
 })

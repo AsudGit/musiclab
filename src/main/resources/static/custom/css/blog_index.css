@@ -1,5 +1,4 @@
 .container-fluid{
-    background-image: url("/image/rock.jpg");
     overflow: hidden;
 }
 .container-fluid{
@@ -133,6 +132,7 @@
 .myeditor{
     background-color: white;
     border: 1px solid #ccc;
+    display: none;
 }
 .toolbar{
     margin: 5px auto;
@@ -157,7 +157,6 @@
 .plate{
     height: 300px;
     width: 100%;
-    background-image: url("/image/rock.jpg");
     background-size: cover;
 }
 .plateinfo{

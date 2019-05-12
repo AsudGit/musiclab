@@ -1,6 +1,7 @@
 package com.lhs.musiclab.service;
 
 import com.lhs.musiclab.pojo.MLabManager;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 

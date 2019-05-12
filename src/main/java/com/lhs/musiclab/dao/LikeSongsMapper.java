@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
 public interface LikeSongsMapper {
     public Integer add(LikeSongs likeSongs);
 

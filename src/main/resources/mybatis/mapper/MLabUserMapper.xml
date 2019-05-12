@@ -7,7 +7,74 @@
     <select id="list" resultType="MLabUser">
         SELECT * FROM mlabuser
     </select>
-    <select id="get" resultType="MLabUser">
-        select * from mlabuser where uid = #{id}
+    <select id="get" parameterType="MlabUser" resultType="MLabUser">
+        select * from mlabuser
+        <where>
+            <if test="uid!=null and uid !=''">
+                and uid like concat('%',#{uid},)
+            </if>
+            <if test="name!=null and name !=''">
+                and name like concat('%',#{name},)
+            </if>
+            <if test="phone!=null and phone !=''">
+                and phone like concat('%',#{phone},)
+            </if>
+            <if test="email!=null and email !=''">
+                and email like concat('%',#{email},)
+            </if>
+            <if test="sex!=null and sex !=0">
+                and sex =#{sex}
+            </if>
+        </where>
     </select>
+    <select id="match" parameterType="MLabUser" resultType="MLabUser">
+        select * from mlabuser
+        <where>
+            <if test="uid!=null and uid !=''">
+                and uid = #{uid}
+            </if>
+            <if test="name!=null and name !=''">
+                and name = #{name}
+            </if>
+            <if test="phone!=null and phone !=''">
+                and phone = #{phone}
+            </if>
+            <if test="email!=null and email !=''">
+                and email = #{email}
+            </if>
+            <if test="sex!=null and sex !=0">
+                and sex =#{sex}
+            </if>
+            <if test="birthday!=null and birthday !=''">
+                and birthday =#{birthday}
+            </if>
+        </where>
+    </select>
+    <select id="matchOr" parameterType="MLabUser" resultType="MLabUser">
+        select * from mlabuser
+        <where>
+            <if test="uid!=null and uid !=''">
+                or uid = #{uid}
+            </if>
+            <if test="name!=null and name !=''">
+                or name = #{name}
+            </if>
+            <if test="phone!=null and phone !=''">
+                or phone = #{phone}
+            </if>
+            <if test="email!=null and email !=''">
+                or email = #{email}
+            </if>
+            <if test="sex!=null and sex !=0">
+                or sex =#{sex}
+            </if>
+            <if test="birthday!=null and birthday !=''">
+                or birthday =#{birthday}
+            </if>
+        </where>
+    </select>
+    <insert id="add" parameterType="MLabUser">
+        INSERT INTO mlabuser(uid, name, pwd, phone, birthday, email, head_img, rqcode_img, blogbcg_img)
+        values (#{uid},#{name},#{pwd},#{phone},#{birthday},#{email},#{head_img},#{rqcode_img},#{blogbcg_img});
+    </insert>
 </mapper>

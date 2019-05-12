@@ -18,6 +18,7 @@
 <div class="container-fluid row">
     <!--导航栏-->
     <div th:replace="nav::myNav"></div>
+    </div>
     <!--page1-->
     <div class="page1 row">
         <!--日期-->
@@ -76,9 +77,9 @@
             <label class="midmark">我的音乐论坛</label>
         </div>
         <!--论坛分区begin-->
-        <div class="messagediv col-md-12 row">
+        <div id="messagediv" class="messagediv col-md-12 row">
             <div class="row fade">
-                <div class="col-md-2 col-md-offset-2">
+                <div @click="toblog" class="col-md-2 col-md-offset-2">
                     <div class="hovereffect_ACG">
                         <img src="../static/image/classical.jpg" th:src="@{/image/classical.jpg}" class="imgsize">
                         <div class="overlay_ACG">
@@ -89,7 +90,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div @click="toblog" class="col-md-2">
                     <div class="hovereffect_ACG">
                         <img src="../static/image/jazz.jpg" th:src="@{/image/jazz.jpg}" class="imgsize">
                         <div class="overlay_ACG">
@@ -100,7 +101,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div @click="toblog" class="col-md-2">
                     <div class="hovereffect_ACG">
                         <img src="../static/image/pop.jpg" th:src="@{/image/pop.jpg}" class="imgsize">
                         <div class="overlay_ACG">
@@ -111,7 +112,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div @click="toblog" class="col-md-2">
                     <div class="hovereffect_ACG">
                         <img src="../static/image/ballad.jpg" th:src="@{/image/ballad.jpg}" class="imgsize">
                         <div class="overlay_ACG">
@@ -124,7 +125,7 @@
                 </div>
             </div>
             <div class="row fade">
-                <div class="col-md-2 col-md-offset-2">
+                <div @click="toblog" class="col-md-2 col-md-offset-2">
                     <div class="hovereffect_classical">
                         <img src="../static/image/electronic.jpg" th:src="@{/image/electronic.jpg}" class="imgsize">
                         <div class="overlay_classical">
@@ -135,7 +136,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div @click="toblog" class="col-md-2">
                     <div class="hovereffect_classical">
                         <img src="../static/image/hiphop.jpg" th:src="@{/image/hiphop.jpg}" class="imgsize">
                         <div class="overlay_classical">
@@ -146,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div @click="toblog" class="col-md-2">
                     <div class="hovereffect_classical">
                         <img src="../static/image/lightmusic.jpg" th:src="@{/image/lightmusic.jpg}" class="imgsize">
                         <div class="overlay_classical">
@@ -157,7 +158,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div @click="toblog" class="col-md-2">
                     <div class="hovereffect_classical">
                     <img src="../static/image/blus.jpg" th:src="@{/image/blus.jpg}" class="imgsize">
                         <div class="overlay_classical">
@@ -170,7 +171,7 @@
                 </div>
             </div>
             <div class="row fade">
-                <div class="col-md-4 col-md-offset-2">
+                <div @click="toblog" class="col-md-4 col-md-offset-2">
                     <div class="hovereffect_ACG">
                     <img src="../static/image/rock.jpg" th:src="@{/image/rock.jpg}" class="imgsize">
                         <div class="overlay_ACG">
@@ -181,7 +182,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div @click="toblog" class="col-md-4">
                     <div class="hovereffect_ACG">
                     <img src="../static/image/comment.jpg" th:src="@{/image/comment.jpg}" class="imgsize">
                         <div class="overlay_ACG">
@@ -208,7 +209,7 @@
                     </div>
                     <ul class="icon">
                         <li><a href="#"><i class="fa fa-qq"></i></a></li>
-                        <li><a href="#"><i class="fa fa-weibo"></i></a></li>
+                        <li><a href="https://weibo.com/u/5129035991?topnav=1&wvr=6&topsug=1"><i class="fa fa-weibo"></i></a></li>
                         <li><a href="#"><i class="fa fa-wechat"></i></a></li>
                         <li><a href="#"><i class="fa fa-envelope"></i></a></li>
                     </ul>
@@ -218,23 +219,15 @@
     </div>
 </div>
 
-
 <script src="../static/custom/js/index.js"
         th:src="@{/custom/js/index.js}"></script>
 <script src="../static/custom/js/checkForm.js"
         th:src="@{/custom/js/checkForm.js}"></script>
 <script src="../static/plugins/verify/js/verify.min.js"
         th:src="@{/plugins/verify/js/verify.min.js}"></script>
-<script type="text/javascript">
-    new Vue({
-        el:'#myNav',
-        data: {
-            mLabUser:{
-                name:'',
-                head_img:''
-            }
-        }
-    })
+<script src="../static/plugins/vue/js/vue.min.js" th:src="@{/plugins/vue/js/vue.min.js}"></script>
+<script type="text/javascript" >
+
 </script>
 </body>
 

@@ -3,7 +3,7 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Blog implements Serializable {
+public class Blog implements Serializable,Comparable<Blog> {
     private String bid;
     private String title;
     private String content;
@@ -17,6 +17,24 @@ public class Blog implements Serializable {
     private Integer plate;
     //博主id
     private String uid;
+
+    @Override
+    public int compareTo(Blog o) {
+        /*防止忘记:
+         * 0     表示两个对象相等
+         * -1 后面的对象大于前面的对象   降序
+         * 1    前面小后面大升序
+         */ /*if(this==o){
+            return 0;
+        }else if(this>o){
+            return 1;
+        }else if(this<o){
+            return -1;
+        }*/
+        Integer thispower = this.views * 2 + this.likes * 4 + this.comments * 4;
+        Integer opower = o.views * 2 + o.likes * 4 + o.comments * 4;
+        return thispower-opower;
+    }
 
     @Override
     public String toString() {

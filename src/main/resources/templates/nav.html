@@ -1,59 +1,64 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <div id="myNav" th:fragment="myNav">
-
     <div class="row">
         <!--顶部导航栏begin-->
         <ul class="nav navbar-nav navbar-form">
             <li class="navbar-header btn-sm"><h2>MusicLab</h2></li>
-            <li class="navbar-form active"><a href="#">home</a></li>
+            <li class="navbar-form active"><a href="index.html" th:href="@{/index}">home</a></li>
             <li class="navbar-form"><a class="messagebtn" href="javascript:void(0)">message</a></li>
-            <li class="navbar-form"><a href="#">record</a></li>
+            <li class="navbar-form"><a href="music_index.html" th:href="@{/musicIndex}">record</a></li>
             <li class="navbar-form"><a href="#">about</a></li>
         </ul>
 
-        <ul v-if="mLabUser.name==null||mLabUser.name==''" class="nav navbar-right navbar-nav navbar-btn">
-            <li class="navbar-form">
-                <a data-toggle="modal" data-target="#login_modal" class="circle" href="#">
-                    <i class="fa fa-user"></i>
-                </a>
-            </li>
-            <li>
-                <a class="btn login_btn" data-toggle="modal" data-target="#login_modal" href="#">user/login
-                <span class="fa fa-caret-down"></span>
-                </a>
-            </li>
-        </ul>
-        <ul v-else class="nav navbar-right navbar-nav navbar-btn">
-            <li v-if="mLabUser.head_img==null||mLabUser.head_img==''" class="navbar-form">
-                <a class="circle" href="#" data-toggle="dropdown">
-                    <span class="fa fa-user"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">个人界面</a></li>
-    <!--                TODO:进入权限-->
-                    <li><a href="#">管理界面</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">登出</a></li>
-                </ul>
-            </li>
-            <li v-else class="navbar-form">
-                <a href="#" data-toggle="dropdown" class="dropdown_btn">
-    <!--                TODO:头像-->
-                    <img src="" class="circle">
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">我的资料</a></li>
-                    <li><a href="#">修改头像</a></li>
-                    <li><a href="#">我的帖子</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">登出</a></li>
-                </ul>
-            </li>
-    <!--        TODO:用户名-->
-            <li><a class="btn login_btn" href="#"></a></li>
-        </ul>
-
+        <div id="nonlogin">
+            <ul class="nav navbar-right navbar-nav navbar-btn">
+                <li class="navbar-form">
+                    <a data-toggle="modal" data-target="#login_modal" class="circle" href="#">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn login_btn" data-toggle="modal" data-target="#login_modal" href="#">user/login
+                        <span class="fa fa-caret-down"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="logined" >
+            <ul class="nav navbar-right navbar-nav navbar-btn">
+                <li class="navbar-form">
+                    <a href="#" data-toggle="dropdown" class="dropdown_btn">
+                        <img class="circle">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">个人界面</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a @click.prevent="logout" href="#">登出</a></li>
+                    </ul>
+                </li>
+                <li><a class="btn login_btn" href="#"></a></li>
+            </ul>
+        </div>
+        <div id="loginedhead">
+            <ul class="nav navbar-right navbar-nav navbar-btn">
+                <li class="navbar-form">
+                    <a href="#" data-toggle="dropdown" class="dropdown_btn">
+                        <!--                TODO:头像-->
+                        <img class="circle">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">我的资料</a></li>
+                        <li><a href="#">修改头像</a></li>
+                        <li><a href="#">我的帖子</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a @click.prevent="logout" href="#">登出</a></li>
+                    </ul>
+                </li>
+                <!--        TODO:用户名-->
+                <li><a class="btn login_btn" href="#"></a></li>
+            </ul>
+        </div>
         <!--顶部导航栏end-->
     </div>
     <!--登陆注册表单begin-->
@@ -68,35 +73,35 @@
                     <form class="form-group-sm" id="register_form" action="registerUser" method="post">
                         <div class="form-group">
                             <label class="control-label">用户名</label>
-                            <input class="form-control" id="user_name" name="userInfo.user_name" type="text"
-                                   placeholder="4-20个由英文或数字组成的字符">
+                            <input @blur="checkRepeat" v-model="name" class="form-control" id="name" name="name" type="text"
+                                   placeholder="由4-14个英文数字下划线组成，第一位不为数字,汉字最多为7个">
                         </div>
                         <div class="form-group">
                             <label class="control-label">邮箱</label>
-                            <input class="form-control" id="email" name="userInfo.email" type="text" placeholder="你的邮箱">
+                            <input @blur="checkRepeat" v-model="email" class="form-control" id="email" name="email" type="text" placeholder="你的邮箱">
                         </div>
                         <div class="form-group">
                             <label class="control-label">密码</label>
-                            <input class="form-control" id="r_pwd" name="userInfo.password" type="password"
+                            <input @blur="checkRepeat" v-model="pwd" class="form-control" id="r_pwd" name="pwd" type="password"
                                    placeholder="8-20个由英文或数字组成的字符">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="checkpwd" name="checkpwd" type="password" placeholder="再输一次密码">
+                            <input @blur="checkPassword" v-model="checkpwd" class="form-control" id="checkpwd" name="checkpwd" type="password" placeholder="再输一次密码">
                         </div>
                         <div class="form-group">
                             <label class="control-label">生日</label>
-                            <input class="form-control" id="birthday" name="userInfo.birthday" type="date" placeholder="生日">
+                            <input v-model="birthday" class="form-control" id="birthday" name="birthday" type="date" placeholder="生日">
                         </div>
                         <div class="form-group">
                             <label class="control-label">手机号</label>
-                            <input class="form-control" id="phone_num" name="userInfo.phone_num" type="text"
+                            <input @blur="checkRepeat" v-model="phone" class="form-control" id="phone" name="phone" type="text"
                                    placeholder="11位数字">
                         </div>
                         <div class="form-group">
-                            <button type="button" id="post_pcode" class="btn btn-info">
+                            <button @click="sendCode" type="button" id="post_pcode" class="btn btn-info">
                                 发送验证码
                             </button>
-                            <input type="text" class="form-control" id="phone_code" name="phone_code" placeholder="手机验证码">
+                            <input v-model="phone_code" type="text" class="form-control" id="phone_code" name="phone_code" placeholder="手机验证码">
                         </div>
                     </form>
                 </div>
@@ -105,7 +110,7 @@
                             data-dismiss="modal">
                         <span class="fa fa-exchange"></span>
                     </button>
-                    <input type="submit" class="btn btn-default" value="注册" id="regitser">
+                    <input type="button" @click="register" class="btn btn-default" value="注册" id="regitser">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         close
                     </button>
@@ -124,23 +129,23 @@
                     <form class="form-group-lg" id="login_form" method="post">
                         <div class="form-group">
                             <label class="control-label">账号</label>
-                            <input class="form-control" id="account" name="account" type="text" placeholder="你的用户名/手机号/邮箱">
+                            <input  v-model="account" class="form-control" id="account" name="account" type="text" placeholder="你的用户名/手机号/邮箱">
                         </div>
                         <div class="form-group">
                             <label class="control-label">密码</label>
-                            <input class="form-control" id="l_pwd" name="password" type="password"
+                            <input v-model="l_pwd" class="form-control"  id="l_pwd" name="pwd" type="password"
                                    placeholder="8-20个由英文或数字组成的字符">
                         </div>
                         <input type="hidden" class="slidecode" name="slidecode" value="false">
-                        <div id="slidecode"></div>
                     </form>
+                        <div id="slidecode"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#regitser_modal"
                             data-dismiss="modal">
                         <span class="fa fa-exchange"></span>
                     </button>
-                    <input type="submit" class="btn btn-default" value="登陆" id="login">
+                    <input type="button" @click="login" class="btn btn-default" value="登陆" id="login">
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         close
                     </button>
@@ -151,7 +156,7 @@
     <!--登陆注册表单end-->
 </div>
 <div id="myNav2" th:fragment="myNav2">
-    <a class="home_log" href="javascript:void(0)"><i class="fa fa-home"></i>  MusicLab</a>
+    <a class="home_log" href="index.html" th:href="@{/index}"><i class="fa fa-home"></i>  MusicLab</a>
     <div class="input-group">
         <input type="text" class="form-control" placeholder="输入关键词搜索...">
         <span class="input-group-addon"><a><i class="fa fa-search"></i></a></span>
@@ -163,7 +168,7 @@
         <li><a href="javascript:void(0)"><i class="fa fa-user-o"></i></a></li>
         <li><a href="javascript:void(0)"><i class="fa fa-cog"></i></a></li>
         <li><a href="javascript:void(0)"><i class="fa fa-paint-brush"></i></a></li>
-        <li><a href="javascript:void(0)"><i class="fa fa-edit"></i></a></li>
+        <li><a class="editbtn" href="javascript:void(0)"><i class="fa fa-edit"></i></a></li>
     </ul>
 </div>
 </html>

@@ -24,7 +24,7 @@ $(function () {
             setTimeout(function () {
                 $(".label_title").removeClass("blurfilter")
                     .css("color", "#52afa4")
-                    .html("Discove<br>more perfect<br>sound<h6><a href='/fontEnd/player.jsp'>发现新声音<span class='glyphicon glyphicon-menu-right'></span></a></h6>")
+                    .html("Discove<br>more perfect<br>sound<h6><a href='/musicIndex'>发现新声音<span class='glyphicon glyphicon-menu-right'></span></a></h6>")
                     .removeClass("animated fadeOut")
                     .addClass("animated fadeIn");
             }, 500)
@@ -44,7 +44,7 @@ $(function () {
      */
     $(window).scroll(function(e){
         var wScrollTop = $(window).scrollTop();
-        console.log(wScrollTop);
+        // console.log(wScrollTop);
         if(wScrollTop > 125){
             $(".mid_bar .fade").addClass("animated fadeInUp");
             $(".iconBox").addClass("animated fadeInUp");
@@ -77,5 +77,25 @@ $(function () {
         } else if ($(this).text() == "top") {
             $("html,body").animate({scrollTop: "0px"}, 500);
         }
+    })
+    var plateNo = {
+        "古典": "1",
+        "爵士": "2",
+        "流行": "3",
+        "民谣": "4",
+        "电子": "5",
+        "嘻哈": "6",
+        "轻音乐": "7",
+        "布鲁斯": "8",
+        "摇滚": "9"
+    }
+    new Vue({
+        el:"#messagediv",
+        methods:{
+            toblog:function (event) {
+                window.location.href = "/blog/"+plateNo[event.target.innerText];
+            }
+        }
+
     })
 })

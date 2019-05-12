@@ -7,4 +7,25 @@
     <select id="list" resultType="Blog">
         SELECT * FROM blog
     </select>
+
+    <select id="listByPlate" resultType="Blog">
+        SELECT * FROM blog where plate = #{plate}
+    </select>
+    <select id="get" resultType="Blog">
+        SELECT * FROM blog
+        <where>
+            <if test="bid!=null and bid!=''">
+                and bid like concat(%,#{bid})
+            </if>
+            <if test="title!=null and title!=''">
+                and title like concat(%,#{title})
+            </if>
+            <if test="plate!=null and plate!=0">
+                and plate =#{plate}
+            </if>
+            <if test="uid!=null and uid!=''">
+                and uid =#{uid}
+            </if>
+        </where>
+    </select>
 </mapper>

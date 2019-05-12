@@ -9,9 +9,13 @@ public interface MLabUserService {
 
     public List<MLabUser> list();
 
-    public void delete(Integer id);
+    public void delete(String id);
 
     public Integer update(MLabUser mLabUser);
 
-    public MLabUser get(String id);
+    public List<MLabUser> get(MLabUser mLabUser);
+
+    public MLabUser match(MLabUser mLabUser);
+
+    public List<MLabUser> matchOr(MLabUser mLabUser);
 }

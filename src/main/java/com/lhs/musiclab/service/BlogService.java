@@ -9,9 +9,11 @@ public interface BlogService {
 
     public List<Blog> list();
 
-    public void delete(Integer id);
+    public List<Blog> listByPlate(Integer plate);
+
+    public void delete(Blog blog);
 
     public Integer update(Blog blog);
 
-    public Blog get(Integer id);
+    public Blog get(Blog blog);
 }

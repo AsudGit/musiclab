@@ -22,8 +22,13 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public void delete(Integer id) {
-        blogMapper.delete(id);
+    public List<Blog> listByPlate(Integer plate) {
+        return blogMapper.listByPlate(plate);
+    }
+
+    @Override
+    public void delete(Blog blog) {
+        blogMapper.delete(blog);
     }
 
     @Override
@@ -32,7 +37,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Blog get(Integer id) {
-        return blogMapper.get(id);
+    public Blog get(Blog blog) {
+        return blogMapper.get(blog);
     }
 }

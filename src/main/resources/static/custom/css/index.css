@@ -191,6 +191,9 @@ ul li a {
     position: absolute;
     top: 30%;
 }
+.messagediv>.row>div>div{
+    cursor:pointer;
+}
 .messagediv>.row>div{
     height: 240px;
     margin-bottom: 30px;
