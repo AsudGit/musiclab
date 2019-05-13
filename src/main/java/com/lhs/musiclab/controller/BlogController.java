@@ -1,33 +1,122 @@
 package com.lhs.musiclab.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lhs.musiclab.pojo.Blog;
 import com.lhs.musiclab.pojo.Plate;
 import com.lhs.musiclab.service.BlogService;
+import com.lhs.musiclab.utils.QuickSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Controller
 @RequestMapping("/blog")
 public class BlogController {
     @Autowired
     private BlogService blogService;
+    private Map<String,Object> map = new HashMap<>();
 
     @RequestMapping("/{plate}")
-    public String toBlog(@PathVariable(value = "plate")String plate){
+    public String toBlog(@PathVariable(value = "plate")String plate, Model model){
+        model.addAttribute("plateName", "古典");
         return "blog_index";
     }
+    @RequestMapping("/info/{bid}")
+    public String blogInfo(@PathVariable(value = "bid")String bid,ModelMap modelMap){
+        System.out.println("进入");
+        Blog blog = new Blog();
+        blog.setBid(bid);
+        List<Blog> blogList = blogService.get(blog);
+        System.out.println(blogList);
+        modelMap.put("blog", blogList.get(0));
+        return "blog_info";
+    }
+
+    @PostMapping("/get")
+    @ResponseBody
+    public List<Blog> search(@RequestParam(value = "uid",defaultValue = "")String uid,
+                             @RequestParam(value = "bid",defaultValue = "")String bid,
+                             @RequestParam(value = "title",defaultValue = "")String title,
+                             @RequestParam(value = "plate",defaultValue = "0")Integer plate){
+        Blog blog = new Blog();
+        if (title!="") {
+            blog.setTitle(title);
+        }
+        if (plate!=0){
+            blog.setPlate(plate);
+        }
+        if (bid != "") {
+            blog.setBid(bid);
+        }
+        if (uid != "") {
+            blog.setUid(uid);
+        }
+        List<Blog> blogList = blogService.get(blog);
+
+        return blogList;
+    }
+
+    @PostMapping("/add")
+    @ResponseBody
+    public Map bloging(
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("plate") Integer plate,
+            HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String userID = (String) session.getAttribute("userID");
+        Blog blog = new Blog();
+        blog.setBid(UUID.randomUUID().toString().replaceAll("-", ""));
+        blog.setTitle(title);
+        blog.setContent(content);
+        blog.setPlate(plate);
+        blog.setUid(userID);
+        blog.setBlogged_time(new Timestamp(System.currentTimeMillis()));
+        if(blogService.add(blog)==1){
+            map.put("msg", "true");
+            map.put("plate", plate);
+        }else {
+            map.put("msg", "fault");
+        }
+        return map;
+    }
+
     @GetMapping("/indexInit/{plate}")
     @ResponseBody
-    public List indexInit(@PathVariable(value = "plate") Integer plate, HttpServletRequest request){
+    public Map indexInit(@PathVariable(value = "plate") Integer plate,
+                         @RequestParam(value = "start", defaultValue = "0") int start,
+                         @RequestParam(value = "size", defaultValue = "5") int size,
+                         HttpServletRequest request){
+        PageHelper.startPage(start, size);
         String userName = (String) request.getSession().getAttribute("userName");
         String headImg = (String) request.getSession().getAttribute("headImg");
         List<Blog> blogList = blogService.listByPlate(plate);
+        PageInfo<Blog> blogPage = new PageInfo<>(blogList);
 
-        return null;
+        LinkedList<Blog> linkedlist = blogService.linkedlist();
+        QuickSort.linkedlistSort(linkedlist,0,linkedlist.size()-1);
+        List<Blog> hotBlogList = new ArrayList<>();
+        if (linkedlist.size()>=5){
+            for (int i = 0; i < 5; i++) {
+                hotBlogList.add(linkedlist.get(i));
+            }
+        }else {
+            for (Blog blog :linkedlist) {
+                hotBlogList.add(blog);
+            }
+        }
+        map.put("userName", userName);
+        map.put("headImg", headImg);
+        map.put("blogPage", blogPage);
+        map.put("hotBlogList", hotBlogList);
+        return map;
     }
 }

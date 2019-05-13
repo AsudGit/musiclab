@@ -6,6 +6,7 @@ import com.lhs.musiclab.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -19,6 +20,11 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<Blog> list() {
         return blogMapper.list();
+    }
+
+    @Override
+    public LinkedList<Blog> linkedlist() {
+        return blogMapper.linkedlist();
     }
 
     @Override
@@ -37,7 +43,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Blog get(Blog blog) {
+    public List<Blog> get(Blog blog) {
         return blogMapper.get(blog);
     }
 }

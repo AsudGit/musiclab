@@ -10,7 +10,7 @@ public class QuickSort {
         for (int i : a) {
             System.out.print(i+",");
         }
-        quickSort(a,0,a.length-1);
+        intsSort(a,0,a.length-1);
         System.out.println();
         for (int i : a) {
             System.out.print(i+",");
@@ -18,7 +18,7 @@ public class QuickSort {
 
     }
 
-    public static void quickSort(int[] ints,int head,int tail){
+    public static void intsSort(int[] ints,int head,int tail){
         int i=head,j=tail,pivot = ints[i],t=i;
         if(ints.length>0) {
             while (i < j) {
@@ -39,10 +39,10 @@ public class QuickSort {
             }
             ints[t] = pivot;
             if(t+1<tail){
-                quickSort(ints,t+1,tail);
+                intsSort(ints,t+1,tail);
             }
             if(t-1>head){
-                quickSort(ints,head,t-1);
+                intsSort(ints,head,t-1);
             }
 
         }

@@ -33,7 +33,7 @@ public class Blog implements Serializable,Comparable<Blog> {
         }*/
         Integer thispower = this.views * 2 + this.likes * 4 + this.comments * 4;
         Integer opower = o.views * 2 + o.likes * 4 + o.comments * 4;
-        return thispower-opower;
+        return opower-thispower;
     }
 
     @Override

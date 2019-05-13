@@ -1,0 +1,34 @@
+.contentedit{
+    background-color: white;
+    border: 1px solid #ccc;
+}
+.contentedit>label{
+    margin: 50px 0px 0px 15px;
+}
+
+
+.plate_radio{
+    margin: 15px;
+    text-align: center;
+}
+.plate_radio>h4{
+    text-align: left;
+}
+.toolbar{
+    margin: 5px auto;
+    width: 590px;
+}
+#editor_area{
+    margin: 0px auto;
+    border: 1px solid #ccc;
+    min-height: 400px;
+    width: 680px;
+}
+.emoji_btn{
+    width: 20px;
+    height: 20px;
+    z-index: 98 !important;
+}
+.emoji_container,.w-e-menu,.w-e-droplist *{
+    z-index: 98 !important;
+}

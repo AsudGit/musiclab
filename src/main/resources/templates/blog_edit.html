@@ -5,13 +5,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title th:replace="total_package"></title>
     <link href="../static/plugins/jquery/css/jquery.mCustomScrollbar.min.css"
-            th:href="@{/plugins/jquery/css/jquery.mCustomScrollbar.min.css}" rel="stylesheet" />
+          th:href="@{/plugins/jquery/css/jquery.mCustomScrollbar.min.css}" rel="stylesheet" />
     <link href="../static/plugins/jqueryemoji/css/jquery.emoji.css"
-            th:href="@{/plugins/jqueryemoji/css/jquery.emoji.css}" rel="stylesheet"/>
+          th:href="@{/plugins/jqueryemoji/css/jquery.emoji.css}" rel="stylesheet"/>
     <link href="../static/plugins/dragcolor/css/demo.css"
-            th:href="@{/plugins/dragcolor/css/demo.css}" rel="stylesheet"/>
+          th:href="@{/plugins/dragcolor/css/demo.css}" rel="stylesheet"/>
     <link href="../static/custom/css/blog_index.css"
-            th:href="@{/custom/css/blog_index.css}"rel="stylesheet"/>
+          th:href="@{/custom/css/blog_index.css}"rel="stylesheet"/>
+    <link href="../static/custom/css/blog_edit.css"
+          th:href="@{/custom/css/blog_edit.css}"rel="stylesheet"/>
 
     <script src="../static/plugins/wangEditor/js/xxs.js"
             th:src="@{/plugins/wangEditor/js/xxs.js}"></script>
@@ -23,6 +25,8 @@
             th:src="@{/plugins/jqueryemoji/js/jquery.emoji.min.js}"></script>
     <script src="../static/custom/js/blog_index.js"
             th:src="@{/custom/js/blog_index.js}"></script>
+    <script src="../static/custom/js/blog_edit.js"
+            th:src="@{/custom/js/blog_edit.js}"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -30,9 +34,9 @@
         <div class="page_container">
             <!--导航栏-->
             <div th:replace="nav::myNav2"></div>
-<!--            页面内容-->
+            <!--            页面内容-->
             <div class="page_content">
-<!--                左菜单栏-->
+                <!--                左菜单栏-->
                 <div class="left_menu paint-area">
                     <div class="scroll_info">
                         <div class="user_header">
@@ -68,12 +72,35 @@
                         <div class="col-md-4"><i class="fa fa-share"></i><br/>分享</div>
                     </div>
                 </div>
-<!--                博客显示板块-->
+                <!--                博客显示板块-->
                 <div class="blog_content">
-<!--                    文本编辑区-->
-                    <div class="myeditor">
+                    <div class="contentedit">
+                        <label for="editor_title" class="control-label">标题</label>
+                        <input class="form-control" id="editor_title" type="text"
+                               placeholder="标题长度最多为20">
+                        <div class="plate_radio">
+                            <h4>板块</h4>
+                            <input name="plate" type="radio" value="1" checked>
+                            <label class="control-label" checked>古典</label>
+                            <input name="plate" type="radio" value="2">
+                            <label class="control-label">爵士</label>
+                            <input name="plate" type="radio" value="3">
+                            <label class="control-label">流行</label>
+                            <input name="plate" type="radio" value="4">
+                            <label class="control-label">民谣</label>
+                            <input name="plate" type="radio" value="5">
+                            <label class="control-label">电子</label>
+                            <input name="plate" type="radio" value="6">
+                            <label class="control-label">嘻哈</label>
+                            <input name="plate" type="radio" value="7">
+                            <label class="control-label">轻音乐</label>
+                            <input name="plate" type="radio" value="8">
+                            <label class="control-label">布鲁斯</label>
+                            <input name="plate" type="radio" value="9">
+                            <label class="control-label">摇滚</label>
+                        </div>
                         <div id="editor_area">
-                            <p>这里可以写下自己的心情</p>
+                            <p>这里可以写下自己的博客</p>
                             <p><b>--MusicLab</b></p>
                         </div>
                         <div id="toolbar" class="toolbar">
@@ -81,75 +108,10 @@
                                 <i class="fa fa-edit"></i>
                             </a>
                         </div>
-                    </div>
-<!--                    板块信息-->
-                    <div class="plate">
-                        <div class="plateinfo">
-                            <h1>{{platename}}</h1>
-                            <ul>
-                                <li><h3>0</h3>博客</li>
-                                <li><p>|</p></li>
-                                <li><h3>0</h3>评论</li>
-                                <li><p>|</p></li>
-                                <li><h3>0</h3>新鲜事</li>
-                            </ul>
-                        </div>
-                        <div class="blurfilter"></div>
-                    </div>
-                    <div id="paint_blog" class="paint-area">
-                        <div class="blog_option paint-area">
-                            <div class="input-group">
-                                <input id="plate_text" type="text" class="form-control" placeholder="搜索">
-                                <span class="input-group-addon">
-                                    <a id="plate_search" href="javascript:void(0)"><i class="fa fa-search"></i></a>
-                                </span>
-                            </div>
-                            <ul>
-                                <li class="mybtn_active">全部</li>
-                                <li>原创</li>
-                                <li>视频</li>
-                                <li>图片</li>
-                                <li>音乐</li>
-                            </ul>
-                        </div>
-                        <div id="blog_item" style="display: none">
-                            <div class="blog_item paint-area">
-                                <img th:src="@{/image/ballad.jpg}" class="circle">
-                                <a class="titlelink" href="/blog"><h3 class="paint-area paint-area--text"></h3></a>
-                                <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
-                                <p class="paint-area paint-area--text">...</p>
-                                <div class="blog_item_info">
-                                    <a class="blog_time" href="javascript:void(0)"><i class="fa fa-clock-o"></i>2019年05月1日</a>
-                                    <a class="blog_star" href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
-                                    <a class="blog_likes" href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>0</a>
-                                    <!--<a class="blog_external" href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>-->
-                                    <a class="blog_views" href="javascript:void(0)"><i class="fa fa-eye"></i>0</a>
-                                    <a class="blog_comments" href="javascript:void(0)"><i class="fa fa-commenting"></i>0</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pagenav">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#">
-                                        <span><i class="fa fa-angle-double-left"></i></span>
-                                    </a>
-                                </li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
-                                    <a href="#">
-                                        <span><i class="fa fa-angle-double-right"></i></span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
-<!--                右菜单栏-->
+                <!--                右菜单栏-->
                 <div class="right_nav paint-area">
                     <div class="col-md-4 paint-area mybtn_active"><i class="fa fa-fire"></i></div>
                     <div class="col-md-4 paint-area"><i class="fa fa-feed"></i></div>
@@ -175,7 +137,7 @@
                             <button type="button" class="btn btn-default paint-area"><i class="fa fa-desktop">  最近登陆</i><span class="badge">3天前</span></button>
                         </div>
                     </div>
-<!--                    TODO:这里放一个小的随机播放器-->
+                    <!--                    TODO:这里放一个小的随机播放器-->
                     <div class="blogtags col-md-12">
                         <h4>板块下的标签</h4>
                         <span class="label label-default">乱七八糟</span>

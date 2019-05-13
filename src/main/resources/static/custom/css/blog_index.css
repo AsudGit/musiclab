@@ -134,6 +134,20 @@
     border: 1px solid #ccc;
     display: none;
 }
+#editor_title{
+    width: 680px;
+    margin: 10px 15px;
+}
+#editor_submit{
+    opacity: 0.5;
+    font-size: 20px;
+    position: absolute;
+    right: 40px;
+}
+#editor_submit:hover{
+    opacity: 1;
+    color: black;
+}
 .toolbar{
     margin: 5px auto;
     width: 590px;
@@ -218,7 +232,7 @@
     float: left;
     margin-right: 30px;
 }
-.blog_item>h3{
+.blog_item h3{
     float: left;
     margin: 0px;
 }

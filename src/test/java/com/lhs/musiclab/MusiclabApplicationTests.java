@@ -99,12 +99,7 @@ public class MusiclabApplicationTests {
     }
     @Test
     public void test10(){
-        List<Blog> list = blogService.list();
-        LinkedList<Blog> linkedList = new LinkedList<>();
-        linkedList.add(list.get(0));
-        linkedList.add(list.get(1));
-        linkedList.add(list.get(2));
-        linkedList.add(list.get(3));
+        LinkedList<Blog> linkedList = blogService.linkedlist();
         for (Blog blog : linkedList) {
             System.out.println(blog);
         }
@@ -112,7 +107,6 @@ public class MusiclabApplicationTests {
         for (Blog blog : linkedList) {
             System.out.println(blog);
         }
-
     }
     public static void linkedlistSort(LinkedList<Blog> linkedList, int head, int tail){
         int i=head,j=tail,t=i;

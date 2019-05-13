@@ -73,6 +73,7 @@ public class MLabUserController {
             HttpSession session = request.getSession();
             session.setAttribute("userName",muser.getName());
             session.setAttribute("headImg",muser.getHead_img());
+            session.setAttribute("userID",muser.getUid());
             msg.put("userName", mLabUser.getName());
             msg.put("headImg", mLabUser.getHead_img());
         }else {
@@ -93,6 +94,7 @@ public class MLabUserController {
             HttpSession session = request.getSession();
             session.setAttribute("userName",mLabUser.getName());
             session.setAttribute("headImg",mLabUser.getHead_img());
+            session.setAttribute("userID",mLabUser.getUid());
             msg.put("userName", mLabUser.getName());
             msg.put("headImg", mLabUser.getHead_img());
         }else {
