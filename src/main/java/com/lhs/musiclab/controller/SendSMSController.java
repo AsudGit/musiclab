@@ -26,7 +26,7 @@ public class SendSMSController {
 
     @GetMapping("/phone/{phone}")
     public Map sendPhoneSms(@PathVariable(value = "phone") String phone){
-        String code= SendCode.getVerifyCode();
+        /*String code= SendCode.getVerifyCode();
         try {
             SendSmsResponse sendSmsResponse=SendCode.sendSms(phone,code);
             if(sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
@@ -40,11 +40,11 @@ public class SendSMSController {
 
         }
         msg.put("msg","发送失败");
-        return msg;
-        /*String code="123456";
+        return msg;*/
+        String code="123456";
         msg.put("message","发送成功");
         stringRedisTemplate.opsForValue().set("sendCodeTo"+phone,code,60*10, TimeUnit.SECONDS);
-        return msg;*/
+        return msg;
     }
 
     @GetMapping("/code/{phone}/{code}")

@@ -4,19 +4,39 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lhs.musiclab.dao.BlogMapper">
+    <resultMap id="blogBean" type="Blog">
+        <id column="bid" property="bid"></id>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="blogged_time" property="blogged_time"></result>
+        <result column="views" property="views"></result>
+        <result column="likes" property="likes"></result>
+        <result column="comments" property="comments"></result>
+        <result column="status" property="status"></result>
+        <result column="buid" property="uid"></result>
+        <association property="mLabUser" javaType="MLabUser">
+            <id column="uid" property="uid"></id>
+            <result column="name" property="name"></result>
+            <result column="head_img" property="head_img"></result>
+        </association>
+    </resultMap>
+    
     <select id="list" resultType="Blog">
         SELECT * FROM blog
     </select>
 
-    <select id="linkedlist" resultType="Blog">
-        SELECT * FROM blog limit 0,100
+    <select id="linkedlist" resultMap="blogBean">
+        SELECT b.*,b.uid 'buid',m.name,m.head_img
+        FROM blog b JOIN mlabuser m ON b.uid=m.uid limit 0,100
     </select>
 
-    <select id="listByPlate" resultType="Blog">
-        SELECT * FROM blog where plate = #{plate}
+    <select id="listByPlate" resultMap="blogBean">
+        SELECT b.*,b.uid 'buid',m.name,m.head_img
+        FROM blog b JOIN mlabuser m ON b.uid=m.uid where plate = #{plate}
     </select>
-    <select id="get" resultType="Blog">
-        SELECT * FROM blog
+    <select id="get" resultMap="blogBean">
+        SELECT b.*,b.uid 'buid',m.name,m.head_img
+        FROM blog b JOIN mlabuser m ON b.uid=m.uid
         <where>
             <if test="bid!=null and bid!=''">
                 and bid=#{bid}

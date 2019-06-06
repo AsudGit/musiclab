@@ -4,93 +4,85 @@
     <title>hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title th:replace="total_package"></title>
-    <style>
-        div.product{
-            float:left;
-            border:1px solid lightGray;
-            width:200px;
-            margin:10px;
-            cursor: pointer;
-        }
-        div.product:hover{
-            border:1px solid #c40000;
+    <script src="../static/plugins/vue/js/vue.js" th:src="@{/plugins/vue/js/vue.js}"></script>
+    <script src="http://how2j.cn/study/vue-router.min.js"></script>
+        <style>
 
-        }
-        div.price{
-            color:#c40000;
-            font-weight:bold;
-            font-size:1.2em;
-            margin:10px;
-        }
-        div.productName{
-            color:gray;
-            font-size:0.8em;
-            margin:10px;
-        }
-        div.sale{
-            float:left;
-            width:100px;
-            border:1px solid lightgray;
-            border-width:1px 0px 0px 0px;
-            color:gray;
-            font-size:0.8em;
-            padding-left:10px;
-        }
-        div.review{
-            overflow:hidden;
-            border:1px solid lightgray;
-            border-width:1px 0px 0px 1px;
-            color:gray;
-            font-size:0.8em;
-            padding-left:10px;
-        }
-    </style>
+            a{
+                text-decoration: none;
+            }
+            a.router-link-active{
+                /*   color:blue; */
+                background-color: lightGray;
+            }
+            div.menu{
+                border:1px solid gray;
+                float:left;
+            }
+            div.menu a{
+                display:block;
+            }
+
+            div.workingRoom{
+                margin-left:100px;
+            }
+
+            div#app{
+                width:500px;
+                padding:10px;
+                margin:10px auto;
+            }
+        </style>
 <body>
-    <div id="tempalate" style="display:none">
-        <div class="product" v-on:click="increaseSales">
-            <div class="price">
-                ¥ {{product.price}}
-            </div>
-            <div class="productName">
-                {{product.name}}
-            </div>
-            <div class="sale"> 月成交 {{product.sale}} 笔</div>
-            <div class="review"> 评价 {{product.review}} </div>
+    <div id="app">
+        <div class="menu">
+            <!--
+                router-link 相当于就是超链
+                to 相当于就是 href
+            -->
+            <router-link to="/user">用户管理</router-link>
+            <router-link to="/product">产品管理</router-link>
+            <router-link to="/order">订单管理</router-link>
         </div>
-    </div>
 
-    <div id="div1">
-        <product  v-bind:product="img"></product>
-    </div>
+        <div class="workingRoom">
+            <!--
+                点击上面的/user,那么/user 对应的内容就会显示在router-view 这里
+             -->
+            <router-view></router-view>
+        </div>
 
+    </div>
     <script>
-        var tempalateDiv=document.getElementById("tempalate").innerHTML;
-        var templateObject = {
-            props: ['product'],
-            template: tempalateDiv,
-            methods: {
-                increaseSales: function () {
-                    this.product.sale = parseInt(this.product.sale);
-                    this.product.sale += 1
-                    this.$emit('increment')
-                }
-            }
-
-        }
-
-        Vue.component('product', templateObject)
-
+        /*
+        * 申明三个模板( html 片段 )
+        */
+        var user = { template: '<p>用户管理页面的内容</p>' };
+        var second = { template: '<p>产品管理页面的内容</p>' };
+        var order = { template: '<p>订单管理页面的内容</p>' };
+        /*
+        * 定义路由
+        */
+        var routes = [
+            { path: '/', redirect: '/user'}, // 这个表示会默认渲染 /user，没有这个就是空白
+            { path: '/user', component: user },
+            { path: '/product', component: second },
+            { path: '/order', component: order }
+        ];
+        /*
+        * 创建VueRouter实例
+        */
+        var router = new VueRouter({
+            routes:routes
+        });
+        /*
+        * 给vue对象绑定路由
+        */
         new Vue({
-            el: '#div1',
-            data:{
-                products:[
-                    {"name":"MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮","price":"889","sale":"18","review":"5"},
-                    {"name":"宾度 男士手包真皮大容量手拿包牛皮个性潮男包手抓包软皮信封包","price":"322","sale":"35","review":"12"},
-                    {"name":"唯美诺新款男士手包男包真皮大容量小羊皮手拿包信封包软皮夹包潮","price":"523","sale":"29","review":"3"},
-                ],
-                img: {"name":"MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮","price":"889","sale":"18","review":"5"}
-            }
+            el:"#app",
+            router
         })
+
     </script>
 </body>
 

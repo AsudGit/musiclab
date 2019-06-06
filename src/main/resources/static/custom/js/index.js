@@ -71,8 +71,8 @@ $(function () {
     /*
      滚动按钮
      */
-    $(".scrollbtn,.messagebtn").click(function () {
-        if ($(this).text() == "next"|| $(this).text()=="message") {
+    $(".scrollbtn").click(function () {
+        if ($(this).text() == "next") {
             $("html,body").animate({scrollTop: "1300px"}, 500);
         } else if ($(this).text() == "top") {
             $("html,body").animate({scrollTop: "0px"}, 500);

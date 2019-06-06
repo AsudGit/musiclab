@@ -20,7 +20,6 @@ import java.util.*;
 public class MLabUserController {
     @Autowired
     private MLabUserService mLabUserService;
-    private Map<String, String> msg = new HashMap<>();
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/list")
@@ -36,6 +35,7 @@ public class MLabUserController {
     }
     @GetMapping("/isLogin")
     public Map isLogin(HttpServletRequest request){
+        Map<String, String> msg = new HashMap<>();
         String userName = (String) request.getSession().getAttribute("userName");
         String headImg = (String) request.getSession().getAttribute("headImg");
         if (userName!=null){
@@ -51,9 +51,11 @@ public class MLabUserController {
 
     @GetMapping("/logout")
     public Map logout(HttpServletRequest request){
+        Map<String, String> msg = new HashMap<>();
         HttpSession session = request.getSession();
         session.removeAttribute("userName");
         session.removeAttribute("headImg");
+        session.removeAttribute("userID");
         msg.put("msg", "true");
         return msg;
     }
@@ -61,6 +63,7 @@ public class MLabUserController {
     @PostMapping("/login")
     public Map login(@RequestParam("account") String account,
                      @RequestParam("pwd") String pwd,HttpServletRequest request){
+        Map<String, String> msg = new HashMap<>();
         logger.debug(account+"-"+pwd);
         MLabUser mLabUser = new MLabUser();
         mLabUser.setName(account);
@@ -70,12 +73,13 @@ public class MLabUserController {
         if(!list.isEmpty() && MD5Utils.md5(pwd).equals(list.get(0).getPwd())){
             MLabUser muser =list.get(0);
             msg.put("msg", "true");
+            msg.put("userName", muser.getName());
+            msg.put("headImg", muser.getHead_img());
+            msg.put("userID",muser.getUid());
             HttpSession session = request.getSession();
             session.setAttribute("userName",muser.getName());
             session.setAttribute("headImg",muser.getHead_img());
             session.setAttribute("userID",muser.getUid());
-            msg.put("userName", mLabUser.getName());
-            msg.put("headImg", mLabUser.getHead_img());
         }else {
             msg.put("msg", "false");
         }
@@ -84,6 +88,7 @@ public class MLabUserController {
 
     @PostMapping("/add")
     public Map register(MLabUser mLabUser, HttpServletRequest request){
+        Map<String, String> msg = new HashMap<>();
         mLabUser.setUid(UUID.randomUUID().toString().replaceAll("-",""));
         mLabUser.setPwd(MD5Utils.md5(mLabUser.getPwd()));
         mLabUser.setHead_img("default");
@@ -113,6 +118,7 @@ public class MLabUserController {
 
     @GetMapping("/name/{name}")
     public Map<String, String> nameIsExist(@PathVariable(value = "name")String name){
+        Map<String, String> msg = new HashMap<>();
         MLabUser mLabUser = new MLabUser();
         mLabUser.setName(name);
         if(mLabUserService.match(mLabUser)==null){
@@ -124,6 +130,7 @@ public class MLabUserController {
     }
     @GetMapping("/email/{email}")
     public Map<String, String> emailIsExist(@PathVariable(value = "email")String email){
+        Map<String, String> msg = new HashMap<>();
         MLabUser mLabUser = new MLabUser();
         mLabUser.setEmail(email);
         if(mLabUserService.match(mLabUser)==null){
@@ -135,6 +142,7 @@ public class MLabUserController {
     }
     @GetMapping("/phone/{phone}")
     public Map<String, String> findByPhone(@PathVariable(value = "phone")String phone){
+        Map<String, String> msg = new HashMap<>();
         MLabUser mLabUser = new MLabUser();
         mLabUser.setPhone(phone);
         if(mLabUserService.match(mLabUser)==null){

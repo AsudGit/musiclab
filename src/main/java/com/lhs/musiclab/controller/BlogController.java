@@ -2,8 +2,8 @@ package com.lhs.musiclab.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lhs.musiclab.enums.Plate;
 import com.lhs.musiclab.pojo.Blog;
-import com.lhs.musiclab.pojo.Plate;
 import com.lhs.musiclab.service.BlogService;
 import com.lhs.musiclab.utils.QuickSort;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,10 @@ public class BlogController {
     private Map<String,Object> map = new HashMap<>();
 
     @RequestMapping("/{plate}")
-    public String toBlog(@PathVariable(value = "plate")String plate, Model model){
-        model.addAttribute("plateName", "古典");
+    public String toBlog(@PathVariable(value = "plate")int plate, Model model){
+        Plate currentPlate=Plate.values()[plate-1];
+        model.addAttribute("plateName", currentPlate.getValue());
+        model.addAttribute("plateimg", "/image/" + currentPlate.toString().toLowerCase()+".jpg");
         return "blog_index";
     }
     @RequestMapping("/info/{bid}")
@@ -42,10 +44,12 @@ public class BlogController {
 
     @PostMapping("/get")
     @ResponseBody
-    public List<Blog> search(@RequestParam(value = "uid",defaultValue = "")String uid,
-                             @RequestParam(value = "bid",defaultValue = "")String bid,
-                             @RequestParam(value = "title",defaultValue = "")String title,
-                             @RequestParam(value = "plate",defaultValue = "0")Integer plate){
+    public PageInfo<Blog> search(@RequestParam(value = "uid",defaultValue = "")String uid,
+                                 @RequestParam(value = "bid",defaultValue = "")String bid,
+                                 @RequestParam(value = "title",defaultValue = "")String title,
+                                 @RequestParam(value = "plate",defaultValue = "0")Integer plate,
+                                 @RequestParam(value = "start", defaultValue = "0") int start,
+                                 @RequestParam(value = "size", defaultValue = "5") int size){
         Blog blog = new Blog();
         if (title!="") {
             blog.setTitle(title);
@@ -59,9 +63,11 @@ public class BlogController {
         if (uid != "") {
             blog.setUid(uid);
         }
+        PageHelper.startPage(start, size);
         List<Blog> blogList = blogService.get(blog);
+        PageInfo<Blog> blogPage = new PageInfo<>(blogList);
 
-        return blogList;
+        return blogPage;
     }
 
     @PostMapping("/add")
@@ -89,17 +95,25 @@ public class BlogController {
         return map;
     }
 
+    /***
+     * 返回博客页面初始化数据
+     * @param plate 板块号
+     * @param start 页面当前页号
+     * @param size 总页面大小
+     * @return map
+     */
     @GetMapping("/indexInit/{plate}")
     @ResponseBody
     public Map indexInit(@PathVariable(value = "plate") Integer plate,
                          @RequestParam(value = "start", defaultValue = "0") int start,
-                         @RequestParam(value = "size", defaultValue = "5") int size,
-                         HttpServletRequest request){
+                         @RequestParam(value = "size", defaultValue = "5") int size){
+
+        System.out.println(start+""+size);
         PageHelper.startPage(start, size);
-        String userName = (String) request.getSession().getAttribute("userName");
-        String headImg = (String) request.getSession().getAttribute("headImg");
         List<Blog> blogList = blogService.listByPlate(plate);
+        System.out.println("bloglength"+blogList.size());
         PageInfo<Blog> blogPage = new PageInfo<>(blogList);
+        System.out.println(blogPage.getPageSize());
 
         LinkedList<Blog> linkedlist = blogService.linkedlist();
         QuickSort.linkedlistSort(linkedlist,0,linkedlist.size()-1);
@@ -113,8 +127,6 @@ public class BlogController {
                 hotBlogList.add(blog);
             }
         }
-        map.put("userName", userName);
-        map.put("headImg", headImg);
         map.put("blogPage", blogPage);
         map.put("hotBlogList", hotBlogList);
         return map;

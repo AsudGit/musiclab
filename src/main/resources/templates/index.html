@@ -17,7 +17,52 @@
 <body>
 <div class="container-fluid row">
     <!--导航栏-->
-    <div th:replace="nav::myNav"></div>
+    <div id="myNav" class="row">
+        <!--顶部导航栏begin-->
+        <ul class="nav navbar-nav navbar-form">
+            <li class="navbar-header btn-sm"><h2>MusicLab</h2></li>
+            <li class="navbar-form active"><a href="index.html" th:href="@{/index}">home</a></li>
+            <li class="navbar-form"><a @click="scrollbtn" href="javascript:void(0)">message</a></li>
+            <li class="navbar-form"><a href="music_index.html" th:href="@{/musicIndex}">record</a></li>
+            <li class="navbar-form"><a href="#">about</a></li>
+        </ul>
+        <div v-if="userName==''||userName==null" id="nonlogin">
+            <ul class="nav navbar-right navbar-nav navbar-btn">
+                <li class="navbar-form">
+                    <a data-toggle="modal" data-target="#login_modal" class="circle" href="#">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn login_btn" data-toggle="modal" data-target="#login_modal" href="#">user/login
+                        <span class="fa fa-caret-down"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div v-else id="logined">
+            <ul class="nav navbar-right navbar-nav navbar-btn">
+                <li class="navbar-form">
+                    <a href="#" data-toggle="dropdown" class="dropdown_btn">
+                        <img v-if="headImg==''||headImg=='default'" th:src="@{/image/defaulthead.jpg}" class="circle">
+                        <img v-else :src="headImg" class="circle">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">我的资料</a></li>
+                        <li><a href="#">修改头像</a></li>
+                        <li><a href="#">我的帖子</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a @click.prevent="logout" href="#">登出</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="btn login_btn" href="#">{{userName}}</a>
+                </li>
+            </ul>
+        </div>
+        <!--顶部导航栏end-->
+        <div th:replace="nav::navform"></div>
+    </div>
     </div>
     <!--page1-->
     <div class="page1 row">
@@ -226,9 +271,6 @@
 <script src="../static/plugins/verify/js/verify.min.js"
         th:src="@{/plugins/verify/js/verify.min.js}"></script>
 <script src="../static/plugins/vue/js/vue.min.js" th:src="@{/plugins/vue/js/vue.min.js}"></script>
-<script type="text/javascript" >
-
-</script>
 </body>
 
 </html>

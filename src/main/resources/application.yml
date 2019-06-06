@@ -3,10 +3,10 @@ spring:
   profiles:
     active: dev #设置为dev环境（开发环境）
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/musiclab_db?characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/musiclab_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
     username: root
     password: rootadmin
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
     #   数据源其他配置
@@ -73,7 +73,13 @@ mybatis:
   config-location: classpath:mybatis/mybatis-conf.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: com.lhs.musiclab.pojo
-  #logging
+#pagehelper
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+#logging
 #logging:
 #  level:
 #    root: info

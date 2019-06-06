@@ -18,6 +18,8 @@ public class Blog implements Serializable,Comparable<Blog> {
     //博主id
     private String uid;
 
+    private MLabUser mLabUser;
+
     @Override
     public int compareTo(Blog o) {
         /*防止忘记:
@@ -49,6 +51,7 @@ public class Blog implements Serializable,Comparable<Blog> {
                 ", status=" + status +
                 ", plate=" + plate +
                 ", uid='" + uid + '\'' +
+                ", mLabUser=" + mLabUser +
                 '}';
     }
 
@@ -130,5 +133,13 @@ public class Blog implements Serializable,Comparable<Blog> {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public MLabUser getmLabUser() {
+        return mLabUser;
+    }
+
+    public void setmLabUser(MLabUser mLabUser) {
+        this.mLabUser = mLabUser;
     }
 }

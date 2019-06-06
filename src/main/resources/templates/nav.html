@@ -1,66 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<div id="myNav" th:fragment="myNav">
-    <div class="row">
-        <!--顶部导航栏begin-->
-        <ul class="nav navbar-nav navbar-form">
-            <li class="navbar-header btn-sm"><h2>MusicLab</h2></li>
-            <li class="navbar-form active"><a href="index.html" th:href="@{/index}">home</a></li>
-            <li class="navbar-form"><a class="messagebtn" href="javascript:void(0)">message</a></li>
-            <li class="navbar-form"><a href="music_index.html" th:href="@{/musicIndex}">record</a></li>
-            <li class="navbar-form"><a href="#">about</a></li>
-        </ul>
+<div th:fragment="navform">
 
-        <div id="nonlogin">
-            <ul class="nav navbar-right navbar-nav navbar-btn">
-                <li class="navbar-form">
-                    <a data-toggle="modal" data-target="#login_modal" class="circle" href="#">
-                        <i class="fa fa-user"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn login_btn" data-toggle="modal" data-target="#login_modal" href="#">user/login
-                        <span class="fa fa-caret-down"></span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div id="logined" >
-            <ul class="nav navbar-right navbar-nav navbar-btn">
-                <li class="navbar-form">
-                    <a href="#" data-toggle="dropdown" class="dropdown_btn">
-                        <img class="circle">
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">个人界面</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a @click.prevent="logout" href="#">登出</a></li>
-                    </ul>
-                </li>
-                <li><a class="btn login_btn" href="#"></a></li>
-            </ul>
-        </div>
-        <div id="loginedhead">
-            <ul class="nav navbar-right navbar-nav navbar-btn">
-                <li class="navbar-form">
-                    <a href="#" data-toggle="dropdown" class="dropdown_btn">
-                        <!--                TODO:头像-->
-                        <img class="circle">
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">我的资料</a></li>
-                        <li><a href="#">修改头像</a></li>
-                        <li><a href="#">我的帖子</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a @click.prevent="logout" href="#">登出</a></li>
-                    </ul>
-                </li>
-                <!--        TODO:用户名-->
-                <li><a class="btn login_btn" href="#"></a></li>
-            </ul>
-        </div>
-        <!--顶部导航栏end-->
-    </div>
     <!--登陆注册表单begin-->
     <div class="modal fade" id="regitser_modal" aria-hidden="true">
         <div class="modal-dialog modal-sm">
@@ -136,7 +77,7 @@
                             <input v-model="l_pwd" class="form-control"  id="l_pwd" name="pwd" type="password"
                                    placeholder="8-20个由英文或数字组成的字符">
                         </div>
-                        <input type="hidden" class="slidecode" name="slidecode" value="false">
+                        <input type="hidden" class="slidecode" name="slidecode">
                     </form>
                         <div id="slidecode"></div>
                 </div>
@@ -158,8 +99,8 @@
 <div id="myNav2" th:fragment="myNav2">
     <a class="home_log" href="index.html" th:href="@{/index}"><i class="fa fa-home"></i>  MusicLab</a>
     <div class="input-group">
-        <input type="text" id="all_text" class="form-control" placeholder="输入关键词搜索...">
-        <span class="input-group-addon"><a href="javascript:void(0)" id="all_search"><i class="fa fa-search"></i></a></span>
+        <input v-model="allKey" type="text" id="all_text" class="form-control" placeholder="输入关键词搜索...">
+        <span @click="allSearch" class="input-group-addon"><a href="javascript:void(0)" id="all_search"><i class="fa fa-search"></i></a></span>
     </div>
     <ul>
         <li><a href="javascript:void(0)"><i class="fa fa-headphones"></i></a></li>
@@ -167,8 +108,8 @@
         <li>|</li>
         <li><a href="javascript:void(0)"><i class="fa fa-user-o"></i></a></li>
         <li><a href="javascript:void(0)"><i class="fa fa-cog"></i></a></li>
-        <li><a href="javascript:void(0)"><i class="fa fa-paint-brush"></i></a></li>
-        <li><a class="editbtn" href="javascript:void(0)" th:href="@{/blogEdit}"><i class="fa fa-edit"></i></a></li>
+        <li><a @click="togglePalette" href="javascript:void(0)"><i class="fa fa-paint-brush"></i></a></li>
+        <li><a class="editbtn" @click="toggleEdit" href="javascript:void(0)"><i class="fa fa-edit"></i></a></li>
     </ul>
 </div>
 </html>

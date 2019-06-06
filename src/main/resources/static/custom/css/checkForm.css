@@ -60,6 +60,9 @@ body {
     height: 50px;
     margin-top: 10px;
 }
-#nonlogin,#logined,#loginedhead {
-    display: none;
+#register_form h5{
+    color: red;
+}
+.modal-footer{
+    position: relative;
 }

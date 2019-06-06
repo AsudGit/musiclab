@@ -1,63 +1,4 @@
 $(function () {
-    /*富文本编辑器初始化*/
-    var E = window.wangEditor;
-    var editor = new E("#toolbar","#editor_area");
-    editor.customConfig.zIndex =0;
-    //初始化菜单栏
-    editor.customConfig.menus = [
-        'head',  // 标题
-        'bold',  // 粗体
-        'fontSize',  // 字号
-        'fontName',  // 字体
-        'italic',  // 斜体
-        'underline',  // 下划线
-        'strikeThrough',  // 删除线
-        'foreColor',  // 文字颜色
-        'backColor',  // 背景颜色
-        'link',  // 插入链接
-        'list',  // 列表
-        'justify',  // 对齐方式
-        'quote',  // 引用
-        'image',  // 插入图片
-        'table',  // 表格
-        'video',  // 插入视频
-        'code',  // 插入代码
-    ];
-    // 自定义字体
-    editor.customConfig.fontNames = [
-        '宋体',
-        '黑体',
-        '微软雅黑',
-        'Arial',
-        'Tahoma',
-        'Verdana'
-    ]
-    editor.create();
-    $(".contentedit #editor_submit").click(function () {
-        var html = editor.txt.html()
-        var filterHtml = filterXSS(html)  // 此处进行 xss 攻击过滤
-        if($("#editor_title").val()==''){
-            alert("标题不能为空");
-        }else if (editor.txt.text()==''){
-            alert("内容不能为空");
-        }else {
-            var str = "title=" +
-                $("#editor_title").val() +
-                "&content=" + html +
-                "&plate=" + $(":checked").val();
-            axios.post("/blog/add",str).then(function (value) {
-                if (value.data.msg == "true") {
-                    window.location.href = "/blog/" + value.data.plate;
-                }else {
-                    alert("发送失败");
-                }
-            }).catch(function (reason) {
-                console.log(reason);
-            })
-        }
-        // alert(filterHtml)
-    })
-
     // $(".editbtn").click(function () {
     //     if($(".plate").css("display")=="none"){
     //         $(".myeditor").css("display", "none");
@@ -93,205 +34,221 @@ $(function () {
     //     }
     // })
 
-    var plateName = {
-         "1":"古典",
-         "2":"爵士",
-         "3":"流行",
-         "4":"民谣",
-         "5":"电子",
-         "6":"嘻哈",
-         "7":"轻音乐",
-         "8":"布鲁斯",
-         "9":"摇滚"
-    }
-    var plateimg = {
-        "1":"classical.jpg",
-        "2":"jazz.jpg",
-        "3":"pop.jpg",
-        "4":"ballad.jpg",
-        "5":"electronic.jpg",
-        "6":"hiphop.jpg",
-        "7":"lightmusic.jpg",
-        "8":"blus.jpg",
-        "9":"rock.jpg"
-    }
     var plateNo;
-    function getLocalTime(nS) {
-        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+    var editor;
+    function getStrLength( str ){
+        return str.replace(/[\u0391-\uFFE5]/g,"aa").length; //"g" 表示全局匹配
     }
 
-    function getSimpleText(html){
+    Vue.filter("dateformat",function (value) {
+        return new Date(parseInt(value) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+    })
+    Vue.filter("getSimpleText",function (html) {
         var re1 = new RegExp("<.+?>","g");//匹配html标签的正则表达式，"g"是搜索匹配多个符合的内容
         var msg = html.replace(re1,'');//执行替换成空字符
         if (msg.length>200){
             msg = msg.substr(0, 200);
         }
         return msg;
-    }
+    })
+    var blogComponent={
+        props:["blog"],
+        template:"#blog_item",
+    };
+    var blogContentComponent={
+        data:function(){
+            return{
+                plateKey:""
+            }
+        },
+        props:["blogs"],
+        template:"#blog_content",
+        components: {
+            'blog-item':blogComponent,
+        },
+        methods:{
+            plateSearch:function () {
+                var params = "title=" + this.plateKey + "&plate=" + plateNo;
+                axios.post("/blog/get",params).then(function (value) {
+                    app.blogs = value.data.list;
+                    console.log(value)
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
+            }
+        }
+    };
+    var hotblogComponent={
+        props:["hotblog"],
+        template: "#hotblog"
+    };
+    var blogEditComponent={
+        data:function(){
+            return{
+                title:"",
+                plate:1,
+            }
+        },
+        template:"#blog_edit",
+        methods:{
+            checkTitle:function () {
+                var titleval = this.title.replace(/\s*/g,"");;
+                if (getStrLength(titleval) > 40) {
+                    var i;
+                    for (i=20;i<=41;i++){
+                        if(getStrLength(titleval.substr(0,i))>40){
+                            break;
+                        }
+                    }
+                    this.title=titleval.substr(0, i-1);
+                }else {
+                    this.title = titleval;
+                }
+            },
+            submitBlog:function () {
+                var html = editor.txt.html()
+                var filterHtml = filterXSS(html)  // 此处进行 xss 攻击过滤
+                if (this.title == '') {
+                    alert("标题不能为空");
+                } else if (editor.txt.text() == '') {
+                    alert("内容不能为空");
+                } else {
+                    var str = "title=" +
+                        this.title +
+                        "&content=" + filterHtml +
+                        "&plate=" + this.plate;
+                    axios.post("/blog/add", str).then(function (value) {
+                        if (value.data.msg == "true") {
+                            window.location.href = "/blog/" + value.data.plate;
+                        } else {
+                            alert("发送失败");
+                        }
+                    }).catch(function (reason) {
+                        console.log(reason);
+                    })
+                }
 
-    var blog_item = document.getElementById("blog_item").innerHTML;
-    var hotblog = document.getElementById("hotblog").innerHTML;
-    new Vue({
-        el:".page_content",
+            }
+        }
+    }
+    var app=new Vue({
+        el:".page_container",
         data:{
+            blog:{
+                mLabUser:{}
+            },
+            blogs:[],
+            hotblog:{
+                mLabUser:{}
+            },
+            hotblogs:[],
             plateName:"",
-            userName:"",
             moodsign:"HelloWorld",
-            headImg:"default",
-            platename:"",
-            title:"这是个标题",
-            content:"这是内容"
+            isIndex:true,
+            editCache:false,
+            allKey:"",
+        },
+        components:{
+            'blog-content':blogContentComponent,
+            'hotblog-item':hotblogComponent,
+            'blog-edit':blogEditComponent,
         },
         mounted:function (event) {
             var href = window.location.href;
             plateNo = href.substr(href.lastIndexOf("/") + 1);
-            this.platename=plateName[plateNo]
-            $(".container-fluid").css("background-image", "url(/image/" + plateimg[plateNo] + ")");
-            $(".plate").css("background-image", "url(/image/" + plateimg[plateNo] + ")");
             axios.get("/blog/indexInit/"+plateNo).then(function (value) {
-                var hlength=value.data.hotBlogList.length
-                var blogList = value.data.blogPage.list;
-                var blength=value.data.blogPage.list.length
-                if (blength==0){
-                } else if (blength<5) {
-                    for (let i = 0; i < blength; i++) {
-                        $("#blog_item").after(blog_item);
-                    }
-                    $("#paint_blog>.blog_item").each(function (i) {
-                        $(this).find("h3").text(blogList[i].title)
-                        $(this).find(".titlelink").attr("href","/blog/info/"+blogList[i].bid);
-                        $(this).children("p").text(getSimpleText(blogList[i].content) + "...");
-                        $(this).find(".blog_time").html("<i class='fa fa-clock-o'></i>"+getLocalTime(blogList[i].blogged_time));
-                        $(this).find(".blog_likes").html("<i class='fa fa-thumbs-o-up'></i>"+blogList[i].likes);
-                        $(this).find(".blog_views").html("<i class='fa fa-eye'>"+blogList[i].views);
-                        $(this).find(".blog_comments").html("<i class='fa fa-commenting'></i>"+blogList[i].comments);
-                    })
-                } else {
-                    for (let i = 0; i < 5; i++) {
-                        $("#blog_item").after(blog_item);
-                    }
-                    $("#paint_blog>.blog_item").each(function (i) {
-                        $(this).find("h3").text(blogList[i].title);
-                        $(this).find(".titlelink").attr("href","/blog/info/"+blogList[i].bid);
-                        $(this).children("p").text(getSimpleText(blogList[i].content) + "...");
-                        $(this).find(".blog_time").html("<i class='fa fa-clock-o'></i>"+getLocalTime(blogList[i].blogged_time));
-                        $(this).find(".blog_likes").html("<i class='fa fa-thumbs-o-up'></i>"+blogList[i].likes);
-                        $(this).find(".blog_views").html("<i class='fa fa-eye'>"+blogList[i].views);
-                        $(this).find(".blog_comments").html("<i class='fa fa-commenting'></i>"+blogList[i].comments);
-                    })
-                }
-                if (hlength==0){}
-                else{
-                    for (let i = 0; i < hlength; i++) {
-                        $("#hotblog").after(hotblog);
-                    }
-                    $(".blog_nav_item>.row").each(function (i) {
-                        $(this).find("p").text(value.data.hotBlogList[i].title)
-                        $(this).find("small").text(value.data.hotBlogList[i].views)
-                    })
-                }
+                app.plateName = value.data.plateName;
+                app.blogs = value.data.blogPage.list;
+                app.hotblogs = value.data.hotBlogList;
                 console.log(value);
             }).catch(function (reason) {
                 console.log(reason);
             })
-        }
-    })
-    $("#all_search").click(function () {
-        if($("#all_text").val()==""){
-            alert("请输入博客标题查询");
-        }else {
-            var params="title="+$("#all_text").val();
-            axios.post("/blog/get",params).then(function (value) {
-                $("#paint_blog>.blog_item").remove();
+        },
+        methods:{
+            toggleEdit:function () {
+                app.isIndex = !app.isIndex;
+                setTimeout(function () {
+                    if (app.editCache==false) {
+                        app.editCache = true;
+                        /*富文本编辑器初始化*/
+                        var E = window.wangEditor;
+                        editor = new E("#toolbar", "#editor_area");
+                        editor.customConfig.zIndex = 0;
+                        //初始化菜单栏
+                        editor.customConfig.menus = [
+                            'head',  // 标题
+                            'bold',  // 粗体
+                            'fontSize',  // 字号
+                            'fontName',  // 字体
+                            'italic',  // 斜体
+                            'underline',  // 下划线
+                            'strikeThrough',  // 删除线
+                            'foreColor',  // 文字颜色
+                            'backColor',  // 背景颜色
+                            'link',  // 插入链接
+                            'list',  // 列表
+                            'justify',  // 对齐方式
+                            'quote',  // 引用
+                            'image',  // 插入图片
+                            'table',  // 表格
+                            'video',  // 插入视频
+                            'code',  // 插入代码
+                        ];
+                        // 自定义字体
+                        editor.customConfig.fontNames = [
+                            '宋体',
+                            '黑体',
+                            '微软雅黑',
+                            'Arial',
+                            'Tahoma',
+                            'Verdana'
+                        ]
+                        editor.create();
 
-                if (value.data.length==0){
-                } else if (value.data.length<5) {
-                    for (let i = 0; i < value.data.length; i++) {
-                        $("#blog_item").after(blog_item);
+                        //初始化表情控件
+                        $("#editor_area>.w-e-text").emoji({
+                            showTab: false,
+                            animation: 'slide',
+                            button: "#emojibtn",
+                            icons: [
+                                {
+                                    name: "贴吧表情",
+                                    path: "/image/tieba/",
+                                    maxNum: 50,
+                                    file: ".jpg",
+                                    placeholder: "#tieba_{alias}#"
+                                }, {
+                                    name: "QQ表情",
+                                    path: "/image/qq/",
+                                    maxNum: 91,
+                                    file: ".gif",
+                                    placeholder: "#qq_{alias}#"
+                                }]
+                        });
                     }
-                    $("#paint_blog>.blog_item").each(function (i) {
-                        $(this).find("h3").text(value.data[i].title);
-                        $(this).find(".titlelink").attr("href","/blog/info/"+value.data[i].bid);
-                        $(this).children("p").text(getSimpleText(value.data[i].content) + "...");
-                        $(this).find(".blog_time").html("<i class='fa fa-clock-o'></i>"+getLocalTime(value.data[i].blogged_time));
-                        $(this).find(".blog_likes").html("<i class='fa fa-thumbs-o-up'></i>"+value.data[i].likes);
-                        $(this).find(".blog_views").html("<i class='fa fa-eye'>"+value.data[i].views);
-                        $(this).find(".blog_comments").html("<i class='fa fa-commenting'></i>"+value.data[i].comments);
-                    })
-                } else {
-                    for (let i = 0; i < 5; i++) {
-                        $("#blog_item").after(blog_item);
-                    }
-                    $("#paint_blog>.blog_item").each(function (i) {
-                        $(this).find("h3").text(value.data[i].title);
-                        $(this).find(".titlelink").attr("href","/blog/info/"+value.data[i].bid);
-                        $(this).children("p").text(getSimpleText(value.data[i].content) + "...");
-                        $(this).find(".blog_time").html("<i class='fa fa-clock-o'></i>"+getLocalTime(value.data[i].blogged_time));
-                        $(this).find(".blog_likes").html("<i class='fa fa-thumbs-o-up'></i>"+value.data[i].likes);
-                        $(this).find(".blog_views").html("<i class='fa fa-eye'>"+value.data[i].views);
-                        $(this).find(".blog_comments").html("<i class='fa fa-commenting'></i>"+value.data[i].comments);
-                    })
+                },5)
+            },
+            /*油画工具淡入淡出*/
+            togglePalette:function () {
+                var $paint=$(".customizer");
+                if (!$paint.hasClass("fadeInLeft")){
+                    $(".customizer").removeClass("animated fadeOutLeft")
+                        .addClass("animated fadeInLeft");
+                }else {
+                    $paint.removeClass("animated fadeInLeft")
+                        .addClass("animated fadeOutLeft");
                 }
-                console.log(value)
-            }).catch(function (reason) {
-                console.log(reason);
-            })
-        }
-    })
-
-    $("#plate_search").click(function () {
-        if($("#plate_text").val()==""){
-            alert("请输入博客标题查询");
-        }else {
-            var params="title="+$("#plate_text").val()+"&plate="+plateNo
-            axios.post("/blog/get",params).then(function (value) {
-                $("#paint_blog>.blog_item").remove();
-
-                if (value.data.length==0){
-                } else if (value.data.length<5) {
-                    for (let i = 0; i < value.data.length; i++) {
-                        $("#blog_item").after(blog_item);
-                    }
-                    $("#paint_blog>.blog_item").each(function (i) {
-                        $(this).find("h3").text(value.data[i].title);
-                        $(this).find(".titlelink").attr("href","/blog/info/"+value.data[i].bid);
-                        $(this).children("p").text(getSimpleText(value.data[i].content) + "...");
-                        $(this).find(".blog_time").html("<i class='fa fa-clock-o'></i>"+getLocalTime(value.data[i].blogged_time));
-                        $(this).find(".blog_likes").html("<i class='fa fa-thumbs-o-up'></i>"+value.data[i].likes);
-                        $(this).find(".blog_views").html("<i class='fa fa-eye'>"+value.data[i].views);
-                        $(this).find(".blog_comments").html("<i class='fa fa-commenting'></i>"+value.data[i].comments);
-                    })
-                } else {
-                    for (let i = 0; i < 5; i++) {
-                        $("#blog_item").after(blog_item);
-                    }
-                    $("#paint_blog>.blog_item").each(function (i) {
-                        $(this).find("h3").text(value.data[i].title);
-                        $(this).find(".titlelink").attr("href","/blog/info/"+value.data[i].bid);
-                        $(this).children("p").text(getSimpleText(value.data[i].content) + "...");
-                        $(this).find(".blog_time").html("<i class='fa fa-clock-o'></i>"+getLocalTime(value.data[i].blogged_time));
-                        $(this).find(".blog_likes").html("<i class='fa fa-thumbs-o-up'></i>"+value.data[i].likes);
-                        $(this).find(".blog_views").html("<i class='fa fa-eye'>"+value.data[i].views);
-                        $(this).find(".blog_comments").html("<i class='fa fa-commenting'></i>"+value.data[i].comments);
-                    })
-                }
-                console.log(value)
-            }).catch(function (reason) {
-                console.log(reason);
-            })
-        }
-    })
-
-    $("")
-    /*油画工具淡入淡出*/
-    $(".fa-paint-brush").click(function () {
-        var $paint=$(".customizer");
-        if (!$paint.hasClass("fadeInLeft")){
-            $(".customizer").removeClass("animated fadeOutLeft")
-                .addClass("animated fadeInLeft");
-        }else {
-            $paint.removeClass("animated fadeInLeft")
-                .addClass("animated fadeOutLeft");
+            },
+            allSearch:function () {
+                var params="title="+this.allKey;
+                axios.post("/blog/get",params).then(function (value) {
+                    app.blogs = value.data.list;
+                    console.log(value)
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
+            }
         }
     })
 })

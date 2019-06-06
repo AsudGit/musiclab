@@ -203,7 +203,7 @@ ul li a {
     top: 400%;
     width: 100%;
 }
-#myNav>.row{
+#myNav{
     background-color:#f4f0ed;
     border-bottom: whitesmoke 4px double;
 }

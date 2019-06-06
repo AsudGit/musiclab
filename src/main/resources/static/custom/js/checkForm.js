@@ -33,7 +33,6 @@ function getStrLength( str ){
     return str.replace(/[\u0391-\uFFE5]/g,"aa").length; //"g" 表示全局匹配
 }
 $(function () {
-
     /*注册表单验证begin*/
     var reg = {
         "name": /^[a-zA-Z\u4e00-\u9fa5]+[_a-zA-Z0-9\u4e00-\u9fa5]*$/,
@@ -63,11 +62,11 @@ $(function () {
     $("#birthday").keydown(function (e) {
         e.preventDefault();
     })
-    new Vue({
+    var v=new Vue({
         el:"#myNav",
         data:{
-            username:"",
-            headimg:"",
+            userName:"",
+            headImg:"",
             account:null,
             l_pwd:null,
             name:"",
@@ -76,15 +75,18 @@ $(function () {
             birthday:"",
             phone:"",
             phone_code:"",
-            checkpwd:""
+            checkpwd:"",
+            slidecode:"false"
         },
-        /*components:{
-            'usernav':{
-                props:['headimg','username'],
-                template:userNavTemplate
-            }
-        },*/
-
+        mounted:function(){
+            var self=this;
+            axios.get("/mlabuser/isLogin").then(function (value) {
+                self.userName = value.data.userName;
+                self.headImg = value.data.headImg;
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
         methods: {
                 register: function (event) {
                     var $event = $("#" + event.target.id);
@@ -108,7 +110,8 @@ $(function () {
                         ;
                     }
                     if (checkform == null) {
-                        axios.get("/sendsms/code/" + $("#phone").val() + "/" + $("#phone_code").val())
+                        var self = this;
+                        axios.get("/sendsms/code/" + this.phone + "/" + this.phone_code)
                             .then(function (value) {
                                 if (value.data.msg == "false") {
                                     checkform = "验证码错误";
@@ -118,16 +121,8 @@ $(function () {
                                         .then(function (value) {
                                             if(value.data.msg=="true") {
                                                 $("#regitser_modal").modal('hide');
-                                                $("#nonlogin").css("display", "none");
-                                                if (value.data.headImg == "default" || value.data.headImg == null) {
-                                                    $("#logined").css("display", "block");
-                                                    $(".circle").attr("src", "/image/defaulthead.jpg");
-                                                    $(".login_btn").val(value.data.userName);
-                                                } else {
-                                                    $("#loginedhead").css("display", "block");
-                                                    $(".circle").attr("src", data.headImg);
-                                                    $(".login_btn").val(value.data.userName);
-                                                }
+                                                self.userName = value.data.userName;
+                                                self.headImg = value.data.headImg;
                                             }else {
                                                 alert("注册失败")
                                             }
@@ -145,10 +140,10 @@ $(function () {
                 },
                 login: function () {
                     var checkform = null;
-                    if ($("#account").val() == "") {
+                    if (this.account == "") {
                         checkform = "请填写你的账号";
                     }
-                    if ($("#l_pwd").val() == "") {
+                    if (this.l_pwd == "") {
                         checkform = "请填写你的密码";
                     }
                     if ($(".slidecode").val() != "true") {
@@ -158,21 +153,15 @@ $(function () {
                         alert(checkform);
                         slidereinit();
                     } else {
+                        var self = this;
+                        $("#login_modal").modal('hide');
                         axios.post("/mlabuser/login",$("#login_form").serialize())
                             .then(function (value) {
                                 slidereinit();
+                                console.log(value)
                                 if (value.data.msg=="true") {
-                                    $("#login_modal").modal('hide');
-                                    $("#nonlogin").css("display", "none");
-                                    if (value.data.headImg == "default" || value.data.headImg == null) {
-                                        $("#logined").css("display", "block");
-                                        $(".circle").attr("src", "/image/defaulthead.jpg");
-                                        $(".login_btn").val(value.data.userName);
-                                    } else {
-                                        $("#loginedhead").css("display", "block");
-                                        $(".circle").attr("src", data.headImg);
-                                        $(".login_btn").val(value.data.userName);
-                                    }
+                                    self.userName = value.data.userName;
+                                    self.headImg = value.data.headImg;
                                 }else {
                                     alert("账号或密码错误");
                                 }
@@ -182,12 +171,13 @@ $(function () {
                     }
                 },
                 sendCode: function (event) {
+                    var self = this;
                     var $event = $("#" + event.target.id);
-                    if ($("#phone").val() == "") {
+                    if (this.phone=="") {
                         alert("请先填写手机号");
                     } else {
                         $event.text("已发送").prop("disabled", "disabled");
-                        axios.get("/sendsms/phone/" + $("#phone").val())
+                        axios.get("/sendsms/phone/" + this.phone)
                             .then(function (value) {
                                 $("#phone").after("<h5 style='color:dodgerblue;'>验证码有效时间为10分钟，请勿重复发送</h5>")
                             }).catch(function (reason) {
@@ -206,7 +196,7 @@ $(function () {
                             $event.after("<h5 style='color: red'>" + prompt[$event.prop("name")] + "</h5>");
                             flag = false;
                         }
-                        if (flag == true && $event.prop("name") != "pwd") {
+                        if (flag == true && $event.prop("name") != "pwd") {//账号冲突判断
                             axios.get("/mlabuser/" + $event.prop("name") + "/" + $event.val())
                                 .then(function (value) {
                                     if (value.data.msg == "true") {
@@ -221,41 +211,26 @@ $(function () {
                 },
                 checkPassword: function (event) {
                     var $event = $("#" + event.target.id);
-                    if ($("#checkpwd").val() != "") {
-                        if ($("#r_pwd").val() != $event.val()) {
+                    if (this.checkpwd != "") {
+                        if (this.pwd != this.checkpwd) {
                             $event.after("<h5 style='color: red'>密码不一致</h5>");
                             checkform = false;
                         }
                     }
                 },
                 logout:function (event) {
+                    var self = this;
                     axios.get("/mlabuser/logout").then(function () {
-                        $("#logined").css("display","none");
-                        $("#loginedhead").css("display","none");
-                        $("#nonlogin").css("display","block");
+                        self.userName = "";
+                        self.headImg = "";
                     }).catch(function (reason) {
                         console.log(reason);
                     })
-                }
-            },
-        mounted:function(){
-            axios.get("/mlabuser/isLogin").then(function (value) {
-                console.log(value)
-                if (value.data.msg=="true"){
-                    if (value.data.headImg=="default") {
-                        $("#logined").css("display","block");
-                        $(".circle").attr("src", "/image/defaulthead.jpg");
-                        $(".login_btn").val(value.data.userName);
-                    }else {
-                        $("#loginedhead").css("display","block");
-                        $(".circle").attr("src", data.headImg);
-                        $(".login_btn").val(value.data.userName);
-                    }
-                }else {
-                    $("#nonlogin").css("display","block");
-                }
-            })
-        },
+                },
+                scrollbtn:function () {
+                    $("html,body").animate({scrollTop: "1300px"}, 500);
+                },
+            }
         })
     /*注册表单验证end*/
     /*表单非空验证begin*/
