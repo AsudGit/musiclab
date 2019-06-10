@@ -9,8 +9,8 @@ public class Comment implements Serializable {
     //    发评论的时间
     private Timestamp commented_time;
     private Integer likes;
-    //    被评论的博客的bid
-    private String bid;
+    //    被评论的博客或者评论的id
+    private String id;
     //博主id
     private String uid;
 
@@ -21,7 +21,7 @@ public class Comment implements Serializable {
                 ", content='" + content + '\'' +
                 ", commented_time=" + commented_time +
                 ", likes=" + likes +
-                ", bid='" + bid + '\'' +
+                ", id='" + id + '\'' +
                 ", uid='" + uid + '\'' +
                 '}';
     }
@@ -58,12 +58,12 @@ public class Comment implements Serializable {
         this.likes = likes;
     }
 
-    public String getBid() {
-        return bid;
+    public String getId() {
+        return id;
     }
 
-    public void setBid(String bid) {
-        this.bid = bid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUid() {

@@ -228,7 +228,7 @@ $(function () {
                     })
                 },
                 scrollbtn:function () {
-                    $("html,body").animate({scrollTop: "1300px"}, 500);
+                    $("html,body").animate({scrollTop: $(".page2").css("top")}, 500);
                 },
             }
         })

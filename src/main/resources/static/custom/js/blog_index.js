@@ -33,7 +33,6 @@ $(function () {
     //         })
     //     }
     // })
-
     var plateNo;
     var editor;
     function getStrLength( str ){
@@ -41,7 +40,7 @@ $(function () {
     }
 
     Vue.filter("dateformat",function (value) {
-        return new Date(parseInt(value) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+        return new Date(value).toLocaleString().replace(/:\d{1,2}$/, ' ');
     })
     Vue.filter("getSimpleText",function (html) {
         var re1 = new RegExp("<.+?>","g");//匹配html标签的正则表达式，"g"是搜索匹配多个符合的内容
@@ -54,14 +53,77 @@ $(function () {
     var blogComponent={
         props:["blog"],
         template:"#blog_item",
+        methods:{
+            toInfo:function (blog) {
+                app.blogContent = 'info';
+                app.bloginfo = blog;
+                setTimeout(function () {
+                    var newheight = $(".blog_content>div").height() + 20;
+                    $(".container-fluid").css("height", newheight + $("#myNav2").height() + 50+"px");
+                    $(".footer_info").css("top", newheight +"px");
+                    $(".right_nav").css("height", newheight + "px");
+                }, 5);
+            }
+        }
+    };
+    var blogInfoComponent={
+        props:["bloginfo"],
+        template:"#blog_info",
+        methods:{
+            toIndex:function () {
+                app.blogContent = 'index';
+                var windowsheight = $(window).height();
+                $(".container-fluid").css("height", windowsheight * 3.2 + "px");
+                $(".footer_info").css("top", windowsheight * 3.11-50 + "px");
+                $(".right_nav").css("height", windowsheight * 3.11-50 + "px");
+            }
+        },
+        mounted:function () {
+            $(".tooltip-goal").each(function () {
+                $(this).tooltip({
+                    //指定显示时延迟和消失时延迟
+                    delay: {show: 100, hide: 300}
+                })
+            })
+
+            //初始化表情控件
+            $(".comment_edit>textarea").emoji({
+                showTab: false,
+                animation: 'slide',
+                button: ".comment_emoji",
+                icons: [
+                    {
+                        name: "贴吧表情",
+                        path: "/image/tieba/",
+                        maxNum: 50,
+                        file: ".jpg",
+                        placeholder: "#tieba_{alias}#"
+                    }, {
+                        name: "QQ表情",
+                        path: "/image/qq/",
+                        maxNum: 91,
+                        file: ".gif",
+                        placeholder: "#qq_{alias}#"
+                    }]
+            });
+            $(".comment_edit>textarea").focus(function () {
+                $(this).css("height", "100px");
+            });
+            $(".comment_edit>textarea").blur(function (event) {
+                console.log($(event.relatedTarget))
+                if(!$(event.relatedTarget).hasClass("emoji_btn")){
+                    $(this).css("height", "40px");
+                }
+            })
+        },
     };
     var blogContentComponent={
         data:function(){
             return{
-                plateKey:""
+                plateKey:"",
             }
         },
-        props:["blogs"],
+        props:["blogpage"],
         template:"#blog_content",
         components: {
             'blog-item':blogComponent,
@@ -70,17 +132,97 @@ $(function () {
             plateSearch:function () {
                 var params = "title=" + this.plateKey + "&plate=" + plateNo;
                 axios.post("/blog/get",params).then(function (value) {
-                    app.blogs = value.data.list;
+                    app.blogContent = 'index';
+                    app.blogpage = value.data;
+                    app.plateNo = plateNo;
+                    console.log(value)
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
+            },
+            forwardTo:function (pageNum) {
+                if (app.plateNo == 0){
+                    var params = "title=" + app.allKey + "&start=" + (pageNum);
+                }else {
+                    var params = "title=" + this.plateKey + "&plate=" + app.plateNo + "&start=" + (pageNum);
+                }
+                axios.post("/blog/get",params).then(function (value) {
+                    app.blogpage = value.data;
                     console.log(value)
                 }).catch(function (reason) {
                     console.log(reason);
                 })
             }
+        },
+        computed:{
+            prePages:function(){
+                var num = this.blogpage.pageNum;
+                if (num==1 ||num ==null||this.blogpage.list.length==0)return '';
+                else if (this.blogpage.pages>1 && this.blogpage.pages<5) {
+                    var prePages = new Array();
+                    for (let i = 0; i < num-1; i++) {
+                        prePages[i] = i+1;
+                    }
+                }
+                else if (num ==(this.blogpage.pages-1)||num==this.blogpage.pages) {
+                    var prePages = new Array();
+                    for (let i = this.blogpage.pages-4,j=0; i < this.blogpage.pageNum; i++,j++) {
+                        prePages[j] = i;
+                    }
+                }else {
+                    var prePages = new Array();
+                    for (let i = this.blogpage.pageNum-2,j=0; i < this.blogpage.pageNum; i++,j++) {
+                        prePages[j] = i;
+                    }
+                }
+                return prePages;
+            },
+            afterPages:function () {
+                var num = this.blogpage.pageNum;
+                var pages = this.blogpage.pages;
+                if (num==pages || num==null)return '';
+                else if (pages>1&&pages<5) {
+                    var afterPages = new Array();
+                    for (let i = num+1,j=0; i <= pages; i++,j++) {
+                        afterPages[j] = i;
+                    }
+                }
+                else if (num ==2||num==1) {
+                    var afterPages = new Array();
+                    for (let i = num+1,j=0; i < 6; i++,j++) {
+                        afterPages[j] = i;
+                    }
+                }else {
+                    var afterPages = new Array();
+                    for (let i = num+1,j=0; i < num+3; i++,j++) {
+                        afterPages[j] = i;
+                    }
+                }
+                return afterPages;
+            },
+            banBackward:function () {
+                return this.blogpage.pageNum==1||this.blogpage.list.length==0;
+            },
+            banForward:function () {
+                return this.blogpage.pageNum == this.blogpage.pages;
+            }
         }
     };
     var hotblogComponent={
         props:["hotblog"],
-        template: "#hotblog"
+        template: "#hotblog",
+        methods:{
+            toInfo:function (blog) {
+                app.blogContent = 'info';
+                app.bloginfo = blog;
+                setTimeout(function () {
+                    var newheight = $(".blog_content>div").height() + 20;
+                    $(".container-fluid").css("height", newheight + $("#myNav2").height() + 50+"px");
+                    $(".footer_info").css("top", newheight +"px");
+                    $(".right_nav").css("height", newheight + "px");
+                }, 5);
+            }
+        },
     };
     var blogEditComponent={
         data:function(){
@@ -129,36 +271,39 @@ $(function () {
                 }
 
             }
-        }
+        },
     }
+
     var app=new Vue({
         el:".page_container",
         data:{
-            blog:{
-                mLabUser:{}
+            bloginfo:{
             },
-            blogs:[],
-            hotblog:{
-                mLabUser:{}
+            blogpage:{
+                list:[],
             },
             hotblogs:[],
             plateName:"",
             moodsign:"HelloWorld",
-            isIndex:true,
+            blogContent:"index",
             editCache:false,
+            plates:false,
             allKey:"",
+            plateNo:0,//用于区分博客页当前的结果集属于哪个板块
         },
         components:{
             'blog-content':blogContentComponent,
             'hotblog-item':hotblogComponent,
             'blog-edit':blogEditComponent,
+            'blog-info':blogInfoComponent,
         },
         mounted:function (event) {
             var href = window.location.href;
-            plateNo = href.substr(href.lastIndexOf("/") + 1);
+            plateNo = href.substr(href.lastIndexOf("/")+1);
+            this.plateNo = plateNo;
             axios.get("/blog/indexInit/"+plateNo).then(function (value) {
                 app.plateName = value.data.plateName;
-                app.blogs = value.data.blogPage.list;
+                app.blogpage = value.data.blogPage;
                 app.hotblogs = value.data.hotBlogList;
                 console.log(value);
             }).catch(function (reason) {
@@ -167,7 +312,11 @@ $(function () {
         },
         methods:{
             toggleEdit:function () {
-                app.isIndex = !app.isIndex;
+                if (app.blogContent != 'edit') {
+                    app.blogContent = 'edit';
+                }else{
+                    app.blogContent = 'index';
+                }
                 setTimeout(function () {
                     if (app.editCache==false) {
                         app.editCache = true;
@@ -243,8 +392,10 @@ $(function () {
             allSearch:function () {
                 var params="title="+this.allKey;
                 axios.post("/blog/get",params).then(function (value) {
-                    app.blogs = value.data.list;
-                    console.log(value)
+                    app.blogContent='index'
+                    app.blogpage = value.data;
+                    app.plateNo = 0;
+                    console.log(app.blogpage)
                 }).catch(function (reason) {
                     console.log(reason);
                 })

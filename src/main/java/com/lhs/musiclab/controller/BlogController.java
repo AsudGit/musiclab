@@ -27,6 +27,7 @@ public class BlogController {
     @RequestMapping("/{plate}")
     public String toBlog(@PathVariable(value = "plate")int plate, Model model){
         Plate currentPlate=Plate.values()[plate-1];
+        model.addAttribute("plates",Plate.values());
         model.addAttribute("plateName", currentPlate.getValue());
         model.addAttribute("plateimg", "/image/" + currentPlate.toString().toLowerCase()+".jpg");
         return "blog_index";
@@ -48,9 +49,10 @@ public class BlogController {
                                  @RequestParam(value = "bid",defaultValue = "")String bid,
                                  @RequestParam(value = "title",defaultValue = "")String title,
                                  @RequestParam(value = "plate",defaultValue = "0")Integer plate,
-                                 @RequestParam(value = "start", defaultValue = "0") int start,
-                                 @RequestParam(value = "size", defaultValue = "5") int size){
+                                 @RequestParam(value = "start", defaultValue = "1") Integer start,
+                                 @RequestParam(value = "size", defaultValue = "5") Integer size){
         Blog blog = new Blog();
+        System.out.println(start);
         if (title!="") {
             blog.setTitle(title);
         }
@@ -63,8 +65,10 @@ public class BlogController {
         if (uid != "") {
             blog.setUid(uid);
         }
+        System.out.println(start);
         PageHelper.startPage(start, size);
         List<Blog> blogList = blogService.get(blog);
+        System.out.println(blogList.size());
         PageInfo<Blog> blogPage = new PageInfo<>(blogList);
 
         return blogPage;
@@ -86,6 +90,7 @@ public class BlogController {
         blog.setPlate(plate);
         blog.setUid(userID);
         blog.setBlogged_time(new Timestamp(System.currentTimeMillis()));
+        System.out.println(new Timestamp(System.currentTimeMillis()));
         if(blogService.add(blog)==1){
             map.put("msg", "true");
             map.put("plate", plate);
@@ -108,12 +113,9 @@ public class BlogController {
                          @RequestParam(value = "start", defaultValue = "0") int start,
                          @RequestParam(value = "size", defaultValue = "5") int size){
 
-        System.out.println(start+""+size);
         PageHelper.startPage(start, size);
         List<Blog> blogList = blogService.listByPlate(plate);
-        System.out.println("bloglength"+blogList.size());
         PageInfo<Blog> blogPage = new PageInfo<>(blogList);
-        System.out.println(blogPage.getPageSize());
 
         LinkedList<Blog> linkedlist = blogService.linkedlist();
         QuickSort.linkedlistSort(linkedlist,0,linkedlist.size()-1);

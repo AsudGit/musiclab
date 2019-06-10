@@ -44,24 +44,23 @@ $(function () {
      */
     $(window).scroll(function(e){
         var wScrollTop = $(window).scrollTop();
-        // console.log(wScrollTop);
-        if(wScrollTop > 125){
+        if(wScrollTop > $(".page1").position().top+20){
             $(".mid_bar .fade").addClass("animated fadeInUp");
             $(".iconBox").addClass("animated fadeInUp");
         }
-        if (wScrollTop > 800){
+        if (wScrollTop > $(".cover").position().top){
             $(".page2>.fade").addClass("animated fadeInUp");
         }
-        if (wScrollTop > 1150){
+        if (wScrollTop > $(".page2").position().top-100){
             $(".messagediv>.fade").eq(0).addClass("animated fadeInUp");
         }
-        if (wScrollTop > 1350){
+        if (wScrollTop > $(".page2").position().top+100){
             $(".messagediv>.fade").eq(1).addClass("animated fadeInUp");
         }
-        if (wScrollTop > 1600){
+        if (wScrollTop > $(".page2").position().top+340){
             $(".messagediv>.fade").eq(2).addClass("animated fadeInUp");
         }
-        if(wScrollTop > 1380){
+        if(wScrollTop > $(".page2").position().top+80){
             $(".scrollbtn").html("top<i class='fa fa-angle-double-up'></i>")
         }else {
             $(".scrollbtn").html("next<i class='fa fa-angle-double-down'></i>")
@@ -73,7 +72,7 @@ $(function () {
      */
     $(".scrollbtn").click(function () {
         if ($(this).text() == "next") {
-            $("html,body").animate({scrollTop: "1300px"}, 500);
+            $("html,body").animate({scrollTop: $(".page2").css("top")}, 500);
         } else if ($(this).text() == "top") {
             $("html,body").animate({scrollTop: "0px"}, 500);
         }
