@@ -3,6 +3,7 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 
 public class Song implements Serializable {
+    private static final long serialVersionUID = 6834119667753172841L;
     //    从接口获取的id
     private String sid;
     //    歌名

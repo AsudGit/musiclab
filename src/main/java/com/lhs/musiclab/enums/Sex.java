@@ -1,4 +1,4 @@
-package com.lhs.musiclab.pojo;
+package com.lhs.musiclab.enums;
 
 import java.util.HashMap;
 import java.util.Map;

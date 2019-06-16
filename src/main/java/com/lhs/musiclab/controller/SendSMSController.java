@@ -26,7 +26,7 @@ public class SendSMSController {
 
     @GetMapping("/phone/{phone}")
     public Map sendPhoneSms(@PathVariable(value = "phone") String phone){
-        /*String code= SendCode.getVerifyCode();
+        /*String code= SendCode.getVerifyCode(SendCode.CODE_NUMBER,SendCode.CODE_LENGTH);
         try {
             SendSmsResponse sendSmsResponse=SendCode.sendSms(phone,code);
             if(sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {

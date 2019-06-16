@@ -4,11 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lhs.musiclab.dao.BlogMapper">
-    <resultMap id="blogBean" type="Blog">
+    <resultMap id="blogItem" type="BlogItem">
         <id column="bid" property="bid"></id>
         <result column="title" property="title"></result>
         <result column="content" property="content"></result>
         <result column="blogged_time" property="blogged_time"></result>
+        <result column="revised_time" property="revised_time"></result>
         <result column="views" property="views"></result>
         <result column="likes" property="likes"></result>
         <result column="comments" property="comments"></result>
@@ -25,16 +26,17 @@
         SELECT * FROM blog
     </select>
 
-    <select id="linkedlist" resultMap="blogBean">
+    <select id="linkedlist" resultMap="blogItem">
         SELECT b.*,b.uid 'buid',m.name,m.head_img
         FROM blog b JOIN mlabuser m ON b.uid=m.uid limit 0,100
     </select>
 
-    <select id="listByPlate" resultMap="blogBean">
+    <select id="listByPlate" resultMap="blogItem">
         SELECT b.*,b.uid 'buid',m.name,m.head_img
-        FROM blog b JOIN mlabuser m ON b.uid=m.uid where plate = #{plate}
+        FROM blog b JOIN mlabuser m ON b.uid=m.uid
+        where plate = #{plate} ORDER BY  b.blogged_time DESC
     </select>
-    <select id="get" resultMap="blogBean">
+    <select id="get" resultMap="blogItem">
         SELECT b.*,b.uid 'buid',m.name,m.head_img
         FROM blog b JOIN mlabuser m ON b.uid=m.uid
         <where>
@@ -51,10 +53,11 @@
                 and uid =#{uid}
             </if>
         </where>
+        ORDER BY b.blogged_time DESC
     </select>
 
     <insert id="add" parameterType="Blog">
-        insert into blog(bid, title, content, blogged_time, plate, uid)
-        values (#{bid},#{title},#{content},#{blogged_time},#{plate},#{uid})
+        insert into blog(bid, title, content, blogged_time,revised_time,plate, uid)
+        values (#{bid},#{title},#{content},#{blogged_time},#{revised_time},#{plate},#{uid})
     </insert>
 </mapper>

@@ -104,6 +104,9 @@
 .left_menu_nav i{
     margin-right: 12px;
 }
+.left_menu_nav .badge{
+    float: right;
+}
 .left_menu_nav .fa-angle-right,.left_menu_nav .fa-angle-down{
     font-size: 18px;
     float: right;
@@ -238,6 +241,7 @@
     display: block;
 }
 .blog_content .paint-area{
+    word-wrap: break-word;
     overflow: visible !important;
 }
 .bloggerinfo{
@@ -345,12 +349,14 @@
 /*右侧导航栏*/
 .right_nav{
     background-color: white;
-    height: calc(100% - 50px);
     margin-left: 930px;
     position: absolute;
     width: 240px;
 }
-.right_nav>.col-md-4{
+.right_nav>div{
+    position: absolute;
+}
+.right_nav>div>.col-md-4{
     color: #737373;
     font-size: 20px;
     padding: 15px;
@@ -403,6 +409,7 @@
 }
 .blogtags{
     margin-top: 40px;
+    margin-bottom: 20px;
 }
 .blogtags>.label-default{
     line-height: 30px;
@@ -436,16 +443,37 @@
     background-color: white;
     border: 1px solid #ccc;
 }
-.contentedit>label{
+.contentedit h3{
     margin: 50px 0px 0px 15px;
 }
-
+.contentedit small{
+    color: red;
+}
 .plate_radio{
     margin: 15px;
     text-align: center;
 }
 .plate_radio>h4{
     text-align: left;
+}
+
+.edit_tags{
+    margin: 15px;
+}
+.edit_tags>.info_tags>a{
+    margin: 5px;
+    font-size: 14px;
+}
+#editor_tags{
+    width: calc( 100% - 50px);
+    float: left;
+    margin: 10px 0px;
+}
+.tagadd_Btn{
+    margin: 10px;
+    font-size: 25px;
+    display: block;
+    float: left;
 }
 #editor_area {
     margin: 0px auto;
@@ -460,6 +488,10 @@
     width: calc(100% + 17px) !important;
     overflow-x: hidden;
     padding: 0px 30px;
+}
+#editor_area .w-e-panel-container{
+    top: auto;
+    margin-top: -50px;
 }
 .emoji_btn{
     left: 30px;
@@ -534,8 +566,12 @@
     background-color: white;
     border: 1px solid #e1e3e0;
 }
-#info_content .info_tags{
-    margin: 20px;
+#info_content img{
+    max-width: 100%;
+}
+.info_tags{
+    margin: 10px 0px;
+    padding: 5px;
     border-top: 1px solid #8e908d;
 }
 .info_tags>span{
@@ -582,14 +618,7 @@
     width: calc(100% - 50px);
     height: 40px;
     resize: none;
-    transition: height 0.5s;
-    -moz-transition: height 0.5s;	/* Firefox 4 */
-    -webkit-transition: height 0.5s;	/* Safari 和 Chrome */
-    -o-transition: height 0.5s;
 }
-/*.comment_edit>textarea:focus{
-    height: 100px;
-}*/
 #info_comment>.comment_item,.comment_item>.col-md-11>.col-md-12{
     padding: 10px 0px;
     border-top: 1px solid #e1e3e0;

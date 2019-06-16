@@ -3,6 +3,7 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 
 public class LikeComments implements Serializable {
+    private static final long serialVersionUID = -6701081380341818720L;
     private String lid;
     //用户id
     private String uid;

@@ -3,6 +3,7 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 
 public class StarFolder implements Serializable {
+    private static final long serialVersionUID = 2134260059681981539L;
     private String sfid;
     //用户id
     private String uid;

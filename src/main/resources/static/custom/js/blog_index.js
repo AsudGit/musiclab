@@ -38,12 +38,36 @@ $(function () {
     function getStrLength( str ){
         return str.replace(/[\u0391-\uFFE5]/g,"aa").length; //"g" 表示全局匹配
     }
+    //重设容器高度
+    function resetHeight(){
+        var rightnavheight = $(".right_nav>div").height();
+        var contentHeight = $(".blog_content>div").height();
+        var cotainerHeight = (contentHeight > rightnavheight ? contentHeight : rightnavheight) + 50;
+        $(".container-fluid").css("height", cotainerHeight + $("#myNav2").height() + "px");
+        $(".page_content").css("height", cotainerHeight + "px");
+        $(".right_nav").css("height", cotainerHeight+ "px");
+    }
+
+    function getLegalStr(str,maxLength){
+        var val = str.replace(/\s*/g,"");;
+        if (getStrLength(val) > maxLength) {
+            var i;
+            for (i=maxLength/2;i<=maxLength+1;i++){
+                if(getStrLength(val.substr(0,i))>maxLength){
+                    break;
+                }
+            }
+            return val.substr(0, i-1);
+        }else {
+            return val;
+        }
+    }
 
     Vue.filter("dateformat",function (value) {
         return new Date(value).toLocaleString().replace(/:\d{1,2}$/, ' ');
     })
     Vue.filter("getSimpleText",function (html) {
-        var re1 = new RegExp("<.+?>","g");//匹配html标签的正则表达式，"g"是搜索匹配多个符合的内容
+        var re1 = new RegExp("<.+?>|&.+;","g");//匹配html标签的正则表达式，"g"是搜索匹配多个符合的内容
         var msg = html.replace(re1,'');//执行替换成空字符
         if (msg.length>200){
             msg = msg.substr(0, 200);
@@ -58,34 +82,14 @@ $(function () {
                 app.blogContent = 'info';
                 app.bloginfo = blog;
                 setTimeout(function () {
-                    var newheight = $(".blog_content>div").height() + 20;
-                    $(".container-fluid").css("height", newheight + $("#myNav2").height() + 50+"px");
-                    $(".footer_info").css("top", newheight +"px");
-                    $(".right_nav").css("height", newheight + "px");
-                }, 5);
+                    resetHeight();
+                }, 500);
             }
         }
     };
-    var blogInfoComponent={
-        props:["bloginfo"],
-        template:"#blog_info",
-        methods:{
-            toIndex:function () {
-                app.blogContent = 'index';
-                var windowsheight = $(window).height();
-                $(".container-fluid").css("height", windowsheight * 3.2 + "px");
-                $(".footer_info").css("top", windowsheight * 3.11-50 + "px");
-                $(".right_nav").css("height", windowsheight * 3.11-50 + "px");
-            }
-        },
-        mounted:function () {
-            $(".tooltip-goal").each(function () {
-                $(this).tooltip({
-                    //指定显示时延迟和消失时延迟
-                    delay: {show: 100, hide: 300}
-                })
-            })
-
+    var blogCommentComponent={
+        template:"#blog_comment",
+        mounted:function(){
             //初始化表情控件
             $(".comment_edit>textarea").emoji({
                 showTab: false,
@@ -106,14 +110,58 @@ $(function () {
                         placeholder: "#qq_{alias}#"
                     }]
             });
-            $(".comment_edit>textarea").focus(function () {
-                $(this).css("height", "100px");
-            });
-            $(".comment_edit>textarea").blur(function (event) {
-                console.log($(event.relatedTarget))
-                if(!$(event.relatedTarget).hasClass("emoji_btn")){
-                    $(this).css("height", "40px");
+        },
+        methods:{
+            editfocus:function (event) {
+                $(event.target).animate({"height":"100px"},500);
+            },
+            editblur:function (event) {
+                if($(event.explicitOriginalTarget).closest(".emoji_container").length==0&&!$(event.relatedTarget).hasClass("emoji_btn")){
+                    $(event.target).animate({"height":"40px"},500);
                 }
+            },
+            toggleComment:function (event) {
+                var $temp = $(".comment_edit");
+                var $target = $(event.target);
+                $(".comment_edit").remove();
+                if($target.text()=='回复') {
+                    $(".comment_item .btn-info:contains('取消回复')").text('回复');
+                    $target.text('取消回复');
+                    $(event.target).closest(".col-md-11").after($temp);
+                }else {
+                    $target.text('回复');
+                    $("#info_comment>h3").prepend($temp);
+                }
+                $(".comment_edit>textarea").val('');
+                $(".emoji_container").css("top", $(".comment_emoji").offset().top + "px");
+            },
+        }
+    }
+    var blogInfoComponent={
+        data:function(){
+            return {
+                Replying: false,
+            };
+        },
+        props:["bloginfo"],
+        template:"#blog_info",
+        components:{
+          'blog-comment':  blogCommentComponent,
+        },
+        methods:{
+            toIndex:function () {
+                app.blogContent = 'index';
+                setTimeout(function () {
+                    resetHeight();
+                },5);
+            },
+        },
+        mounted:function () {
+            $(".tooltip-goal").each(function () {
+                $(this).tooltip({
+                    //指定显示时延迟和消失时延迟
+                    delay: {show: 100, hide: 300}
+                })
             })
         },
     };
@@ -141,6 +189,7 @@ $(function () {
                 })
             },
             forwardTo:function (pageNum) {
+                if (pageNum<1||pageNum>app.blogpage.pages) return;
                 if (app.plateNo == 0){
                     var params = "title=" + app.allKey + "&start=" + (pageNum);
                 }else {
@@ -152,6 +201,7 @@ $(function () {
                 }).catch(function (reason) {
                     console.log(reason);
                 })
+
             }
         },
         computed:{
@@ -215,12 +265,6 @@ $(function () {
             toInfo:function (blog) {
                 app.blogContent = 'info';
                 app.bloginfo = blog;
-                setTimeout(function () {
-                    var newheight = $(".blog_content>div").height() + 20;
-                    $(".container-fluid").css("height", newheight + $("#myNav2").height() + 50+"px");
-                    $(".footer_info").css("top", newheight +"px");
-                    $(".right_nav").css("height", newheight + "px");
-                }, 5);
             }
         },
     };
@@ -228,38 +272,52 @@ $(function () {
         data:function(){
             return{
                 title:"",
-                plate:1,
+                plate:0,
+                tagval:"",
+                check:[],
+                tags:[],
             }
         },
         template:"#blog_edit",
+        mounted:function(){
+            this.plate = plateNo;
+        },
         methods:{
             checkTitle:function () {
-                var titleval = this.title.replace(/\s*/g,"");;
-                if (getStrLength(titleval) > 40) {
-                    var i;
-                    for (i=20;i<=41;i++){
-                        if(getStrLength(titleval.substr(0,i))>40){
-                            break;
-                        }
-                    }
-                    this.title=titleval.substr(0, i-1);
-                }else {
-                    this.title = titleval;
+                this.title = getLegalStr(this.title, 40);
+            },
+            checkTag:function(){
+                this.tagval=getLegalStr(this.tagval, 14);
+            },
+            addTag:function(){
+                if (this.tagval==""||this.check[this.tagval]==1){
+                    return;
+                } else {
+                    this.check[this.tagval] = 1;
+                    Vue.set(this.tags, this.tags.length, this.tagval);
                 }
+            },
+            deleteTag:function(index){
+                this.check.splice(this.tags[index], 1);
+                this.tags.splice(index,1);
             },
             submitBlog:function () {
                 var html = editor.txt.html()
                 var filterHtml = filterXSS(html)  // 此处进行 xss 攻击过滤
+
                 if (this.title == '') {
                     alert("标题不能为空");
                 } else if (editor.txt.text() == '') {
                     alert("内容不能为空");
                 } else {
-                    var str = "title=" +
-                        this.title +
-                        "&content=" + filterHtml +
-                        "&plate=" + this.plate;
-                    axios.post("/blog/add", str).then(function (value) {
+                    axios.post("/blog/add",{
+                        blog:{
+                            title:this.title,
+                            content:filterHtml,
+                            plate:this.plate,
+                        },
+                        names: this.tags,
+                    }).then(function (value) {
                         if (value.data.msg == "true") {
                             window.location.href = "/blog/" + value.data.plate;
                         } else {
@@ -269,7 +327,6 @@ $(function () {
                         console.log(reason);
                     })
                 }
-
             }
         },
     }
@@ -297,6 +354,19 @@ $(function () {
             'blog-edit':blogEditComponent,
             'blog-info':blogInfoComponent,
         },
+        watch:{
+            blogpage:function () {
+                this.$nextTick(function(){
+                    /*现在数据已经渲染完毕*/
+                    resetHeight();
+                })
+            },
+            bloginfo:function () {
+                this.$nextTick(function () {
+                    resetHeight();
+                })
+            }
+        },
         mounted:function (event) {
             var href = window.location.href;
             plateNo = href.substr(href.lastIndexOf("/")+1);
@@ -323,6 +393,38 @@ $(function () {
                         /*富文本编辑器初始化*/
                         var E = window.wangEditor;
                         editor = new E("#toolbar", "#editor_area");
+                        //开启debug模式
+                        editor.customConfig.debug = true;
+                        // 关闭粘贴内容中的样式
+                        editor.customConfig.pasteFilterStyle = true;
+                        // 忽略粘贴内容中的图片
+                        editor.customConfig.pasteIgnoreImg = true;
+                        // 上传图片到服务器
+                        editor.customConfig.uploadFileName = "imgFile"; //设置文件上传的参数名称
+                        editor.customConfig.uploadImgServer = "/upload/image"; //设置上传文件的服务器路径
+                        editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+                        editor.customConfig.uploadImgMaxLength = 9;// 限制一次最多上传 9 张图片
+                        // editor.customConfig.withCredentials = true;//跨域上传中如果需要传递 cookie 需设置 withCredentials
+                        //自定义上传图片事件
+                        editor.customConfig.uploadImgHooks = {
+                            before : function(xhr, editor, files) {
+
+                            },
+                            success : function(xhr, editor, result) {
+                                console.log("上传成功");
+                            },
+                            fail : function(xhr, editor, result) {
+                                alert("上传失败");
+                                console.log("上传失败,原因是"+result.data[0]);
+                            },
+                            error : function(xhr, editor) {
+                                alert("上传出错");
+                                console.log("上传出错");
+                            },
+                            timeout : function(xhr, editor) {
+                                console.log("上传超时");
+                            }
+                        }
                         editor.customConfig.zIndex = 0;
                         //初始化菜单栏
                         editor.customConfig.menus = [
@@ -341,7 +443,7 @@ $(function () {
                             'quote',  // 引用
                             'image',  // 插入图片
                             'table',  // 表格
-                            'video',  // 插入视频
+                            // 'video',  // 插入视频
                             'code',  // 插入代码
                         ];
                         // 自定义字体
@@ -353,6 +455,7 @@ $(function () {
                             'Tahoma',
                             'Verdana'
                         ]
+
                         editor.create();
 
                         //初始化表情控件

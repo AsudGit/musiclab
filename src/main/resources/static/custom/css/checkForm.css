@@ -63,6 +63,9 @@ body {
 #register_form h5{
     color: red;
 }
+#register_form label>small{
+    color: red;
+}
 .modal-footer{
     position: relative;
 }

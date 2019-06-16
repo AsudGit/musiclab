@@ -1,11 +1,11 @@
 package com.lhs.musiclab;
 
-import com.lhs.musiclab.pojo.Blog;
+import com.lhs.musiclab.pojo.BlogItem;
 import com.lhs.musiclab.pojo.MLabUser;
 import com.lhs.musiclab.repository.MLabUserRepository;
 import com.lhs.musiclab.service.BlogService;
 import com.lhs.musiclab.service.MLabUserService;
-import com.lhs.musiclab.utils.QuickSort;
+import com.lhs.musiclab.utils.SendCode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -77,19 +77,19 @@ public class MusiclabApplicationTests {
         amqpAdmin.declareBinding(new Binding("musiclab.news", Binding.DestinationType.QUEUE, "amqpadminexchange", "musiclab.news",null));
     }
 
-    @Test
+    /*@Test
     public void test7(){
         List<MLabUser> list = mLabUserService.list();
         mLabUserRepository.index(list.get(0));
-    }
-    @Test
+    }*/
+    /*@Test
     public void test8(){
         logger.debug(String.valueOf(mLabUserRepository.findByEmailLike("@qq").isEmpty()));
-    }
-    @Test
+    }*/
+    /*@Test
     public void test9(){
         mLabUserRepository.deleteAll();
-    }
+    }*/
 
     @Test
     public void contextLoads() {
@@ -99,18 +99,38 @@ public class MusiclabApplicationTests {
     }
     @Test
     public void test10(){
-        LinkedList<Blog> linkedList = blogService.linkedlist();
-        for (Blog blog : linkedList) {
+        LinkedList<BlogItem> linkedList = blogService.linkedlist();
+        for (BlogItem blog : linkedList) {
             System.out.println(blog);
         }
         linkedlistSort(linkedList,0,linkedList.size()-1);
-        for (Blog blog : linkedList) {
+        for (BlogItem blog : linkedList) {
             System.out.println(blog);
         }
     }
-    public static void linkedlistSort(LinkedList<Blog> linkedList, int head, int tail){
+
+    /**
+     * 获取6位随机验证码
+     */
+    @Test
+    public void test11(){
+        System.out.println(SendCode.getVerifyCode(SendCode.CODE_NUMBER_CHAR,SendCode.CODE_LENGTH));
+    }
+    @Test
+    public void text12(){
+        String s= "http://localhost:8080";
+        System.out.println(s.toCharArray().length);
+    }
+
+    /**
+     * 快排
+     * @param linkedList
+     * @param head
+     * @param tail
+     */
+    public static void linkedlistSort(LinkedList<BlogItem> linkedList, int head, int tail){
         int i=head,j=tail,t=i;
-        Blog pivot = linkedList.get(i);
+        BlogItem pivot = linkedList.get(i);
         if(linkedList.size()>0){
             while (i < j) {
                 if (t == j) {

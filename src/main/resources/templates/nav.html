@@ -13,16 +13,16 @@
                 <div class="modal-body">
                     <form class="form-group-sm" id="register_form" action="registerUser" method="post">
                         <div class="form-group">
-                            <label class="control-label">用户名</label>
+                            <label class="control-label">用户名<small>*</small></label>
                             <input @blur="checkRepeat" v-model="name" class="form-control" id="name" name="name" type="text"
                                    placeholder="由4-14个英文数字下划线组成，第一位不为数字,汉字最多为7个">
                         </div>
                         <div class="form-group">
-                            <label class="control-label">邮箱</label>
+                            <label class="control-label">邮箱<small>*</small></label>
                             <input @blur="checkRepeat" v-model="email" class="form-control" id="email" name="email" type="text" placeholder="你的邮箱">
                         </div>
                         <div class="form-group">
-                            <label class="control-label">密码</label>
+                            <label class="control-label">密码<small>*</small></label>
                             <input @blur="checkRepeat" v-model="pwd" class="form-control" id="r_pwd" name="pwd" type="password"
                                    placeholder="8-20个由英文或数字组成的字符">
                         </div>
@@ -30,11 +30,11 @@
                             <input @blur="checkPassword" v-model="checkpwd" class="form-control" id="checkpwd" name="checkpwd" type="password" placeholder="再输一次密码">
                         </div>
                         <div class="form-group">
-                            <label class="control-label">生日</label>
+                            <label class="control-label">生日<small>*</small></label>
                             <input v-model="birthday" class="form-control" id="birthday" name="birthday" type="date" placeholder="生日">
                         </div>
                         <div class="form-group">
-                            <label class="control-label">手机号</label>
+                            <label class="control-label">手机号<small>*</small></label>
                             <input @blur="checkRepeat" v-model="phone" class="form-control" id="phone" name="phone" type="text"
                                    placeholder="11位数字">
                         </div>
@@ -99,7 +99,7 @@
 <div id="myNav2" th:fragment="myNav2">
     <a class="home_log" href="index.html" th:href="@{/index}"><i class="fa fa-home"></i>  MusicLab</a>
     <div class="input-group">
-        <input v-model="allKey" type="text" id="all_text" class="form-control" placeholder="输入关键词搜索...">
+        <input @keyup.enter="allSearch" v-model="allKey" type="text" id="all_text" class="form-control" placeholder="输入关键词搜索...">
         <span @click="allSearch" class="input-group-addon"><a href="javascript:void(0)" id="all_search"><i class="fa fa-search"></i></a></span>
     </div>
     <ul>

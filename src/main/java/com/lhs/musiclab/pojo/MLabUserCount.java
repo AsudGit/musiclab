@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class MLabUserCount implements Serializable {
+    private static final long serialVersionUID = -806953132624293638L;
     private String uid;
     private Integer fans;
     private Integer blogs;

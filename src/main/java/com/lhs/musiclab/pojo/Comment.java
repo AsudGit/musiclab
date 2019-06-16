@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class Comment implements Serializable {
+    private static final long serialVersionUID = 8540396035406625189L;
     private String cid;
     private String content;
     //    发评论的时间

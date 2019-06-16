@@ -3,6 +3,7 @@ package com.lhs.musiclab.controller;
 import com.lhs.musiclab.pojo.MLabUser;
 import com.lhs.musiclab.service.MLabUserService;
 import com.lhs.musiclab.utils.MD5Utils;
+import com.lhs.musiclab.utils.MyRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.*;
 public class MLabUserController {
     @Autowired
     private MLabUserService mLabUserService;
-    Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/list")
     public List<MLabUser> list(){
@@ -89,7 +90,7 @@ public class MLabUserController {
     @PostMapping("/add")
     public Map register(MLabUser mLabUser, HttpServletRequest request){
         Map<String, String> msg = new HashMap<>();
-        mLabUser.setUid(UUID.randomUUID().toString().replaceAll("-",""));
+        mLabUser.setUid(MyRandom.getUUID());
         mLabUser.setPwd(MD5Utils.md5(mLabUser.getPwd()));
         mLabUser.setHead_img("default");
         mLabUser.setBlogbcg_img("default");

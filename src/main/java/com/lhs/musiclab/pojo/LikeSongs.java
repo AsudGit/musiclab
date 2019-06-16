@@ -3,6 +3,7 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 
 public class LikeSongs implements Serializable {
+    private static final long serialVersionUID = -2706101593969329208L;
     private String lid;
     //用户id
     private String uid;

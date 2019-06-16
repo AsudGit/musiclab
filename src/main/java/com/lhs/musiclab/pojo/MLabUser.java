@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 @Document(indexName = "musiclab",type = "mlabuser")
 public class MLabUser implements Serializable {
+    private static final long serialVersionUID = -5536195802473298914L;
     @Id
     private String uid;
     private String name;

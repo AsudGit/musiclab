@@ -58,10 +58,21 @@
                         <div class="left_menu_nav">
                             <P>组成</P>
                             <ul>
-                                <li @click="plates=!plates"><a href="javascript:void(0)"><i class="fa fa-comments"></i>板块<i class="fa" :class="[plates?'fa-angle-down':'fa-angle-right']"></i></a></li>
+                                <li @click="plates=!plates">
+                                    <a href="javascript:void(0)">
+                                        <i class="fa fa-comments"></i>板块
+                                        <i class="fa" :class="[plates?'fa-angle-down':'fa-angle-right']"></i>
+                                    </a>
+                                </li>
                                 <div v-if="plates">
-                                    <li th:style="'background-color: rgba('+'125,125,125,0.3)'"><a href="javascript:void(0)" th:text="${plateName}"></a></li>
-                                    <li th:if="${p.value ne plateName}" th:each="p:${plates}"><a href="javascript:void(0)" th:href="@{'/blog/'+${p.index}}" th:text="${p.value}"></a></li>
+                                    <li th:style="'background-color: rgba('+'125,125,125,0.3)'">
+                                        <a href="javascript:void(0)" th:text="${plateName}"></a>
+                                        <span class="badge">0</span>
+                                    </li>
+                                    <li th:if="${p.value ne plateName}" th:each="p:${plates}">
+                                        <a href="javascript:void(0)" th:href="@{'/blog/'+${p.index}}" th:text="${p.value}"></a>
+                                        <span class="badge">0</span>
+                                    </li>
                                 </div>
                                 <li><a href="javascript:void(0)"><i class="fa fa-heart"></i>动态<i class="fa fa-angle-right"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="fa fa-users"></i>好友<i class="fa fa-angle-right"></i></a></li>
@@ -96,33 +107,35 @@
                 </div>
 <!--                右菜单栏-->
                 <div class="right_nav paint-area">
-                    <div class="col-md-4 paint-area mybtn_active"><i class="fa fa-fire"></i></div>
-                    <div class="col-md-4 paint-area"><i class="fa fa-feed"></i></div>
-                    <div class="col-md-4 paint-area"><i class="fa fa-random"></i></div>
-                    <div class="blog_nav_item col-md-12">
-                        <h4>热门博客</h4>
-                        <hotblog-item v-for="hotblog in hotblogs" :hotblog="hotblog" :key="hotblog.bid"></hotblog-item>
-                    </div>
-                    <div class="myblog_count col-md-12">
-                        <h4>我的博客</h4>
-                        <div class="btn-group-vertical">
-                            <button type="button" class="btn btn-default paint-area"><i class="fa fa-file">  博客数目</i><span class="badge">0</span></button>
-                            <button type="button" class="btn btn-default paint-area"><i class="fa fa-comment">  评论数目</i><span class="badge">0</span></button>
-                            <button type="button" class="btn btn-default paint-area"><i class="fa fa-registered">  注册天数</i><span class="badge">3年21天</span></button>
-                            <button type="button" class="btn btn-default paint-area"><i class="fa fa-desktop">  最近登陆</i><span class="badge">3天前</span></button>
+                    <div>
+                        <div class="col-md-4 paint-area mybtn_active"><i class="fa fa-fire"></i></div>
+                        <div class="col-md-4 paint-area"><i class="fa fa-feed"></i></div>
+                        <div class="col-md-4 paint-area"><i class="fa fa-random"></i></div>
+                        <div class="blog_nav_item col-md-12">
+                            <h4>热门博客</h4>
+                            <hotblog-item v-for="hotblog in hotblogs" :hotblog="hotblog" :key="hotblog.bid"></hotblog-item>
                         </div>
-                    </div>
-<!--                    TODO:这里放一个小的随机播放器-->
-                    <div class="blogtags col-md-12">
-                        <h4>板块下的标签</h4>
-                        <span class="label label-default">乱七八糟</span>
-                        <span class="label label-default">label label-default</span>
-                        <span class="label label-default">乱七八糟</span>
-                        <span class="label label-default">乱七七八八糟</span>
-                        <span class="label label-default">乱七八糟</span>
-                        <span class="label label-default">乱七七八八糟</span>
-                        <span class="label label-default">乱七八糟</span>
-                        <span class="label label-default">乱七八七八糟</span>
+                        <div class="myblog_count col-md-12">
+                            <h4>我的博客</h4>
+                            <div class="btn-group-vertical">
+                                <button type="button" class="btn btn-default paint-area"><i class="fa fa-file">  博客数目</i><span class="badge">0</span></button>
+                                <button type="button" class="btn btn-default paint-area"><i class="fa fa-comment">  评论数目</i><span class="badge">0</span></button>
+                                <button type="button" class="btn btn-default paint-area"><i class="fa fa-registered">  注册天数</i><span class="badge">3年21天</span></button>
+                                <button type="button" class="btn btn-default paint-area"><i class="fa fa-desktop">  最近登陆</i><span class="badge">3天前</span></button>
+                            </div>
+                        </div>
+    <!--                    TODO:这里放一个小的随机播放器-->
+                        <div class="blogtags col-md-12">
+                            <h4>板块下的标签</h4>
+                            <span class="label label-default">乱七八糟</span>
+                            <span class="label label-default">label label-default</span>
+                            <span class="label label-default">乱七八糟</span>
+                            <span class="label label-default">乱七七八八糟</span>
+                            <span class="label label-default">乱七八糟</span>
+                            <span class="label label-default">乱七七八八糟</span>
+                            <span class="label label-default">乱七八糟</span>
+                            <span class="label label-default">乱七八七八糟</span>
+                        </div>
                     </div>
                 </div>
                 <div class="footer_info paint-area">
@@ -176,7 +189,7 @@
         </div>
         <a class="titlelink" @click="toInfo(blog)"><h3 class="paint-area paint-area--text">{{blog.title}}</h3></a>
         <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
-        <p class="paint-area paint-area--text">{{blog.content | getSimpleText}}...</p>
+        <p class="paint-area paint-area--text">{{blog.content|getSimpleText}}…</p>
         <div class="blog_item_info">
             <a class="blog_time" href="javascript:void(0)"><i class="fa fa-clock-o"></i>{{blog.blogged_time | dateformat}}</a>
             <a class="blog_star" href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
@@ -224,7 +237,7 @@
         <div id="paint_blog" class="paint-area">
             <div class="blog_option paint-area">
                 <div class="input-group">
-                    <input v-model="plateKey" type="text" class="form-control" placeholder="搜索">
+                    <input @keyup.enter="plateSearch" v-model="plateKey" type="text" class="form-control" placeholder="搜索">
                     <span @click="plateSearch" class="input-group-addon">
                         <a id="plate_search" href="javascript:void(0)"><i class="fa fa-search"></i></a>
                     </span>
@@ -264,29 +277,24 @@
 </template>
 <template id="blog_edit">
     <div class="contentedit">
-        <label for="editor_title" class="control-label">标题</label>
+        <label for="editor_title" class="control-label"><h3>标题<small>*</small></h3></label>
         <input v-model="title" @blur="checkTitle" class="form-control" id="editor_title" type="text"
-               placeholder="标题长度最多为20">
+               placeholder="标题长度最多为20个中文,40个非中文字符">
         <div class="plate_radio">
-            <h4>板块</h4>
-            <input v-model="plate" type="radio" value="1" checked>
-            <label class="control-label" checked>古典</label>
-            <input v-model="plate" type="radio" value="2">
-            <label class="control-label">爵士</label>
-            <input v-model="plate" type="radio" value="3">
-            <label class="control-label">流行</label>
-            <input v-model="plate" type="radio" value="4">
-            <label class="control-label">民谣</label>
-            <input v-model="plate" type="radio" value="5">
-            <label class="control-label">电子</label>
-            <input v-model="plate" type="radio" value="6">
-            <label class="control-label">嘻哈</label>
-            <input v-model="plate" type="radio" value="7">
-            <label class="control-label">轻音乐</label>
-            <input v-model="plate" type="radio" value="8">
-            <label class="control-label">布鲁斯</label>
-            <input v-model="plate" type="radio" value="9">
-            <label class="control-label">摇滚</label>
+            <h4>板块<small>*</small></h4>
+            <label class="control-label" th:each="p,status:${plates}">
+                <input v-model="plate" type="radio" th:value="${status.count}" >
+                [[${p.value}]]
+            </label>
+        </div>
+        <div class="edit_tags">
+            <h4>标签</h4>
+            <div class="info_tags">
+                <a v-for="(tag,index) in tags" @click="deleteTag(index)"><span class="label label-default">{{tag}}<i class="fa fa-times"></i></span></a>
+            </div>
+            <input @blur="checkTag" v-model="tagval" class="form-control"  id="editor_tags" type="text" placeholder="标签长度最多为10个中文,20个非中文字符">
+            <a @click="addTag" class="tagadd_Btn"><i class="fa fa-plus-circle"></i></a>
+            <label><h4>内容<small>*</small></h4></label>
         </div>
         <div id="editor_area">
             <p>这里可以写下自己的博客</p>
@@ -352,219 +360,11 @@
                 <span class="label label-default">乱七八七八糟</span>
             </div>
             <div class="info_footer">
-                <a><i class="fa fa-clock-o"></i> 最后修改：2019/6/9 下午10:35</a>
+                <a><i class="fa fa-clock-o"></i> 最后修改：{{bloginfo.revised_time | dateformat}}</a>
                 <a class="tooltip-goal" title="若转载请联系作者获得授权，并注明地址，未经授权不得转载" data-toggle="tooltip" data-placement="top">© 著作权归作者所有</a>
             </div>
         </div>
-        <div id="info_comment">
-            <div class="comment_edit">
-                <img th:src="@{/image/ballad.jpg}" class="circle">
-                <textarea class="form-control"></textarea>
-                <input type="image" class="emoji_btn comment_emoji" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZBAMAAAA2x5hQAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAkUExURUxpcfTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAOfx6yUAAAALdFJOUwAzbVQOoYrzwdwkAoU+0gAAAM1JREFUGNN9kK0PQWEUxl8fM24iCYopwi0muuVuzGyKwATFZpJIU01RUG/RBMnHxfz+Oef9uNM84d1+23nO+zxHKVG2WWupRJkdcAwtpCK0lpbqWE01pB0QayonREMoIp7AawQrWSgGGb4pn6dSeSh68FAVXqHqy3wKrkJiDGDTg3dnp//w+WnwlwIOJauF+C7sXRVfdha4O4oIJfTbtdSxs2uqhs585A0ko8iLTMEcDE1n65A+29pYAlr72nz9dKu7GuNTcsL2fDQzB/wCPVJ69nZGb3gAAAAASUVORK5CYII=">
-                <a class="btn btn-success btn-sm">发送</a>
-            </div>
-            <h3>0条评论</h3>
-            <div class="comment_item row">
-                <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                <div class="col-md-11">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="comment_item row">
-                <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                <div class="col-md-11">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="comment_item row">
-                <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                <div class="col-md-11">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="comment_item row">
-                <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                <div class="col-md-11">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="comment_item row">
-                <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                <div class="col-md-11">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
-                        <div class="col-md-11">
-                            <b>user</b>
-                            <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
-                            <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
-                            <ul>
-                                <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
-                                <li><a class="btn btn-info btn-xs">回复</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <blog-comment></blog-comment>
         <div id="info_btns">
             <ul>
                 <li><a><i class="fa fa-thumbs-o-up"></i>{{bloginfo.likes}}</a></li>
@@ -572,6 +372,177 @@
                 <li><a><i class="fa fa-star-o"></i></a></li>
                 <li><a><i class="fa fa-space-shuttle fa-rotate-270"></i></a></li>
             </ul>
+        </div>
+    </div>
+</template>
+<template id="blog_comment">
+    <div id="info_comment">
+        <div class="comment_edit">
+            <img th:src="@{/image/ballad.jpg}" class="circle">
+            <textarea @focus="editfocus" @blur="editblur" class="form-control"></textarea>
+            <input type="image" class="emoji_btn comment_emoji" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZBAMAAAA2x5hQAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAkUExURUxpcfTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAOfx6yUAAAALdFJOUwAzbVQOoYrzwdwkAoU+0gAAAM1JREFUGNN9kK0PQWEUxl8fM24iCYopwi0muuVuzGyKwATFZpJIU01RUG/RBMnHxfz+Oef9uNM84d1+23nO+zxHKVG2WWupRJkdcAwtpCK0lpbqWE01pB0QayonREMoIp7AawQrWSgGGb4pn6dSeSh68FAVXqHqy3wKrkJiDGDTg3dnp//w+WnwlwIOJauF+C7sXRVfdha4O4oIJfTbtdSxs2uqhs585A0ko8iLTMEcDE1n65A+29pYAlr72nz9dKu7GuNTcsL2fDQzB/wCPVJ69nZGb3gAAAAASUVORK5CYII=">
+            <a class="btn btn-success btn-sm">发送</a>
+        </div>
+        <h3>0条评论</h3>
+        <div class="comment_item row">
+            <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-12">
+                        <b>user</b>
+                        <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                        <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                        <ul>
+                            <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                            <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>user</b>
+                                <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                                <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                                <ul>
+                                    <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                                    <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comment_item row">
+            <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-12">
+                        <b>user</b>
+                        <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                        <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                        <ul>
+                            <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                            <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>user</b>
+                                <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                                <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                                <ul>
+                                    <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                                    <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comment_item row">
+            <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-12">
+                        <b>user</b>
+                        <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                        <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                        <ul>
+                            <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                            <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>user</b>
+                                <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                                <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                                <ul>
+                                    <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                                    <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comment_item row">
+            <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-12">
+                        <b>user</b>
+                        <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                        <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                        <ul>
+                            <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                            <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>user</b>
+                                <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                                <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                                <ul>
+                                    <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                                    <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comment_item row">
+            <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-12">
+                        <b>user</b>
+                        <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                        <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                        <ul>
+                            <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                            <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1"><img class="circle" th:src="@{/image/ballad.jpg}"></div>
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>user</b>
+                                <p>你好，不知能否和以前的api一样支持一下跨域请求呢？我的个人博客音乐是用的大佬您的接口，现在不支持跨域博客音乐用不了了。</p>
+                                <small><i class="fa fa-clock-o"></i>2019/6/7 上午2:44</small>
+                                <ul>
+                                    <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i> 0</a></li>
+                                    <li><a @click="toggleComment" class="btn btn-info btn-xs">回复</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>

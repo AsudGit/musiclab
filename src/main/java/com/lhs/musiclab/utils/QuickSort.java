@@ -1,6 +1,6 @@
 package com.lhs.musiclab.utils;
 
-import com.lhs.musiclab.pojo.Blog;
+import com.lhs.musiclab.pojo.BlogItem;
 
 import java.util.LinkedList;
 
@@ -48,9 +48,9 @@ public class QuickSort {
         }
     }
 
-    public static void linkedlistSort(LinkedList<Blog> linkedList,int head,int tail){
+    public static void linkedlistSort(LinkedList<BlogItem> linkedList, int head, int tail){
         int i=head,j=tail,t=i;
-        Blog pivot = linkedList.get(i);
+        BlogItem pivot = linkedList.get(i);
         if(linkedList.size()>0){
                 while (i < j) {
                     if (t == j) {

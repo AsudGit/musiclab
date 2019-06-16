@@ -3,6 +3,7 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 
 public class MLabManager implements Serializable {
+    private static final long serialVersionUID = -7459646454080908339L;
     private String mid;
     private String name;
     private String pwd;

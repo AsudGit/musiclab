@@ -3,6 +3,7 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 
 public class StarBlog implements Serializable {
+    private static final long serialVersionUID = 8798573207247478032L;
     private String sbid;
     //用户id
     private String uid;

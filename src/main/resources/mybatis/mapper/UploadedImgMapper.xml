@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lhs.musiclab.dao.UploadedImgMapper">
+    <select id="list" resultType="UploadedImg">
+        SELECT * FROM uploadedimg
+        <where>
+            <if test="uid!=null and uid!=''">
+                and uid=#{uid}
+            </if>
+        </where>
+        ORDER BY uploaded_time DESC
+    </select>
+    <insert id="add" parameterType="UploadedImg">
+        INSERT INTO uploadedimg(id,uid,url,uploaded_time)
+         VALUES (#{id},#{uid},#{url},#{uploaded_time})
+    </insert>
+    <delete id="delete" parameterType="UploadedImg">
+        delete from uploadedimg
+        <where>
+            <if test="uid!=null and uid!=''">
+                and uid=#{uid}
+            </if>
+            <if test="id!=null and id!=''">
+                and id=#{id}
+            </if>
+        </where>
+    </delete>
+</mapper>

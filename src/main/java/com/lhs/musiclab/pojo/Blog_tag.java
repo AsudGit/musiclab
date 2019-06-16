@@ -2,17 +2,16 @@ package com.lhs.musiclab.pojo;
 
 import java.io.Serializable;
 
-public class Blog_tags implements Serializable {
+public class Blog_tag implements Serializable {
+    private static final long serialVersionUID = 1556233170832088577L;
     //多对多关系
     private String id;
-    //博客的id
     private String bid;
-    //标签的id
     private String tid;
 
     @Override
     public String toString() {
-        return "Blog_tags{" +
+        return "Blog_tag{" +
                 "id='" + id + '\'' +
                 ", bid='" + bid + '\'' +
                 ", tid='" + tid + '\'' +

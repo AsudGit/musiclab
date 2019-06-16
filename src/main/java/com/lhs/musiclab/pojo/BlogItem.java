@@ -3,9 +3,8 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Blog implements Serializable {
-    //修改pojo属性后要重新生成序列uid
-    private static final long serialVersionUID = -5421997574453575277L;
+public class BlogItem implements Serializable,Comparable<BlogItem>{
+    private static final long serialVersionUID = -5290009607232295629L;
     private String bid;
     private String title;
     private String content;
@@ -21,10 +20,11 @@ public class Blog implements Serializable {
     //博主id
     private String uid;
 
+    private MLabUser mLabUser;
 
     @Override
     public String toString() {
-        return "Blog{" +
+        return "BlogItem{" +
                 "bid='" + bid + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
@@ -36,7 +36,26 @@ public class Blog implements Serializable {
                 ", status=" + status +
                 ", plate=" + plate +
                 ", uid='" + uid + '\'' +
+                ", mLabUser=" + mLabUser +
                 '}';
+    }
+
+    @Override
+    public int compareTo(BlogItem o) {
+        /*防止忘记:
+         * 0     表示两个对象相等
+         * -1 后面的对象大于前面的对象   降序
+         * 1    前面小后面大升序
+          if(this==o){
+            return 0;
+        }else if(this>o){
+            return 1;
+        }else if(this<o){
+            return -1;
+        }*/
+        Integer thispower = this.views * 2 + this.likes * 4 + this.comments * 4;
+        Integer opower = o.views * 2 + o.likes * 4 + o.comments * 4;
+        return opower-thispower;
     }
 
     public String getBid() {
@@ -125,5 +144,13 @@ public class Blog implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public MLabUser getmLabUser() {
+        return mLabUser;
+    }
+
+    public void setmLabUser(MLabUser mLabUser) {
+        this.mLabUser = mLabUser;
     }
 }

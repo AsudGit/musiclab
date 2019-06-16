@@ -3,6 +3,7 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 
 public class LikeMoodSigns implements Serializable {
+    private static final long serialVersionUID = -1284549476655034887L;
     private String lid;
     //用户id
     private String uid;

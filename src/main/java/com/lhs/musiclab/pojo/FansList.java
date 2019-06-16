@@ -3,6 +3,7 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 
 public class FansList implements Serializable {
+    private static final long serialVersionUID = 4847746001403309820L;
     private String fid;
     //关注者的id
     private String follower;

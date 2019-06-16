@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class MoodSign implements Serializable {
+    private static final long serialVersionUID = 3372743332589964676L;
     private String msid;
     private String content;
     private Timestamp signed_time;
