@@ -1,5 +1,6 @@
 package com.lhs.musiclab.service;
 
+import com.github.pagehelper.PageInfo;
 import com.lhs.musiclab.pojo.Blog;
 import com.lhs.musiclab.pojo.BlogItem;
 
@@ -13,11 +14,17 @@ public interface BlogService {
 
     public LinkedList<BlogItem> linkedlist();
 
-    public List<BlogItem> listByPlate(Integer plate);
+    public Integer countBlogsByPlate(Integer plate);
+
+    public Integer countBlogsByUid(String uid);
+
+    public void newsIncr(Integer plate);
 
     public void delete(Blog blog);
 
     public Integer update(Blog blog);
 
     public List<BlogItem> get(Blog blog);
+
+    public PageInfo<BlogItem> get(Blog blog,Integer start,Integer size);
 }

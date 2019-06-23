@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@CacheConfig(cacheNames = "mlabUser")
+@CacheConfig(cacheNames = "mLabUser")
 public class MLabUserServiceImpl implements MLabUserService {
     @Autowired
     private MLabUserMapper mLabUserMapper;
@@ -24,7 +24,7 @@ public class MLabUserServiceImpl implements MLabUserService {
     }
 
     @Override
-    @Cacheable(value = "mlabUser",keyGenerator = "myKeyGenerator")
+    @Cacheable
     public List<MLabUser> list() {
         return mLabUserMapper.list();
     }
@@ -41,16 +41,19 @@ public class MLabUserServiceImpl implements MLabUserService {
     }
 
     @Override
+    @Cacheable
     public List<MLabUser> get(MLabUser mLabUser) {
         return mLabUserMapper.get(mLabUser);
     }
 
     @Override
+    @Cacheable
     public MLabUser match(MLabUser mLabUser) {
         return mLabUserMapper.match(mLabUser);
     }
 
     @Override
+    @Cacheable
     public List<MLabUser> matchOr(MLabUser mLabUser) {
         return mLabUserMapper.matchOr(mLabUser);
     }

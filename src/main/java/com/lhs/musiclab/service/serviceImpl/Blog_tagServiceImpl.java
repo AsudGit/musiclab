@@ -4,6 +4,7 @@ import com.lhs.musiclab.dao.Blog_tagMapper;
 import com.lhs.musiclab.pojo.Blog_tag;
 import com.lhs.musiclab.service.Blog_tagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

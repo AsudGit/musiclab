@@ -12,7 +12,9 @@ public interface BlogMapper {
 
     public LinkedList<BlogItem> linkedlist();
 
-    public List<BlogItem> listByPlate(Integer plate);
+    public Integer countBlogsByPlate(Integer plate);
+
+    public Integer countBlogsByUid(String uid);
 
     public void delete(Blog blog);
 

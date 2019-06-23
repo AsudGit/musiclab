@@ -5,16 +5,18 @@
 
 <mapper namespace="com.lhs.musiclab.dao.BlogMapper">
     <resultMap id="blogItem" type="BlogItem">
-        <id column="bid" property="bid"></id>
-        <result column="title" property="title"></result>
-        <result column="content" property="content"></result>
-        <result column="blogged_time" property="blogged_time"></result>
-        <result column="revised_time" property="revised_time"></result>
-        <result column="views" property="views"></result>
-        <result column="likes" property="likes"></result>
-        <result column="comments" property="comments"></result>
-        <result column="status" property="status"></result>
-        <result column="buid" property="uid"></result>
+        <association property="blog" javaType="Blog">
+            <id column="bid" property="bid"></id>
+            <result column="title" property="title"></result>
+            <result column="content" property="content"></result>
+            <result column="blogged_time" property="blogged_time"></result>
+            <result column="revised_time" property="revised_time"></result>
+            <result column="views" property="views"></result>
+            <result column="likes" property="likes"></result>
+            <result column="comments" property="comments"></result>
+            <result column="status" property="status"></result>
+            <result column="buid" property="uid"></result>
+        </association>
         <association property="mLabUser" javaType="MLabUser">
             <id column="uid" property="uid"></id>
             <result column="name" property="name"></result>
@@ -26,16 +28,19 @@
         SELECT * FROM blog
     </select>
 
+    <select id="countBlogsByUid" resultType="Integer">
+        select count(1) from blog where uid=#{uid}
+    </select>
+
+    <select id="countBlogsByPlate" resultType="Integer">
+        select count(1) from blog where plate=#{plate}
+    </select>
+
     <select id="linkedlist" resultMap="blogItem">
         SELECT b.*,b.uid 'buid',m.name,m.head_img
         FROM blog b JOIN mlabuser m ON b.uid=m.uid limit 0,100
     </select>
 
-    <select id="listByPlate" resultMap="blogItem">
-        SELECT b.*,b.uid 'buid',m.name,m.head_img
-        FROM blog b JOIN mlabuser m ON b.uid=m.uid
-        where plate = #{plate} ORDER BY  b.blogged_time DESC
-    </select>
     <select id="get" resultMap="blogItem">
         SELECT b.*,b.uid 'buid',m.name,m.head_img
         FROM blog b JOIN mlabuser m ON b.uid=m.uid
@@ -44,7 +49,7 @@
                 and bid=#{bid}
             </if>
             <if test="title!=null and title!=''">
-                and title like concat('%',#{title},'%')
+                and title like concat('',#{title},'%')
             </if>
             <if test="plate!=null and plate!=0">
                 and plate =#{plate}

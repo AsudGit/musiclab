@@ -1,12 +1,6 @@
 .container-fluid{
     overflow: hidden;
 }
-.container-fluid{
-    height: 320%;
-}
-.container-fluid>.row,.page_container{
-    height: 100%;
- }
 .page_container{
     background-color: rgba(238,238,238,0.8);
     width: 1170px;
@@ -16,19 +10,20 @@
     box-shadow:0px 0px 20px #696969;
 }
 .page_content{
-    position: absolute;
-    height: 311%;
-    top: 9%;
+    margin-top: 55px;
     width: 1170px;
 }
 
 /*导航栏css*/
 #myNav2{
-    height: 9%;
+    height: 55px;
     width: 1170px;
     z-index: 100;
     position: fixed;
     background-color:black;
+    right: 0px;
+    left: 0px;
+    margin: auto;
 }
 #myNav2 ul{
     margin-right: 20px;
@@ -126,10 +121,9 @@
 
 /*显示博客区域css*/
 .blog_content{
-    position: absolute !important;
     margin-left: 220px;
     width: 710px;
-    height: calc(100% - 50px);
+    float: left;
 }
 /*富文本编辑器css*/
 .myeditor{
@@ -145,7 +139,7 @@
     opacity: 0.5;
     font-size: 20px;
     position: absolute;
-    right: 40px;
+    margin-left: 600px;
 }
 #editor_submit:hover{
     opacity: 1;
@@ -155,20 +149,6 @@
     margin: 5px auto;
     width: 590px;
 }
-/*#editor_area{
-    margin: 50px auto 0px auto;
-    border: 1px solid #ccc;
-    height: 100px;
-    width: 680px;
-}
-.emoji_btn{
-    width: 20px;
-    height: 20px;
-    z-index: 98 !important;
-}
-.emoji_container,.w-e-menu,.w-e-droplist *{
-    z-index: 98 !important;
-}*/
 
 /*板块信息*/
 .plate{
@@ -178,7 +158,7 @@
 }
 .plateinfo{
     height: 300px;
-    width: 100%;
+    width: 710px;
     position: absolute;
     color:  white;
 }
@@ -200,7 +180,7 @@
 .plate>.blurfilter{
     height: 100%;
     width: 100%;
-    background-color: rgba(0,0,0,0.51);
+    background-color: rgba(0,0,0,0.5);
 }
 .blog_option{
     background-color: white;
@@ -297,7 +277,7 @@
 .bloggerinfo>.btn-danger{
     left: 180px;
 }
-.bloggerinfo .nav-arrow-down{
+.nav-arrow{
     position: absolute;
     height: 0;
     font-size: 0;
@@ -347,14 +327,19 @@
     cursor: not-allowed !important;
 }
 /*右侧导航栏*/
-.right_nav{
+.right_nav,.right_nav_bcg{
     background-color: white;
-    margin-left: 930px;
-    position: absolute;
+    float: right;
     width: 240px;
 }
-.right_nav>div{
-    position: absolute;
+.right_nav{
+    z-index: 1;
+}
+.right_nav_bcg{
+    height: calc(100% - 55px);
+    position: fixed;
+    margin-left: 930px;
+    background: white;
 }
 .right_nav>div>.col-md-4{
     color: #737373;
@@ -411,15 +396,15 @@
     margin-top: 40px;
     margin-bottom: 20px;
 }
-.blogtags>.label-default{
+.blogtags .label-default{
     line-height: 30px;
+    margin-right: 5px;
 }
 
 /*底部信息栏*/
 .footer_info{
     border-top: 1px solid #ccc;
     position: absolute;
-    bottom: 0px;
     height: 50px;
     margin-left: 220px;
     width: 950px;
@@ -494,7 +479,7 @@
     margin-top: -50px;
 }
 .emoji_btn{
-    left: 30px;
+    margin-left: -20px;
     width: 20px;
     height: 20px;
     z-index: 98 !important;
@@ -566,6 +551,18 @@
     background-color: white;
     border: 1px solid #e1e3e0;
 }
+#info_comment{
+    padding-bottom: 50px;
+}
+.moreComment{
+    margin: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* 移动元素本身50% */
+}
+.allComment{
+    padding-left: 20px !important;
+}
 #info_content img{
     max-width: 100%;
 }
@@ -574,7 +571,7 @@
     padding: 5px;
     border-top: 1px solid #8e908d;
 }
-.info_tags>span{
+.info_tags span{
     margin-right: 5px;
 }
 .info_footer{
@@ -590,7 +587,7 @@
     float: right;
     color: #737373;
 }
-#info_content:hover,#info_comment:hover{
+#info_content:hover,#info_comment:hover,.moodsign_content:hover,.blog_item:hover{
     -moz-box-shadow:2px 2px 3px #949494;
     -webkit-box-shadow:2px 2px 3px #949494;
     box-shadow:2px 2px 3px #949494;
@@ -598,6 +595,12 @@
 .comment_edit{
     margin-top: 20px;
     margin-bottom: 60px;
+}
+.comment_warm{
+    color: red;
+    float: right;
+    margin-right: 20px;
+    font-size: 14px;
 }
 .comment_item .comment_edit{
     margin-right: 20px;
@@ -608,7 +611,7 @@
     margin-right: 10px;
 }
 .comment_edit>.comment_emoji{
-    margin-left: 70px;
+    margin-left: 50px;
 }
 .comment_edit>.btn-success{
     float: right;
@@ -619,12 +622,15 @@
     height: 40px;
     resize: none;
 }
-#info_comment>.comment_item,.comment_item>.col-md-11>.col-md-12{
+.comment_item,.comment_item>.col-md-11>.col-md-12{
     padding: 10px 0px;
     border-top: 1px solid #e1e3e0;
 }
 .comment_item>.col-md-11>.row{
     margin-bottom: 10px;
+}
+.comment_item .col-md-12>b{
+    color: #43877d;
 }
 .comment_item>.col-md-11>.col-md-12{
     background-color: #f8f8f8;
@@ -658,4 +664,118 @@
 }
 #info_btns a>i{
     margin: auto;
+}
+
+/**
+*用户信息页css
+ */
+.user_info {
+    height: 300px;
+    width: 710px;
+    position: absolute;
+    text-align: center;
+}
+.user_info>img{
+    border: 5px solid rgba(255,255,255,.3);
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+}
+.user_info>h2,.user_info>p{
+    margin-top: 10px;
+    color: white;
+    text-shadow: 0 0 6px rgba(0,0,0,0.8);
+}
+.user_info>div{
+    width: 210px;
+    margin: 0px auto;
+}
+.user_info>div>a{
+    width: 70px;
+    float: left;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: white !important;
+    text-shadow: 0 0 6px rgba(0,0,0,0.8);
+    display: block;
+}
+.user_info div>a>p{
+    margin: 0px;
+}
+.moodsign{
+    margin-left: 5%;
+    width: 95%;
+    margin-bottom: 50px;
+    border-left: 1px solid #9a9a9a;
+}
+.moodsignItem{
+    padding-top: 20px;
+}
+.moodsign>div>img{
+    width: 44px;
+    height: 44px;
+    margin-left: -22px;
+    border:0px;
+}
+.arrow-left{
+    border-width: 7px 7px 7px 0px;
+    z-index: 1;
+    margin-left: 1px;
+    /*把透明的属性改一下尖角就会换向*/
+    border-color: transparent white;
+    margin-top: 22px;
+    transform: translateY(-50%);
+}
+.arrow-left-background{
+    border-width: 8px 8px 8px 0px;
+    /*把透明的属性改一下尖角就会换向*/
+    border-color: transparent #cccccc;
+    margin-top: 22px;
+    transform: translateY(-50%);
+}
+.moodsign_content{
+    color: #737373;
+    border: 1px solid #cccccc;
+    width: calc(100% - 29px);
+    background-color: white;
+    float: right;
+}
+.moodsign_content>div:nth-child(1)>p{
+    float: right;
+}
+.moodsign_content>div:nth-child(2){
+    border-top: 1px #ebebeb solid;
+    border-bottom: 1px #ebebeb solid;
+}
+.moodsign_content a{
+    color: #737373;
+}
+.moodsign_content .fa-heart-o{
+    color: red;
+}
+.moodsign_content>div{
+    padding: 15px;
+}
+.moodsign_more,.moodsign_edit{
+    height: 40px;
+}
+.moodsign_edit i {
+    color: #737373;
+    margin-top: 20px;
+    font-size: 22px;
+    /*transform: translateX(-50%);*/
+}
+.moodsign_edit>.form-control{
+    width: calc(100% - 22px)!important;
+    margin-top: 13px;
+    float: right;
+}
+.moodsign_more .circle {
+    position: absolute;
+    margin-top: 30px;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-color: #9a9a9a;
 }

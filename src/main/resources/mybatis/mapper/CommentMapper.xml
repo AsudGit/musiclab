@@ -4,7 +4,54 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lhs.musiclab.dao.CommentMapper">
-    <select id="list" resultType="Comment">
-        SELECT * FROM comment
+
+    <resultMap id="commentItem" type="CommentItem">
+        <association property="comment" javaType="Comment">
+            <id property="cid" column="cid"></id>
+            <result property="content" column="content"></result>
+            <result property="commented_time" column="commented_time"></result>
+            <result property="likes" column="likes"></result>
+            <result property="id" column="id"></result>
+            <result property="uid" column="cuid"></result>
+        </association>
+        <association property="mLabUser" javaType="MLabUser">
+            <id column="uid" property="uid"></id>
+            <result column="name" property="name"></result>
+            <result column="head_img" property="head_img"></result>
+        </association>
+    </resultMap>
+
+    <select id="countCommentsByUid" resultType="Integer">
+        select count(1) from comment where uid=#{uid}
     </select>
+
+    <select id="countCommentsForBlog" resultType="Integer">
+        select count(1) from comment c join blog b on c.id=b.bid where b.plate = #{plate}
+    </select>
+
+    <select id="countCommentsForComment" resultType="Integer">
+        select count(1) from comment
+        where id in (select cid from comment c join blog b on c.id=b.bid where b.plate=#{plate})
+    </select>
+
+    <select id="list" resultMap="commentItem">
+        SELECT c.*,c.uid 'cuid',m.name,m.head_img
+        FROM comment c join mlabuser m on c.uid=m.uid
+        <if test="_parameter !=null and _parameter!=''">
+            where id = #{id}
+        </if>
+        ORDER BY commented_time DESC
+    </select>
+
+    <select id="listByIdLimit" resultMap="commentItem">
+        SELECT c.*,c.uid 'cuid',m.name,m.head_img
+        FROM comment c join mlabuser m on c.uid=m.uid
+        where id=#{id} ORDER BY commented_time DESC
+        limit #{start},#{size}
+    </select>
+
+    <insert id="add" parameterType="Comment">
+        insert into comment(cid, content, commented_time, id, uid)
+         values(#{cid},#{content},#{commented_time},#{id},#{uid})
+    </insert>
 </mapper>

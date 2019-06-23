@@ -14,5 +14,5 @@ public interface MoodSignMapper {
 
     public Integer update(MoodSign moodSign);
 
-    public MoodSign get(Integer id);
+    public List<MoodSign> get(String uid);
 }

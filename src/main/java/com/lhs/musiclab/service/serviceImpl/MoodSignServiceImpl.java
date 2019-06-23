@@ -1,5 +1,7 @@
 package com.lhs.musiclab.service.serviceImpl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lhs.musiclab.dao.MoodSignMapper;
 import com.lhs.musiclab.pojo.MoodSign;
 import com.lhs.musiclab.service.MoodSignService;
@@ -32,7 +34,10 @@ public class MoodSignServiceImpl implements MoodSignService {
     }
 
     @Override
-    public MoodSign get(Integer id) {
-        return moodSignMapper.get(id);
+    public PageInfo<MoodSign> get(String uid,Integer start,Integer size) {
+        PageHelper.startPage(start, size);
+        List<MoodSign> moodSigns = moodSignMapper.get(uid);
+        PageInfo<MoodSign> pageInfo = new PageInfo<>(moodSigns);
+        return pageInfo;
     }
 }

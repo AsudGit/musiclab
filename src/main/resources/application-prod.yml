@@ -1,0 +1,10 @@
+#自定义的属性，指定了一个路径，注意要以/结尾
+web:
+  upload-path: /home/musiclab/uploaded/ #linux下的上传的资源存放的路径配置
+  domain: http://musiclab.club/
+
+spring:
+  rabbitmq:
+    host: 120.79.148.99
+  redis:
+    host: 120.79.148.99

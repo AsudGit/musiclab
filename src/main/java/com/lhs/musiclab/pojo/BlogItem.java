@@ -1,51 +1,19 @@
 package com.lhs.musiclab.pojo;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 public class BlogItem implements Serializable,Comparable<BlogItem>{
-    private static final long serialVersionUID = -5290009607232295629L;
-    private String bid;
-    private String title;
-    private String content;
-    private Timestamp blogged_time;
-    private Timestamp revised_time;
-    private Integer views;
-    private Integer likes;
-    private Integer comments;
-    //1:正常,2:置顶
-    private Integer status;
-    //板块号
-    private Integer plate;
-    //博主id
-    private String uid;
-
+    private static final long serialVersionUID = -5621163100674874023L;
+    private Blog blog;
     private MLabUser mLabUser;
 
     @Override
-    public String toString() {
-        return "BlogItem{" +
-                "bid='" + bid + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", blogged_time=" + blogged_time +
-                ", revised_time=" + revised_time +
-                ", views=" + views +
-                ", likes=" + likes +
-                ", comments=" + comments +
-                ", status=" + status +
-                ", plate=" + plate +
-                ", uid='" + uid + '\'' +
-                ", mLabUser=" + mLabUser +
-                '}';
-    }
-
-    @Override
-    public int compareTo(BlogItem o) {
+    public int compareTo(BlogItem blogItem) {
+        Blog o = blogItem.getBlog();
         /*防止忘记:
          * 0     表示两个对象相等
-         * -1 后面的对象大于前面的对象   降序
-         * 1    前面小后面大升序
+         * -1 后面的对象大于前面的对象
+         * 1  后面的对象小于前面的对象
           if(this==o){
             return 0;
         }else if(this>o){
@@ -53,97 +21,26 @@ public class BlogItem implements Serializable,Comparable<BlogItem>{
         }else if(this<o){
             return -1;
         }*/
-        Integer thispower = this.views * 2 + this.likes * 4 + this.comments * 4;
-        Integer opower = o.views * 2 + o.likes * 4 + o.comments * 4;
+        Integer thispower = blog.getViews() * 2 + blog.getLikes() * 4 + blog.getComments() * 4;
+        Integer opower = o.getViews() * 2 + o.getLikes() * 4 + o.getComments() * 4;
         return opower-thispower;
     }
 
-    public String getBid() {
-        return bid;
+    @Override
+    public String toString() {
+        return "BlogItem{" +
+                "blog=" + blog +
+                ", mLabUser=" + mLabUser +
+                '}';
     }
 
-    public void setBid(String bid) {
-        this.bid = bid;
+
+    public Blog getBlog() {
+        return blog;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Timestamp getBlogged_time() {
-        return blogged_time;
-    }
-
-    public void setBlogged_time(Timestamp blogged_time) {
-        this.blogged_time = blogged_time;
-    }
-
-    public Timestamp getRevised_time() {
-        return revised_time;
-    }
-
-    public void setRevised_time(Timestamp revised_time) {
-        this.revised_time = revised_time;
-    }
-
-    public Integer getViews() {
-        return views;
-    }
-
-    public void setViews(Integer views) {
-        this.views = views;
-    }
-
-    public Integer getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Integer likes) {
-        this.likes = likes;
-    }
-
-    public Integer getComments() {
-        return comments;
-    }
-
-    public void setComments(Integer comments) {
-        this.comments = comments;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getPlate() {
-        return plate;
-    }
-
-    public void setPlate(Integer plate) {
-        this.plate = plate;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setBlog(Blog blog) {
+        this.blog = blog;
     }
 
     public MLabUser getmLabUser() {

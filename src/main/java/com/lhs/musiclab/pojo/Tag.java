@@ -2,20 +2,24 @@ package com.lhs.musiclab.pojo;
 
 import java.io.Serializable;
 
-public class Tag implements Serializable {
-    private static final long serialVersionUID = 2264758158894164744L;
+public class Tag implements Serializable,Comparable<Tag> {
+    private static final long serialVersionUID = -2730271140335892466L;
     private String tid;
     private String name;
-
-    public Tag() {
-    }
+    private Integer heat;
 
     @Override
     public String toString() {
         return "Tag{" +
                 "tid='" + tid + '\'' +
                 ", name='" + name + '\'' +
+                ", heat=" + heat +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Tag o) {
+        return this.heat-o.getHeat();
     }
 
     public String getTid() {
@@ -32,5 +36,13 @@ public class Tag implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getHeat() {
+        return heat;
+    }
+
+    public void setHeat(Integer heat) {
+        this.heat = heat;
     }
 }

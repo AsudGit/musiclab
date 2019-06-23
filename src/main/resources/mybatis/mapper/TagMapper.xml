@@ -4,8 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lhs.musiclab.dao.TagMapper">
+
     <select id="list" resultType="Tag">
         SELECT * FROM tag
+        <if test="_parameter!=null and _parameter!=''">
+            where tid in (SELECT tid from blog_tag where bid = #{bid})
+        </if>
+    </select>
+    <select id="listByLimit" resultType="Tag">
+        SELECT * FROM tag ORDER BY heat DESC limit #{start},#{size}
     </select>
     <select id="get" resultType="Tag">
         SELECT * FROM tag
@@ -18,6 +25,10 @@
             </if>
         </where>
     </select>
+
+    <update id="update">
+        update tag set heat = #{heat} where tid = #{tid}
+    </update>
 
     <insert id="add" parameterType="Tag">
         insert into tag(tid, name) VALUES(#{tid},#{name})

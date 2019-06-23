@@ -1,5 +1,6 @@
 package com.lhs.musiclab.service;
 
+import com.github.pagehelper.PageInfo;
 import com.lhs.musiclab.pojo.MoodSign;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface MoodSignService {
 
     public Integer update(MoodSign moodSign);
 
-    public MoodSign get(Integer id);
+    public PageInfo<MoodSign> get(String uid, Integer start, Integer size);
 }

@@ -7,4 +7,19 @@
     <select id="list" resultType="MoodSign">
         SELECT * FROM moodsign
     </select>
+
+    <insert id="add" parameterType="MoodSign">
+        insert into moodsign(msid, content, signed_time, uid)
+        VALUES(#{msid},#{content},#{signed_time},#{uid})
+    </insert>
+
+    <select id="get" resultType="MoodSign">
+        select * from moodsign
+        <where>
+            <if test="_parameter!=null and _parameter!=''">
+                and uid=#{uid}
+            </if>
+        </where>
+        ORDER BY signed_time DESC
+    </select>
 </mapper>

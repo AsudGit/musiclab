@@ -22,6 +22,9 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/upload")
+//origins  ： 允许可访问的域列表
+//maxAge：准备响应前的缓存持续的最大时间（以秒为单位）。
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UploadController {
     @Autowired
     private UploadedImgService uploadedImgService;
@@ -32,7 +35,12 @@ public class UploadController {
     @Value("${web.domain}")
     private String domain;
 
-    // 图片上传
+    /***
+     * 上传图片
+     * @param multipartFiles 文件组
+     * @param request
+     * @return 状态码和图片地址数组
+     */
     @ResponseBody
     @PostMapping(value = "/image")
     public WangEditor uploadFile(
@@ -83,7 +91,7 @@ public class UploadController {
         }
         return new WangEditor(urls);
     }
-
+    //自定义文件名
     public String getFileName(String oldName) {
         String suffix = oldName.substring(oldName.lastIndexOf("."));
         String fileName = System.currentTimeMillis() + SendCode.getVerifyCode(SendCode.CODE_NUMBER_CHAR, SendCode.CODE_LENGTH) + suffix;

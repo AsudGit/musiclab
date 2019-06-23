@@ -30,7 +30,6 @@ import java.lang.reflect.Method;
  * @create:
  **/
 @Configuration
-@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport{
 
     /**
@@ -75,7 +74,7 @@ public class RedisConfig extends CachingConfigurerSupport{
     }
     /**
      * 在使用@Cacheable时，如果不指定key，则使用找个默认的key生成器生成的key
-     *
+     *这里重写了原本的SimpleKeyGenerator
      */
     @Override
     @Bean
@@ -118,8 +117,9 @@ public class RedisConfig extends CachingConfigurerSupport{
         // 配置序列化
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer()))
-                .disableCachingNullValues();
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer()));
+                //禁止空值缓存
+                //.disableCachingNullValues();
 
         RedisCacheManager cacheManager = RedisCacheManager.builder(factory)
                 .cacheDefaults(config)
