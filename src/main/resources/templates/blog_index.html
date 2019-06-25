@@ -37,8 +37,8 @@
                     <div class="scroll_info">
                         <div class="user_header">
                             <a>
-                                <img @click="toUserInfo" th:if="${session.headImg} eq 'default'" class="circle" th:src="@{/image/defaulthead.jpg}">
-                                <img @click="toUserInfo" th:if="${session.headImg} ne 'default'" class="circle" th:src="@{${session.headImg}}">
+                                <img @click="toUserPage" th:if="${session.headImg} eq 'default'" class="circle" th:src="@{/image/defaulthead.jpg}">
+                                <img @click="toUserPage" th:if="${session.headImg} ne 'default'" class="circle" th:src="@{${session.headImg}}">
                             </a>
                             <h4>
                                 <a><b th:text="${session.userName}"></b><i class="fa fa-caret-down"></i></a>
@@ -127,7 +127,7 @@
 </div>
 <template id="blog_item" >
     <div class="blog_item paint-area border-radius">
-        <a class="bloggerhead">
+        <a @click="" class="bloggerhead">
             <img v-if="blogitem.mLabUser.head_img =='default'" th:src="@{/image/defaulthead.jpg}" class="circle">
             <img v-else :src="blogitem.mLabUser.head_img" class="circle">
         </a>

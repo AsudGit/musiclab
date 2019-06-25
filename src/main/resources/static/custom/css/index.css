@@ -207,3 +207,21 @@ ul li a {
     background-color:#f4f0ed;
     border-bottom: whitesmoke 4px double;
 }
+.apk{
+    z-index: 10;
+    position: fixed;
+    left: 100px;
+    bottom: 30px;
+}
+.apk h4{
+    margin: 20px;
+    color: white;
+    float: right;
+    width: 100px;
+    letter-spacing: 2px;
+}
+.apk img{
+    float: left;
+    height: 240px;
+    width: 240px;
+}

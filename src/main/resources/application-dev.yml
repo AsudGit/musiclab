@@ -1,6 +1,7 @@
 #自定义的属性，指定了一个路径，注意要以/结尾
 web:
   upload-path: D:/home/musiclab/uploaded/ #windows下的上传的资源存放的路径配置
+  resources-path: D:/home/musiclab/resources/
   domain: http://localhost/
 
 spring:

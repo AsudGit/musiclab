@@ -13,6 +13,14 @@ $(function () {
     $(".datediv h4").text("/" + date);
     $(".box-content .post").html("© "+myDate.getFullYear()+" Copyright BY LinHuaSheng" +
         "<br>粤ICP备18046160号" );
+
+    $(".box").mouseenter(function () {
+        $(".apk").removeClass("fadeOutLeftBig")
+            .addClass("fadeInLeftBig");
+    }).mouseleave(function () {
+        $(".apk").removeClass("fadeInLeftBig")
+            .addClass("fadeOutLeftBig");
+    })
     /*
      封面标题淡入淡出
      */

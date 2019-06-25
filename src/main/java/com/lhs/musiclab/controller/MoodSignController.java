@@ -42,7 +42,7 @@ public class MoodSignController {
         return map;
     }
     @GetMapping("/get")
-    public PageInfo<MoodSign> get(@RequestParam(value = "uid",required = false)String uid,
+    public PageInfo<MoodSign> get(@RequestParam(value = "uid")String uid,
                               @RequestParam(value = "start",defaultValue = "1")Integer start,
                               @RequestParam(value = "size",defaultValue = "5")Integer size,
                                   HttpServletRequest request){

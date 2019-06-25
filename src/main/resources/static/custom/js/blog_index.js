@@ -34,6 +34,7 @@ $(function () {
     function toInformation(blogitem,$this){
         routerPush("/info",{bloginfo: blogitem})
     }
+
     function search(plateKey) {
         var params = "title=" + plateKey + "&plate=" + plateNo;
         axios.post("/blog/get",params).then(function (value) {
@@ -112,7 +113,8 @@ $(function () {
         methods:{
             toInfo:function (blogitem) {
                 toInformation(blogitem,this);
-            }
+            },
+
         }
     };
 
@@ -395,6 +397,7 @@ $(function () {
               enteredEdit:false,
               content:"",
               moodsigns:[],
+              uid:"",
           }
         },
         template:"#mlabuser_info",
@@ -403,8 +406,14 @@ $(function () {
         },
         mounted:function(){
             var $this = this;
-            axios.get("/sign/get").then(function (value) {
+            this.uid = routerGet(this).uid;
+            axios.get("/sign/get",{
+                params:{
+                    uid:this.uid,
+                }
+            }).then(function (value) {
                 $this.moodsigns = value.data.list;
+                console.log(value);
             }).catch(function (reason) {
                 console.log(reason);
             })
@@ -581,7 +590,6 @@ $(function () {
             var $this = this;
             axios.get("/count/get").then(function(value) {
                 $this.mLabUserCount = value.data;
-                console.log(value);
             }).catch(function (reason) {
                 console.log(reason);
             })
@@ -636,7 +644,6 @@ $(function () {
                 }
             }).then(function (value) {
                 $this.tags = value.data;
-                console.log(value);
             }).catch(function (reason) {
                 console.log(reason);
             })
@@ -863,8 +870,8 @@ $(function () {
                     routerObj.go(-1)
                 }
             },
-            toUserInfo:function(){
-              routerObj.push({name: 'user'})
+            toUserPage:function(){
+                routerPush("/user",{uid: app.userID})
             },
             /*油画工具淡入淡出*/
             togglePalette:function () {
