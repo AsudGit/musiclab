@@ -18,18 +18,8 @@ public class Blog_tagServiceImpl implements Blog_tagService {
     }
 
     @Override
-    public List<Blog_tag> list() {
-        return blog_tagMapper.list();
-    }
-
-    @Override
     public void delete(Integer id) {
         blog_tagMapper.delete(id);
-    }
-
-    @Override
-    public Integer update(Blog_tag blog_tag) {
-        return blog_tagMapper.update(blog_tag);
     }
 
     @Override

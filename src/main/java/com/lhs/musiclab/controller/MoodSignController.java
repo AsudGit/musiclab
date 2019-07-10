@@ -5,16 +5,12 @@ import com.lhs.musiclab.pojo.MoodSign;
 import com.lhs.musiclab.service.MoodSignService;
 import com.lhs.musiclab.utils.MyRandom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping("/sign")
@@ -23,13 +19,13 @@ public class MoodSignController {
     private MoodSignService moodSignService;
     @GetMapping("/add")
     public Map add(@RequestParam(value = "content")String content,
+                   @RequestParam(value = "uid")String uid,
                    HttpServletRequest request){
         Map<String,Object> map = new HashMap();
         HttpSession session = request.getSession();
-        String userID = (String) session.getAttribute("userID");
         MoodSign moodSign = new MoodSign();
         moodSign.setContent(content);
-        moodSign.setUid(userID);
+        moodSign.setUid(uid);
         moodSign.setMsid(MyRandom.getUUID());
         moodSign.setSigned_time(new Timestamp(System.currentTimeMillis()));
         if (moodSignService.add(moodSign)>0){
@@ -41,12 +37,17 @@ public class MoodSignController {
         }
         return map;
     }
-    @GetMapping("/get")
-    public PageInfo<MoodSign> get(@RequestParam(value = "uid")String uid,
+    @GetMapping("/list")
+    public PageInfo<MoodSign> listByUid(@RequestParam(value = "uid")String uid,
                               @RequestParam(value = "start",defaultValue = "1")Integer start,
-                              @RequestParam(value = "size",defaultValue = "5")Integer size,
-                                  HttpServletRequest request){
-        PageInfo<MoodSign> pageInfo = moodSignService.get(uid, start, size);
+                              @RequestParam(value = "size",defaultValue = "5")Integer size){
+        PageInfo<MoodSign> pageInfo = moodSignService.listByUid(uid, start, size);
         return pageInfo;
+    }
+
+    @GetMapping("/get/{uid}")
+    public MoodSign get(@PathVariable(value = "uid") String uid){
+        MoodSign moodSign = moodSignService.getByUid(uid);
+        return moodSign;
     }
 }

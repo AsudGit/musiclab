@@ -137,21 +137,6 @@ public class MusiclabApplicationTests {
         logger.debug("测试--");
     }
 
-    /***
-     * 快排测试
-     */
-    @Test
-    public void test10(){
-        LinkedList<BlogItem> linkedList = blogService.linkedlist();
-        for (BlogItem blog : linkedList) {
-            System.out.println(blog);
-        }
-        linkedlistSort(linkedList,0,linkedList.size()-1);
-        for (BlogItem blog : linkedList) {
-            System.out.println(blog);
-        }
-    }
-
     /**
      * 获取6位随机验证码
      */

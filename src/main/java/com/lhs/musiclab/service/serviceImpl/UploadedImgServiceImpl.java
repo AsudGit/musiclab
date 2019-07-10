@@ -23,6 +23,11 @@ public class UploadedImgServiceImpl implements UploadedImgService {
     }
 
     @Override
+    public List<UploadedImg> list(String uid) {
+        return uploadedImgMapper.list(uid);
+    }
+
+    @Override
     public void delete(UploadedImg uploadedImg) {
         uploadedImgMapper.delete(uploadedImg);
     }

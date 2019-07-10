@@ -7,7 +7,7 @@
     <select id="list" resultType="UploadedImg">
         SELECT * FROM uploadedimg
         <where>
-            <if test="uid!=null and uid!=''">
+            <if test="_parameter!=null and _parameter!=''">
                 and uid=#{uid}
             </if>
         </where>

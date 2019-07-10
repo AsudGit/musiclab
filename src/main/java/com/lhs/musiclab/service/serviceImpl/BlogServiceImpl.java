@@ -6,6 +6,7 @@ import com.lhs.musiclab.dao.BlogMapper;
 import com.lhs.musiclab.pojo.Blog;
 import com.lhs.musiclab.pojo.BlogItem;
 import com.lhs.musiclab.service.BlogService;
+import com.lhs.musiclab.utils.QuickSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,10 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @CacheConfig(cacheNames = "blog")
@@ -43,24 +41,32 @@ public class BlogServiceImpl implements BlogService {
         return blogMapper.countBlogsByUid(uid);
     }
 
+
     @Override
-    @Async
-    public void newsIncr(Integer plate) {
-        Map map=(HashMap)redisTemplate.opsForValue().get("total:"+plate);
-        map.put("newNums",(int)map.get("newNums")+1);
-        map.put("blogNums",(int)map.get("blogNums")+1);
-        redisTemplate.opsForValue().set("total:"+plate,map);
+    public List<BlogItem> getHotBlog() {
+        List<BlogItem> hotBlogList = (List<BlogItem>) redisTemplate.opsForValue().get("hot:blog");
+        if (hotBlogList==null) {//redis中无热门则重新生成
+            setHotBlogForRedis();
+            hotBlogList = (List<BlogItem>) redisTemplate.opsForValue().get("hot:blog");
+        }
+        return hotBlogList;
+    }
+
+    @Override
+    public void setHotBlogForRedis(){
+        List<BlogItem> hotBlogList = blogMapper.listForBlogItem();
+        QuickSort.enableDESC();
+        QuickSort.sortForBlogItem(hotBlogList, 0, hotBlogList.size() - 1);
+        if (hotBlogList.size() > 5) {
+            hotBlogList = new ArrayList<>(hotBlogList.subList(0,5));
+        }
+        redisTemplate.opsForValue().set("hot:blog",hotBlogList);
     }
 
 
     @Override
-    public List<Blog> list() {
-        return blogMapper.list();
-    }
-
-    @Override
-    public LinkedList<BlogItem> linkedlist() {
-        return blogMapper.linkedlist();
+    public List<BlogItem> listForBlogItem() {
+        return blogMapper.listForBlogItem();
     }
 
     @Override

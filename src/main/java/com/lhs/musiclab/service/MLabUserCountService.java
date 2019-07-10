@@ -4,6 +4,7 @@ import com.lhs.musiclab.pojo.MLabUserCount;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface MLabUserCountService {
     public Integer add(String uid, Date date);
@@ -16,11 +17,11 @@ public interface MLabUserCountService {
 
     public MLabUserCount get(String uid);
 
-    public void countRecentlyLogin(String uid, Date recentlyLogin);
+    public void updateRecentlyLoginForRedis(String uid, Date recentlyLogin);
 
-    public void countComments(String uid);
+    public void updateForRedis(String uid, MLabUserCount mLabUserCount);
 
-    public void countFans(String uid);
+    public Map getTotalForRedis(Integer plate);
 
-    public void countBlogs(String uid);
+    public void setTotalForRedis(Integer plate, Map total);
 }

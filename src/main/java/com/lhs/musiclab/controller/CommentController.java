@@ -1,16 +1,12 @@
 package com.lhs.musiclab.controller;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.lhs.musiclab.pojo.Comment;
-import com.lhs.musiclab.pojo.CommentItem;
-import com.lhs.musiclab.pojo.MLabUser;
+import com.lhs.musiclab.pojo.*;
+import com.lhs.musiclab.service.BlogCountService;
 import com.lhs.musiclab.service.CommentService;
 import com.lhs.musiclab.service.MLabUserCountService;
 import com.lhs.musiclab.utils.MyRandom;
-import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +23,8 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private MLabUserCountService mLabUserCountService;
+    @Autowired
+    private BlogCountService blogCountService;
 
     /***
      * 增加一条评论
@@ -39,6 +37,7 @@ public class CommentController {
     @GetMapping("/add")
     public Map add(@RequestParam(value = "content") String content,
                    @RequestParam(value = "id")String id,
+                   @RequestParam(value = "bid")String bid,
                    @RequestParam(value = "plate") Integer plate,
                    HttpServletRequest request){
         Comment comment = new Comment();
@@ -50,7 +49,7 @@ public class CommentController {
         comment.setCid(MyRandom.getUUID());
         comment.setCommented_time(new Timestamp(System.currentTimeMillis()));
         comment.setUid(userID);
-        if(commentService.add(comment)>0){
+        if(commentService.add(comment)>0){//增加一条评论成功
             comment.setLikes(0);
             CommentItem commentItem = new CommentItem();
             MLabUser mLabUser = new MLabUser();
@@ -59,10 +58,20 @@ public class CommentController {
             mLabUser.setHead_img((String) session.getAttribute("headImg"));
             commentItem.setComment(comment);
             commentItem.setmLabUser(mLabUser);
-            map.put("commentItem", commentItem);
+            map.put("commentItem", commentItem);//返回新增的评论项
             map.put("msg", true);
-            mLabUserCountService.countComments(userID);
-            commentService.commentsIncr(plate);
+            //更新评论总数
+            BlogCount blogCount = blogCountService.get(bid);
+            blogCount.setComments(blogCount.getComments()+1);
+            blogCountService.setForRedis(blogCount);
+            //更新用户的评论数
+            MLabUserCount mLabUserCount = mLabUserCountService.get(userID);
+            mLabUserCount.setComments(mLabUserCount.getComments()+1);
+            mLabUserCountService.updateForRedis(userID,mLabUserCount);
+            //更新板块评论数
+            Map total = mLabUserCountService.getTotalForRedis(plate);//更新板块统计数量
+            total.put("commentNums",(int)total.get("commentNums")+1);
+            mLabUserCountService.setTotalForRedis(plate,total);
         }else {
             map.put("msg", false);
         }
@@ -77,10 +86,18 @@ public class CommentController {
      * @return 评论数组
      */
     @GetMapping("/list")
-    public PageInfo<CommentItem> listById(@RequestParam(value = "id") String id,
+    public PageInfo<CommentItem> listById(@RequestParam(value = "id",defaultValue = "") String id,
+                                          @RequestParam(value = "uid",defaultValue = "") String uid,
                                    @RequestParam(value = "start",defaultValue = "1")Integer start,
                                    @RequestParam(value = "size",defaultValue = "5")Integer size){
-        return commentService.list(id,start,size);
+        Comment comment = new Comment();
+        if (id!=null && id!=""){
+            comment.setId(id);
+        }
+        if (uid!=null && uid!=""){
+            comment.setUid(uid);
+        }
+        return commentService.list(comment,start,size);
     }
 
     /***
@@ -96,5 +113,4 @@ public class CommentController {
                                            @RequestParam(value = "size")Integer size){
         return commentService.listByIdLimit(id, start, size);
     }
-
 }

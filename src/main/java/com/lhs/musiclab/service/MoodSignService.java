@@ -14,5 +14,7 @@ public interface MoodSignService {
 
     public Integer update(MoodSign moodSign);
 
-    public PageInfo<MoodSign> get(String uid, Integer start, Integer size);
+    public PageInfo<MoodSign> listByUid(String uid, Integer start, Integer size);
+
+    public MoodSign getByUid(String uid);
 }

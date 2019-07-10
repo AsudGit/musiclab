@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class MLabUserCountServiceImpl implements MLabUserCountService {
     @Autowired
@@ -41,10 +43,10 @@ public class MLabUserCountServiceImpl implements MLabUserCountService {
 
     @Override
     public MLabUserCount get(String uid) {
-        MLabUserCount mLabUserCount = (MLabUserCount) redisTemplate.opsForValue().get("count:" + uid);
+        MLabUserCount mLabUserCount = (MLabUserCount) redisTemplate.opsForValue().get("count:mlabuser:" + uid);
         if (mLabUserCount==null){
             mLabUserCount=mLabUserCountMapper.get(uid);
-            redisTemplate.opsForValue().set("count:"+uid,mLabUserCount);
+            redisTemplate.opsForValue().set("count:mlabuser:"+uid,mLabUserCount);
         }
         Date date = (Date) redisTemplate.opsForValue().get("recent:" + uid);
         if (date!=null) {
@@ -55,8 +57,8 @@ public class MLabUserCountServiceImpl implements MLabUserCountService {
 
     @Async
     @Override
-    public void countRecentlyLogin(String uid,Date date){
-        MLabUserCount mLabUserCount = (MLabUserCount) redisTemplate.opsForValue().get("count:" + uid);
+    public void updateRecentlyLoginForRedis(String uid,Date date){
+        MLabUserCount mLabUserCount = (MLabUserCount) redisTemplate.opsForValue().get("count:mlabuser:" + uid);
         if (mLabUserCount==null){
             mLabUserCount = mLabUserCountMapper.get(uid);
         }
@@ -64,39 +66,21 @@ public class MLabUserCountServiceImpl implements MLabUserCountService {
         if (!MyDateUtils.sameDate(mLabUserCount.getRecentlyLogin(),date)){
             mLabUserCount.setRecentlyLogin(date);
         }
-        redisTemplate.opsForValue().set("count:" + uid,mLabUserCount);
+        redisTemplate.opsForValue().set("count:mlabuser:" + uid,mLabUserCount);
     }
 
-    @Async
     @Override
-    public void countComments(String uid){
-        MLabUserCount mLabUserCount = (MLabUserCount) redisTemplate.opsForValue().get("count:" + uid);
-        if (mLabUserCount==null){
-            mLabUserCount = mLabUserCountMapper.get(uid);
-        }
-        mLabUserCount.setComments(mLabUserCount.getComments()+1);
-        redisTemplate.opsForValue().set("count:"+uid,mLabUserCount);
+    public void updateForRedis(String uid,MLabUserCount mLabUserCount){
+        redisTemplate.opsForValue().set("count:mlabuser:"+uid,mLabUserCount);
     }
 
-    @Async
     @Override
-    public void countFans(String uid){
-        MLabUserCount mLabUserCount = (MLabUserCount) redisTemplate.opsForValue().get("count:" + uid);
-        if (mLabUserCount==null){
-            mLabUserCount = mLabUserCountMapper.get(uid);
-        }
-        mLabUserCount.setFans(mLabUserCount.getFans()+1);
-        redisTemplate.opsForValue().set("count:"+uid,mLabUserCount);
+    public Map getTotalForRedis(Integer plate) {
+        return (Map) redisTemplate.opsForValue().get("total:"+plate);
     }
 
-    @Async
     @Override
-    public void countBlogs(String uid){
-        MLabUserCount mLabUserCount = (MLabUserCount) redisTemplate.opsForValue().get("count:" + uid);
-        if (mLabUserCount==null){
-            mLabUserCount = mLabUserCountMapper.get(uid);
-        }
-        mLabUserCount.setBlogs(mLabUserCount.getBlogs()+1);
-        redisTemplate.opsForValue().set("count:"+uid,mLabUserCount);
+    public void setTotalForRedis(Integer plate, Map total) {
+        redisTemplate.opsForValue().set("total:"+plate,total);
     }
 }

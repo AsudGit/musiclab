@@ -3,7 +3,6 @@ package com.lhs.musiclab.controller;
 import com.lhs.musiclab.pojo.Tag;
 import com.lhs.musiclab.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +15,6 @@ import java.util.List;
 public class TagController {
     @Autowired
     private TagService tagService;
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     /***
      * 返回博客下的标签
@@ -38,11 +35,6 @@ public class TagController {
     @ResponseBody
     public List<Tag> hotTagList(@RequestParam(value = "start")Integer start,
                                 @RequestParam(value = "size")Integer size){
-        List<Tag> list = (List<Tag>) redisTemplate.opsForValue().get("hot:tag");
-        if (list==null){
-            list=tagService.listByLimit(start,size);
-            redisTemplate.opsForValue().set("hot:tag",list);
-        }
-        return list;
+        return tagService.getHotTag(start,size);
     }
 }

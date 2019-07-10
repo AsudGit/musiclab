@@ -82,11 +82,11 @@ ul li a {
     margin-top: -9%;
     max-height: 230%;
     max-width: 230%;
-    transform: rotate(70deg);
-    -ms-transform: rotate(80deg); /* IE 9 */
-    -moz-transform: rotate(80deg); /* Firefox */
+    transform: rotate(75deg);
+    -ms-transform: rotate(75deg); /* IE 9 */
+    -moz-transform: rotate(75deg); /* Firefox */
     -webkit-transform: rotate(75deg); /* Safari 和 Chrome */
-    -o-transform: rotate(70deg); /* Opera */
+    -o-transform: rotate(75deg); /* Opera */
 }
 
 .mp3img {
@@ -207,6 +207,11 @@ ul li a {
     background-color:#f4f0ed;
     border-bottom: whitesmoke 4px double;
 }
+.prompt{
+    opacity: 0;
+}
+
+/*
 .apk{
     z-index: 10;
     position: fixed;
@@ -224,4 +229,4 @@ ul li a {
     float: left;
     height: 240px;
     width: 240px;
-}
+}*/

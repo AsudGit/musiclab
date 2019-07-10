@@ -10,9 +10,9 @@ public interface StarFolderMapper {
 
     public List<StarFolder> list();
 
+    public List<StarFolder> get(String uid);
+
     public void delete(Integer id);
 
     public Integer update(StarFolder starFolder);
-
-    public StarFolder get(Integer id);
 }

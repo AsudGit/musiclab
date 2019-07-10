@@ -10,12 +10,15 @@
             <result column="title" property="title"></result>
             <result column="content" property="content"></result>
             <result column="blogged_time" property="blogged_time"></result>
+            <result column="uid" property="uid"></result>
+        </association>
+        <association property="blogCount" javaType="BlogCount">
+            <id column="bid" property="bid"></id>
             <result column="revised_time" property="revised_time"></result>
             <result column="views" property="views"></result>
             <result column="likes" property="likes"></result>
             <result column="comments" property="comments"></result>
             <result column="status" property="status"></result>
-            <result column="buid" property="uid"></result>
         </association>
         <association property="mLabUser" javaType="MLabUser">
             <id column="uid" property="uid"></id>
@@ -23,10 +26,6 @@
             <result column="head_img" property="head_img"></result>
         </association>
     </resultMap>
-    
-    <select id="list" resultType="Blog">
-        SELECT * FROM blog
-    </select>
 
     <select id="countBlogsByUid" resultType="Integer">
         select count(1) from blog where uid=#{uid}
@@ -36,17 +35,18 @@
         select count(1) from blog where plate=#{plate}
     </select>
 
-    <select id="linkedlist" resultMap="blogItem">
-        SELECT b.*,b.uid 'buid',m.name,m.head_img
-        FROM blog b JOIN mlabuser m ON b.uid=m.uid limit 0,100
+    <select id="listForBlogItem" resultMap="blogItem">
+        SELECT b.*,bc.comments,bc.likes,bc.revised_time,bc.status,bc.views,m.name,m.head_img
+        FROM blog b JOIN blogcount bc on b.bid=bc.bid JOIN mlabuser m ON b.uid=m.uid
+        limit 0,100
     </select>
 
     <select id="get" resultMap="blogItem">
-        SELECT b.*,b.uid 'buid',m.name,m.head_img
-        FROM blog b JOIN mlabuser m ON b.uid=m.uid
+        SELECT b.*,bc.comments,bc.likes,bc.revised_time,bc.status,bc.views,m.name,m.head_img
+        FROM blog b JOIN blogcount bc on b.bid=bc.bid JOIN mlabuser m ON b.uid=m.uid
         <where>
             <if test="bid!=null and bid!=''">
-                and bid=#{bid}
+                and b.bid=#{bid}
             </if>
             <if test="title!=null and title!=''">
                 and title like concat('',#{title},'%')
@@ -55,14 +55,27 @@
                 and plate =#{plate}
             </if>
             <if test="uid!=null and uid!=''">
-                and uid =#{uid}
+                and b.uid =#{uid}
             </if>
         </where>
         ORDER BY b.blogged_time DESC
     </select>
 
+    <update id="update" parameterType="Blog">
+        update blog
+        <set>
+            <if test="title!=null and title!=''">
+                title=#{title},
+            </if>
+            <if test="content!=null and content!=''">
+                content=#{content},
+            </if>
+        </set>
+        where bid=#{bid}
+    </update>
+
     <insert id="add" parameterType="Blog">
-        insert into blog(bid, title, content, blogged_time,revised_time,plate, uid)
-        values (#{bid},#{title},#{content},#{blogged_time},#{revised_time},#{plate},#{uid})
+        insert into blog(bid, title, content, blogged_time,plate, uid)
+        values (#{bid},#{title},#{content},#{blogged_time},#{plate},#{uid})
     </insert>
 </mapper>

@@ -4,23 +4,17 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class Blog implements Serializable {
+
+    private static final long serialVersionUID = 245059346043086206L;
     //修改pojo属性后要重新生成序列uid
-    private static final long serialVersionUID = -5421997574453575277L;
     private String bid;
     private String title;
     private String content;
     private Timestamp blogged_time;
-    private Timestamp revised_time;
-    private Integer views;
-    private Integer likes;
-    private Integer comments;
-    //1:正常,2:置顶
-    private Integer status;
     //板块号
     private Integer plate;
     //博主id
     private String uid;
-
 
     @Override
     public String toString() {
@@ -29,11 +23,6 @@ public class Blog implements Serializable {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", blogged_time=" + blogged_time +
-                ", revised_time=" + revised_time +
-                ", views=" + views +
-                ", likes=" + likes +
-                ", comments=" + comments +
-                ", status=" + status +
                 ", plate=" + plate +
                 ", uid='" + uid + '\'' +
                 '}';
@@ -69,46 +58,6 @@ public class Blog implements Serializable {
 
     public void setBlogged_time(Timestamp blogged_time) {
         this.blogged_time = blogged_time;
-    }
-
-    public Timestamp getRevised_time() {
-        return revised_time;
-    }
-
-    public void setRevised_time(Timestamp revised_time) {
-        this.revised_time = revised_time;
-    }
-
-    public Integer getViews() {
-        return views;
-    }
-
-    public void setViews(Integer views) {
-        this.views = views;
-    }
-
-    public Integer getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Integer likes) {
-        this.likes = likes;
-    }
-
-    public Integer getComments() {
-        return comments;
-    }
-
-    public void setComments(Integer comments) {
-        this.comments = comments;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public Integer getPlate() {

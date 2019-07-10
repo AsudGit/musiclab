@@ -3,31 +3,21 @@ package com.lhs.musiclab.pojo;
 import java.io.Serializable;
 
 public class StarFolder implements Serializable {
-    private static final long serialVersionUID = 2134260059681981539L;
-    private String sfid;
+    private static final long serialVersionUID = 1578201086646660872L;
     //用户id
     private String uid;
-    //文件夹号
+    //收藏夹号
     private Integer folder;
-    //每个用户都有定制的文件夹
+    //每个用户都有定制的收藏夹
     private String folderName;
 
     @Override
     public String toString() {
         return "StarFolder{" +
-                "sfid='" + sfid + '\'' +
-                ", uid='" + uid + '\'' +
+                "uid='" + uid + '\'' +
                 ", folder=" + folder +
                 ", folderName='" + folderName + '\'' +
                 '}';
-    }
-
-    public String getSfid() {
-        return sfid;
-    }
-
-    public void setSfid(String sfid) {
-        this.sfid = sfid;
     }
 
     public String getUid() {

@@ -11,7 +11,7 @@
     background-color: #f0bc0f;
 }
 .mlabbcg{
-    background-color: #8a8ab9;
+    background-color: #5cada1;
 
 }
 .myhiden{
@@ -25,6 +25,7 @@
     height: 100%;
     width: 102%;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .show .content_top{
@@ -102,7 +103,14 @@
     overflow: hidden;
     text-align: center;
     font-size: 30px;
+    background-size: cover;
     color: black;
+}
+.record_center_cover>p{
+    margin: 0px;
+    left: 0px;
+    right: 0px;
+    text-shadow: 0 0 6px rgba(0,0,0,0.8);
 }
 .record_center_edge{
     /*自适应等比高宽*/
@@ -173,6 +181,10 @@
     right: 30px;
     top: 40px;
 }
+.music_nav>input{
+    position: absolute;
+    transform: translateX(-100%);
+}
 .music_nav>a{
     opacity: 0.8;
     font-size: 18px;
@@ -201,17 +213,15 @@
 }
 
 .content_bottom{
-    height: 40%;
+    height: 140%;
     background-color: #f0f0f0;
 }
-.content_bottom .col-md-9{
-    top: 25%;
-    left: 6.2%;
-    height: 100%;
-}
 #myrecord_min{
-    height: 100%;
-    width: 100%;
+    height: 300px;
+    width: 80%;
+    position: absolute;
+    left: 4.5%;
+    top: 75%;
 }
 #myrecord_min>.record_center_cover{
     background-image: url("/image/ballad.jpg");
@@ -219,7 +229,9 @@
 }
 .rotating{
     -webkit-animation: spin 4s linear infinite;
-    top: 30%;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
 }
 @-webkit-keyframes spin {
     0%   {
@@ -247,13 +259,14 @@
     left: 39%;
     background-color: white;
     height: 100%;
+    border: 1px solid #cccccc;
 }
 
 .toggle_song{
     position: absolute;
     color: black;
-    left: 23.5%;
-    top: 7%;
+    left: 22.7%;
+    top: 65%;
     line-height: 15px;
 }
 a.toggle_song{
@@ -271,21 +284,34 @@ a.toggle_song{
     margin: 3% 8% 2% 8%;
 }
 .songlist_content{
-    height: 70%;
-    overflow-y: scroll;
+    /*height: 70%;*/
 }
-.songlist_content>.song_item{
+.song_item{
+    margin-bottom: 20px;
+}
+.song_item>b{
+    padding-top: 7px;
+    font-size: 20px;
+}
+.song_content{
+    cursor: pointer;
     -moz-border-radius:10em;
     -webkit-border-radius:10em;
     border-radius:10em;
     padding: 10px 20px;
     border: 1px solid #ccc;
     text-align: left;
-    margin-bottom: 20px;
 }
-.song_item>a{
+.song_content>a{
     float: left;
     margin-right:20px;
+}
+.song_download{
+    margin-right: 50px;
+}
+.song_pic{
+    height: 50px;
+    width: 50px;
 }
 .song_item_info{
     margin: 0px;
@@ -296,8 +322,9 @@ a.toggle_song{
     float: right;
 }
 
-#music_player{
-    overflow: hidden;
+#music_player>div{
     margin: 0px;
+    overflow: hidden;
     width: 100%;
+    padding-right: 1%;
 }

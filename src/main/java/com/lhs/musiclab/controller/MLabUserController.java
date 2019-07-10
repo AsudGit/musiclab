@@ -1,14 +1,20 @@
 package com.lhs.musiclab.controller;
 
 import com.lhs.musiclab.pojo.MLabUser;
+import com.lhs.musiclab.pojo.MLabUserCount;
+import com.lhs.musiclab.pojo.MoodSign;
+import com.lhs.musiclab.pojo.StarFolder;
 import com.lhs.musiclab.service.MLabUserCountService;
 import com.lhs.musiclab.service.MLabUserService;
+import com.lhs.musiclab.service.MoodSignService;
+import com.lhs.musiclab.service.StarFolderService;
 import com.lhs.musiclab.utils.MD5Utils;
 import com.lhs.musiclab.utils.MyRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +33,10 @@ public class MLabUserController {
     private MLabUserService mLabUserService;
     @Autowired
     private MLabUserCountService mLabUserCountService;
+    @Autowired
+    private MoodSignService moodSignService;
+    @Autowired
+    private StarFolderService starFolderService;
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     /***
@@ -57,20 +67,22 @@ public class MLabUserController {
      */
     @GetMapping("/isLogin")
     public Map getLoginInfo(HttpServletRequest request){
-        Map<String, String> msg = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
         String userID = (String) request.getSession().getAttribute("userID");
         String userName = (String) request.getSession().getAttribute("userName");
         String headImg = (String) request.getSession().getAttribute("headImg");
         if (userName!=null){
-            msg.put("msg", "true");
-            msg.put("userID", userID);
-            msg.put("userName", userName);
-            msg.put("headImg", headImg);
-            return msg;
+            MoodSign moodSign = moodSignService.getByUid(userID);
+            map.put("msg", "true");
+            map.put("moodsign",moodSign);
+            map.put("userID", userID);
+            map.put("userName", userName);
+            map.put("headImg", headImg);
+            return map;
         }else {
-            msg.put("msg", "false");
-            return msg;
+            map.put("msg", "false");
+            return map;
         }
     }
 
@@ -81,13 +93,13 @@ public class MLabUserController {
      */
     @GetMapping("/logout")
     public Map logout(HttpServletRequest request){
-        Map<String, String> msg = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         HttpSession session = request.getSession();
         session.removeAttribute("userName");
         session.removeAttribute("headImg");
         session.removeAttribute("userID");
-        msg.put("msg", "true");
-        return msg;
+        map.put("msg", "true");
+        return map;
     }
 
     /***
@@ -100,7 +112,7 @@ public class MLabUserController {
     @PostMapping("/login")
     public Map login(@RequestParam("account") String account,
                      @RequestParam("pwd") String pwd,HttpServletRequest request){
-        Map<String, String> msg = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         logger.debug(account+"-"+pwd);
         MLabUser mLabUser = new MLabUser();
         mLabUser.setName(account);
@@ -109,19 +121,19 @@ public class MLabUserController {
         List<MLabUser> list = mLabUserService.matchOr(mLabUser);
         if(!list.isEmpty() && MD5Utils.md5(pwd).equals(list.get(0).getPwd())){
             MLabUser muser =list.get(0);
-            msg.put("msg", "true");
-            msg.put("userName", muser.getName());
-            msg.put("headImg", muser.getHead_img());
-            msg.put("userID",muser.getUid());
+            map.put("msg", "true");
+            map.put("userName", muser.getName());
+            map.put("headImg", muser.getHead_img());
+            map.put("userID",muser.getUid());
             HttpSession session = request.getSession();
             session.setAttribute("userName",muser.getName());
             session.setAttribute("headImg",muser.getHead_img());
             session.setAttribute("userID",muser.getUid());
-            mLabUserCountService.countRecentlyLogin(muser.getUid(),new Date());
+            mLabUserCountService.updateRecentlyLoginForRedis(muser.getUid(),new Date());
         }else {
-            msg.put("msg", "false");
+            map.put("msg", "false");
         }
-        return msg;
+        return map;
     }
 
     /***
@@ -131,34 +143,54 @@ public class MLabUserController {
      * @return 用户信息以及执行结果
      */
     @PostMapping("/add")
+    @Transactional
     public Map register(MLabUser mLabUser, HttpServletRequest request){
-        Map<String, String> msg = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         mLabUser.setUid(MyRandom.getUUID());
         mLabUser.setPwd(MD5Utils.md5(mLabUser.getPwd()));
-        mLabUser.setHead_img("default");
-        mLabUser.setBlogbcg_img("default");
+        mLabUser.setHead_img("/image/defaulthead.jpg");
+        mLabUser.setBlogbcg_img("/image/defaulthead.jpg");
         mLabUser.setRqcode_img("default");
         if(mLabUserService.add(mLabUser)==1){
-            msg.put("msg", "true");
+            //生成用户统计
             mLabUserCountService.add(mLabUser.getUid(), new Date());
+            //生成用户的默认收藏夹
+            StarFolder starFolder = new StarFolder();
+            starFolder.setUid(mLabUser.getUid());
+            starFolder.setFolder(0);
+            starFolder.setFolderName("默认收藏夹");
+            starFolderService.add(starFolder);
+            //往session放用户凭证
             HttpSession session = request.getSession();
             session.setAttribute("userName",mLabUser.getName());
             session.setAttribute("headImg",mLabUser.getHead_img());
             session.setAttribute("userID",mLabUser.getUid());
-            msg.put("userName", mLabUser.getName());
-            msg.put("headImg", mLabUser.getHead_img());
+            map.put("userName", mLabUser.getName());
+            map.put("headImg", mLabUser.getHead_img());
+            map.put("msg", "true");
         }else {
-            msg.put("msg", "false");
+            map.put("msg", "false");
         }
-        return msg;
+        return map;
     }
 
-    //日期类型转换
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    /***
+     * 获取个人页面信息
+     * @param uid
+     * @return 信息集合
+     */
+    @GetMapping(value = "/info/{uid}")
+    public Map<String,Object> getUserInfo(@PathVariable(value = "uid")String uid){
+        MLabUser mLabUser = new MLabUser();
+        mLabUser.setUid(uid);
+        MLabUser match = mLabUserService.match(mLabUser);
+        MLabUserCount mLabUserCount = mLabUserCountService.get(uid);
+        MoodSign moodSign = moodSignService.getByUid(uid);
+        Map<String, Object> map = new HashMap<>();
+        map.put("moodsign", moodSign);
+        map.put("mLabUser", match);
+        map.put("mLabUserCount", mLabUserCount);
+        return map;
     }
 
     /***
@@ -168,15 +200,15 @@ public class MLabUserController {
      */
     @GetMapping("/name/{name}")
     public Map<String, String> nameIsExist(@PathVariable(value = "name")String name){
-        Map<String, String> msg = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         MLabUser mLabUser = new MLabUser();
         mLabUser.setName(name);
         if(mLabUserService.match(mLabUser)==null){
-            msg.put("msg", "false");
+            map.put("msg", "false");
         }else {
-            msg.put("msg", "true");
+            map.put("msg", "true");
         }
-        return msg;
+        return map;
     }
 
     /***
@@ -186,15 +218,15 @@ public class MLabUserController {
      */
     @GetMapping("/email/{email}")
     public Map<String, String> emailIsExist(@PathVariable(value = "email")String email){
-        Map<String, String> msg = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         MLabUser mLabUser = new MLabUser();
         mLabUser.setEmail(email);
         if(mLabUserService.match(mLabUser)==null){
-            msg.put("msg", "false");
+            map.put("msg", "false");
         }else {
-            msg.put("msg", "true");
+            map.put("msg", "true");
         }
-        return msg;
+        return map;
     }
 
     /***
@@ -204,14 +236,22 @@ public class MLabUserController {
      */
     @GetMapping("/phone/{phone}")
     public Map<String, String> findByPhone(@PathVariable(value = "phone")String phone){
-        Map<String, String> msg = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         MLabUser mLabUser = new MLabUser();
         mLabUser.setPhone(phone);
         if(mLabUserService.match(mLabUser)==null){
-            msg.put("msg", "false");
+            map.put("msg", "false");
         }else {
-            msg.put("msg", "true");
+            map.put("msg", "true");
         }
-        return msg;
+        return map;
+    }
+
+    //日期类型转换
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 }

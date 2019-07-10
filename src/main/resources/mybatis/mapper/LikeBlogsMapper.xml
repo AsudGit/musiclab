@@ -7,4 +7,22 @@
     <select id="list" resultType="LikeBlogs">
         SELECT * FROM likeblogs
     </select>
+
+    <select id="get" parameterType="LikeBlogs" resultType="LikeBlogs_status">
+        select * from likeblogs
+        <where>
+            <if test="uid!=null and uid!=''">
+                and uid=#{uid}
+            </if>
+            <if test="bid!=null and bid!=''">
+                and bid=#{bid}
+            </if>
+        </where>
+    </select>
+    <insert id="add" parameterType="LikeBlogs">
+        insert into likeblogs(lid, uid, bid) values(#{lid},#{uid},#{bid});
+    </insert>
+    <delete id="delete" parameterType="String">
+        delete from likeblogs where lid=#{lid}
+    </delete>
 </mapper>

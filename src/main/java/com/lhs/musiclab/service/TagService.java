@@ -18,4 +18,8 @@ public interface TagService {
     public Integer update(String tid,Integer heat);
 
     public Tag get(Tag tag);
+
+    public List<Tag> getHotTag(Integer start,Integer size);
+
+    public void setHotTagForRedis(Integer start, Integer size);
 }

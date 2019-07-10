@@ -8,7 +8,7 @@ spring:
   jackson:
     time-zone: GMT+8 #解决后台传日期到前台js解析少一天的问题
   profiles:
-    active: dev #设置环境 dev（开发环境）prod（生成环境）
+    active: prod #设置环境 dev（开发环境）prod（生成环境）
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/musiclab_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
     username: root

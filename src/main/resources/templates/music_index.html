@@ -24,18 +24,18 @@
 <!--        封面集合-->
         <section class="img-dragger img-dragger-large dragdealer">
             <div class="handle">
-                <div class="slide redbcg" data-content="content-1">
-                    <div class="img-wrap">
-                        <!--                        <img th:src="@{/image/1.jpg}" alt="img1"/>-->
-                    </div>
-                    <h2>网易云音乐<span>听见 · 好时光！</span></h2>
-                    <button class="content-switch"><i class="fa fa-angle-double-down"></i></button>
-                </div>
                 <div class="slide greenbcg" data-content="content-1">
                     <div class="img-wrap">
                         <!--                        <img th:src="@{/image/2.jpg}" alt="img2"/>-->
                     </div>
                     <h2>QQ音乐<span>音乐你的生活</span></h2>
+                    <button class="content-switch"><i class="fa fa-angle-double-down"></i></button>
+                </div>
+                <div class="slide redbcg" data-content="content-1">
+                    <div class="img-wrap">
+                        <!--                        <img th:src="@{/image/1.jpg}" alt="img1"/>-->
+                    </div>
+                    <h2>网易云音乐<span>听见 · 好时光！</span></h2>
                     <button class="content-switch"><i class="fa fa-angle-double-down"></i></button>
                 </div>
                 <div class="slide bluebcg" data-content="content-1">
@@ -63,7 +63,7 @@
         </section>
 <!--         页面集合 -->
         <section class="pages">
-            <div class="content" data-content="content-1">
+            <div id="app" class="content" data-content="content-1">
                 <div class="scrollview">
                     <div class="col-md-12 content_top bcgcolor">
                         <div class="row">
@@ -81,79 +81,79 @@
                                 <div class="white_line3 circle vertical_center"></div>
                             </div>
                             <div class="music_nav fade">
-                                <a href="#"><i class="fa fa-search"></i></a>
-                                <a href="#"><i class="fa fa-user-circle"></i></a>
+                                <input @keyup.enter="searchSong" v-model="songKey" v-show="showSearch" type="text" class="form-control">
+                                <a @click="showSearch=!showSearch" href="#"><i class="fa fa-search"></i></a>
+                                <a data-toggle="modal" data-target="#login_modal"><i class="fa fa-user-circle"></i></a>
                             </div>
                             <div class="music_title fade">
                                 <h3>-这里是</h3>
-                                <h1>网易云音乐热门歌曲排行版</h1>
+                                <h1>{{currentPage}}热门歌曲排行版</h1>
                                 <a href="#">最新歌单</a>
                                 <a href="#">热门歌单</a>
-                                <a href="#">MV 排行榜</a>
+                                <a href="#">热歌榜</a>
+                                <a href="#">MV排行榜</a>
                                 <a href="#">歌手排行榜</a>
                                 <a href="#">最新音乐</a>
                                 <a href="#">最新专辑</a>
                                 <div class="music_random">
                                     <i class="fa fa-random">随机播放一首歌</i>———
-                                    <a href="#"><i class="fa fa-play"></i></a>
+                                    <a @click="randomPlay"><i class="fa fa-play"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 content_bottom fade">
                         <div class="row">
-                            <a href="javascript:void(0)" class="toggle_song"><small>切歌</small><br/><i class="fa fa-angle-down"></i></a>
-                            <div class="col-md-9">
-                                <div class="row">
-                                    <div id="myrecord_min">
-                                        <div class="record_center_dot circle vertical_center"></div>
-                                        <div class="record_center_dotedge circle vertical_center"></div>
-                                        <div class="record_center_cover bcgcolor circle vertical_center"></div>
-                                        <div class="record_center_edge circle vertical_center"></div>
-                                        <div class="record_lines circle vertical_center"><p>这是歌名</p></div>
-                                        <div class="record_edge circle vertical_center"></div>
-                                    </div>
-                                </div>
+                            <a @click="toggleSong" class="toggle_song"><small>换张专辑</small><br/><i class="fa fa-angle-down"></i></a>
+                            <div id="myrecord_min">
+                                <div class="record_center_dot circle vertical_center"></div>
+                                <div class="record_center_dotedge circle vertical_center"></div>
+                                <div class="record_center_cover bcgcolor circle vertical_center"></div>
+                                <div class="record_center_edge circle vertical_center"></div>
+                                <div class="record_lines circle vertical_center"><p></p></div>
+                                <div class="record_edge circle vertical_center"></div>
                             </div>
                             <div class="songlist">
                                 <h2>热歌榜</h2>
                                 <div class="songlist_content">
-                                    <div class="song_item col-md-10 col-md-offset-1">
-                                        <a href="#"><i class="fa fa-play"></i></a>
-                                        <p class="song_item_info">歌名-歌手</p>
-                                        <p class="song_item_time">04:55</p>
-                                    </div>
-                                    <div class="song_item col-md-10 col-md-offset-1">
-                                        <a href="#"><i class="fa fa-play"></i></a>
-                                        <p class="song_item_info">歌名-歌手</p>
-                                        <p class="song_item_time">04:55</p>
-                                    </div>
-                                    <div class="song_item col-md-10 col-md-offset-1">
-                                        <a href="#"><i class="fa fa-play"></i></a>
-                                        <p class="song_item_info">歌名-歌手</p>
-                                        <p class="song_item_time">04:55</p>
-                                    </div>
-                                    <div class="song_item col-md-10 col-md-offset-1">
-                                        <a href="#"><i class="fa fa-play"></i></a>
-                                        <p class="song_item_info">歌名-歌手</p>
-                                        <p class="song_item_time">04:55</p>
-                                    </div>
-                                    <div class="song_item col-md-10 col-md-offset-1">
-                                        <a href="#"><i class="fa fa-play"></i></a>
-                                        <p class="song_item_info">歌名-歌手</p>
-                                        <p class="song_item_time">04:55</p>
+                                    <song-item v-for="(song,index) in songPage" :song="song" :index="start*size+index+1" :key="song.id"></song-item>
+                                    <div class="pagenav">
+                                        <ul class="pagination">
+                                            <li v-if="start==0" class="disabled"><span><i class="fa fa-angle-double-left"></i></span></li>
+                                            <li v-else><a @click="toStartPage"><span><i class="fa fa-angle-double-left"></i></span></a></li>
+                                            <li v-if="start==0" class="disabled"><span><i class="fa fa-angle-left"></i></span></li>
+                                            <li v-else><a @click="prePage"><span><i class="fa fa-angle-left"></i></span></a></li>
+                                            <li class="active"><a>{{start+1}}</a></li></li>
+                                            <li v-if="start==pages-1" class="disabled"><span><i class="fa fa-angle-right"></i></span></li>
+                                            <li v-else><a @click="nextPage"><span><i class="fa fa-angle-right"></i></span></a></li>
+                                            <li v-if="start==pages-1" class="disabled"><span><i class="fa fa-angle-double-right"></i></span></li>
+                                            <li v-else><a @click="toEndPage"><span><i class="fa fa-angle-double-right"></i></span></a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12"id="music_player">
+                    <div v-if="pages!=0" id="music_player">
+                        <aplayer :show-lrc="true" :theme="theme" :music="currentSong"/>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 </div><!-- /container -->
+<template id="song_item">
+    <div class="song_item">
+        <b class="col-md-1 col-md-offset-1">{{index}}</b>
+        <div @click="playSong" @mouseenter="enteredSong" @mouseleave="leavedSong" class="song_content col-md-7">
+            <a><i class="fa fa-play"></i></a>
+            <p class="song_item_info">{{song.name}}-{{song.singer}}</p>
+            <p class="song_item_time">{{song.time | timeFormat}}</p>
+        </div>
+        <a @click="downloadSong" class="song_download"><i class="fa fa-download"></i></a>
+        <img class="song_pic" :src="song.pic">
+    </div>
+</template>
 <script src="../static/plugins/dragcolor/js/modernizr.custom.js"
         th:src="@{/plugins/dragcolor/js/modernizr.custom.js}"></script>
 <script src="../static/plugins/slideswitch/js/dragdealer.js"
@@ -164,8 +164,10 @@
         th:src="@{/plugins/slideswitch/js/dragslideshow.js}"></script>
 <script src="../static/plugins/slideswitch/js/main.js"
         th:src="@{/plugins/slideswitch/js/main.js}"></script>
-<script src="../static/plugins/aplayer/js/APlayer.min.js"
-        th:src="@{/plugins/aplayer/js/APlayer.min.js}"></script>
+<script src="../static/plugins/aplayer/js/vue-aplayer.js"
+        th:src="@{/plugins/aplayer/js/vue-aplayer.js}"></script>
+<script src="../static/custom/js/downloadUtils.js"
+        th:src="@{/custom/js/downloadUtils.js}"></script>
 <script src="../static/custom/js/music_index.js"
         th:src="@{/custom/js/music_index.js}"></script>
 </body>

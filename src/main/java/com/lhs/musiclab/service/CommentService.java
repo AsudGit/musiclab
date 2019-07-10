@@ -13,11 +13,7 @@ public interface CommentService {
 
     public List<CommentItem> listByIdLimit(String id,Integer start,Integer size);
 
-    public List<CommentItem> list(String id);
-
-    public PageInfo<CommentItem> list(String id, Integer start, Integer size);
-
-    public void commentsIncr(Integer plate);
+    public PageInfo<CommentItem> list(Comment comment, Integer start, Integer size);
 
     public Integer countCommentsByUid(String uid);
 

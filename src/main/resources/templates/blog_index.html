@@ -21,6 +21,10 @@
             th:src="@{/plugins/jquery/js/jquery.mCustomScrollbar.min.js}"></script>
     <script src="../static/plugins/jqueryemoji/js/jquery.emoji.min.js"
             th:src="@{/plugins/jqueryemoji/js/jquery.emoji.min.js}"></script>
+    <script src="../static/plugins/masonry/js/masonry.pkgd.min.js"
+            th:src="@{/plugins/masonry/js/masonry.pkgd.min.js}"></script>
+    <script src="../static/plugins/imagesloaded/js/imagesloaded.pkgd.min.js"
+            th:src="@{/plugins/imagesloaded/js/imagesloaded.pkgd.min.js}"></script>
     <script src="../static/custom/js/blog_index.js"
             th:src="@{/custom/js/blog_index.js}"></script>
 </head>
@@ -37,23 +41,24 @@
                     <div class="scroll_info">
                         <div class="user_header">
                             <a>
-                                <img @click="toUserPage" th:if="${session.headImg} eq 'default'" class="circle" th:src="@{/image/defaulthead.jpg}">
-                                <img @click="toUserPage" th:if="${session.headImg} ne 'default'" class="circle" th:src="@{${session.headImg}}">
+                                <img @click="toUserPage" class="circle" th:src="@{${session.headImg}}">
                             </a>
                             <h4>
                                 <a><b th:text="${session.userName}"></b><i class="fa fa-caret-down"></i></a>
-                                <br/><small>{{moodsign}}</small>
+                                <br/>
+                                <small v-if="moodsign!=null && moodsign!=''" v-text="moodsign.content"></small>
+                                <small v-else>签名：什么都没有</small>
                             </h4>
                         </div>
                         <div class="left_menu_nav">
                             <p>导航</p>
                             <ul>
-                                <li><a th:href="@{/index}" href="javascript:void(0)"><i class="fa fa-home"></i>首页</a></li>
+                                <li><a @click="toIndex" href="javascript:void(0)"><i class="fa fa-home"></i>首页</a></li>
                                 <li><a href="music_index.html" th:href="@{/musicIndex}"><i class="fa fa-music"></i>音乐播放</a></li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-image"></i>我的相册</a></li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-star"></i>我的收藏</a></li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-comments"></i>我的评论</a></li>
-                                <li><a href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>我的赞</a></li>
+                                <li><a @click="toMyImages" href="javascript:void(0)"><i class="fa fa-image"></i>我的相册</a></li>
+                                <li><a @click="toMyStar" href="javascript:void(0)"><i class="fa fa-star"></i>我的收藏</a></li>
+                                <li><a @click="toMyComments" href="javascript:void(0)"><i class="fa fa-comments"></i>我的评论</a></li>
+                                <li><a @click="toMyLikes" href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>我的赞</a></li>
                             </ul>
                         </div>
                         <div class="left_menu_nav">
@@ -110,6 +115,34 @@
             </div>
         </div>
     </div>
+    <div id="starModal" class="fade modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div @click="showFolderInput=false" v-if="showFolderInput" class="hideCover"></div>
+                <div  class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                    <h4 class="modal-title"><i class="fa fa-tags"></i>添加到收藏夹</h4>
+                </div>
+                <div class="modal-body">
+                    <a @click="checkFolder(starFolder.folder)" v-for="starFolder in starFolders">
+                        <i v-if="starFolder.folder==0" class="fa fa-check-square"></i>
+                        <i v-else class="fa fa-square-o"></i>
+                        <label>{{starFolder.folderName}}</label>
+                        <i class="fa fa-tag"></i>
+                    </a>
+                    <div v-if="showFolderInput" class="input-group">
+                        <input @keyup.enter="addFolder" type="text" v-model="folderName" class="form-control" placeholder="最多输入20个字母">
+                        <a @click="addFolder" class="input-group-addon">新建</a>
+                    </div>
+                    <a v-else @click="showFolderInput=true" class="addStarFolder border-radius"><i class="fa fa-plus"></i>新建收藏夹</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button @click="star" type="button" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!--油画工具-->
 <div class="customizer fade">
@@ -127,51 +160,64 @@
 </div>
 <template id="blog_item" >
     <div class="blog_item paint-area border-radius">
-        <a @click="" class="bloggerhead">
-            <img v-if="blogitem.mLabUser.head_img =='default'" th:src="@{/image/defaulthead.jpg}" class="circle">
-            <img v-else :src="blogitem.mLabUser.head_img" class="circle">
-        </a>
-        <div class="bloggerinfo">
-            <div th:style="'background-image:url(/image/jazz.jpg)'">
-                <a>
-                    <img v-if="blogitem.mLabUser.head_img =='default'" th:src="@{/image/defaulthead.jpg}" class="circle">
-                    <img v-else :src="blogitem.mLabUser.head_img" class="circle">
-                </a>
-                <p>{{blogitem.mLabUser.name}}</p>
-                <P>签名：什么都没有</P>
+        <div @mouseenter="showBloggerInfo" @mouseleave="hideBloggerInfo">
+            <a @click="toUserPage" class="bloggerhead">
+                <img :src="blogitem.mLabUser.head_img" class="circle">
+            </a>
+            <div v-if="showBlogger" class="bloggerinfo">
+                <div v-if="loaded">
+                    <div class="bloggerCover" :style="{backgroundImage:'url('+mLabUser.blogbcg_img+')'}">
+                        <a>
+                            <img :src="blogitem.mLabUser.head_img" class="circle">
+                        </a>
+                        <p>{{blogitem.mLabUser.name}}</p>
+                        <P v-if="moodsign!=null && moodsign!=''" v-text="moodsign.content"></P>
+                        <p v-else>签名：什么都没有</p>
+                    </div>
+                    <ul>
+                        <li><a><b>关注0</b></a></li>
+                        <li><p>|</p></li>
+                        <li><a><b>粉丝0</b></a></li>
+                        <li><p>|</p></li>
+                        <li><a><b>博客{{mLabUserCount.blogs}}</b></a></li>
+                    </ul>
+                    <a class="btn btn-success">关注</a>
+                    <a class="btn btn-danger">拉黑</a>
+                </div>
+                <div v-else class="loading">
+                    <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <i class="nav-arrow black-arrow"></i>
+                <i class="nav-arrow white-arrow"></i>
             </div>
-            <ul>
-                <li><a><b>关注0</b></a></li>
-                <li><p>|</p></li>
-                <li><a><b>粉丝0</b></a></li>
-                <li><p>|</p></li>
-                <li><a><b>博客0</b></a></li>
-            </ul>
-            <a class="btn btn-default">关注</a>
-            <a class="btn btn-danger">拉黑</a>
-            <i class="nav-arrow black-arrow"></i>
-            <i class="nav-arrow white-arrow"></i>
         </div>
         <a class="titlelink" @click="toInfo(blogitem)"><h3 class="paint-area paint-area--text">{{blogitem.blog.title}}</h3></a>
         <a href="javascript:void(0)"><i class="fa fa-chevron-down"></i></a>
         <p class="paint-area paint-area--text">{{blogitem.blog.content|getSimpleText}}…</p>
         <div class="blog_item_info">
             <a class="blog_time" href="javascript:void(0)"><i class="fa fa-clock-o"></i>{{blogitem.blog.blogged_time | dateformat}}</a>
-            <a class="blog_star" href="javascript:void(0)"><i class="fa fa-star"></i>收藏</a>
-            <a class="blog_likes" href="javascript:void(0)"><i class="fa fa-thumbs-o-up"></i>{{blogitem.blog.likes}}</a>
+            <a class="blog_star" href="javascript:void(0)">
+                <i v-if="blogitem.star" @click="cancelStar" class="fa fa-star ml-color">已收藏</i>
+                <i v-else @click="starModal" data-toggle="modal" data-target="#starModal" class="fa fa-star-o">收藏</i>
+            </a>
+            <a class="blog_likes" @click="like" href="javascript:void(0)">
+                <i v-if="blogitem.like" class="fa fa-thumbs-up ml-color"></i>
+                <i v-else class="fa fa-thumbs-o-up"></i>
+                {{blogitem.blogCount.likes}}
+            </a>
             <!--                                    TODO:转发量-->
             <!--<a class="blog_external" href="javascript:void(0)"><i class="fa fa-external-link"></i>0</a>-->
-            <a class="blog_views" href="javascript:void(0)"><i class="fa fa-eye"></i>{{blogitem.blog.views}}</a>
-            <a class="blog_comments" href="javascript:void(0)"><i class="fa fa-commenting"></i>{{blogitem.blog.comments}}</a>
+            <a class="blog_views" href="javascript:void(0)"><i class="fa fa-eye"></i>{{blogitem.blogCount.views}}</a>
+            <a class="blog_comments" href="javascript:void(0)"><i class="fa fa-commenting"></i>{{blogitem.blogCount.comments}}</a>
         </div>
     </div>
 </template>
 <template id="hotblog">
     <div class="row">
         <div class="col-md-3">
-            <a>
-                <img v-if="hotblog.mLabUser.head_img =='default'" th:src="@{/image/defaulthead.jpg}" class="circle">
-                <img v-else :src="hotblog.mLabUser.head_img" class="circle">
+            <a @click="toUserPage">
+                <img :src="hotblog.mLabUser.head_img" class="circle">
                 <b>{{hotblog.mLabUser.name}}</b>
             </a>
         </div>
@@ -179,7 +225,7 @@
             <a @click.prevent="toInfo(hotblog)">
                 <p class="paint-area paint-area--text">{{hotblog.blog.title}}</p>
             </a>
-            <i class="fa fa-eye"></i><small>{{hotblog.blog.likes}}</small>
+            <i class="fa fa-eye"></i><small>{{hotblog.blogCount.likes}}</small>
         </div>
     </div>
 </template>
@@ -211,35 +257,62 @@
         <div style="clear: both;"></div>
     </div>
 </template>
+<template id="moodsign_content">
+    <div class="col-md-12">
+        <div class="moodsign">
+            <div class="moodsign_edit">
+                <a @click="enteredEdit=!enteredEdit"><i :class="[enteredEdit?'fa-angle-double-left':'fa-caret-right','fa']"></i></a>
+                <input @keyup.enter="signing" v-model="content" type="text" v-if="enteredEdit"  placeholder="说点什么吧" class="form-control">
+            </div>
+            <moodsign-item v-for="moodsign in moodsigns" :moodsign="moodsign" :key="moodsign.msid"></moodsign-item>
+            <div class="moodsign_more">
+                <a><div class="circle"></div></a>
+            </div>
+        </div>
+    </div>
+</template>
 <template id="mlabuser_info">
     <div>
-        <div class="plate" th:style="'background-image:url(/image/jazz.jpg)'">
+        <div class="plate" :style="{backgroundImage:'url('+bcgimg+')'}">
             <div @mouseenter="enteredCover=true" @mouseleave="enteredCover=false" class="user_info">
-                <img class="circle" th:src="@{/image/ballad.jpg}">
-                <h2>user</h2>
-                <p>这里是签名</p>
-                <div>
+                <img class="circle" :src="mLabUser.head_img">
+                <h2>{{mLabUser.name}}</h2>
+                <p v-text="moodsign.content">什么都没说</p>
+                <div class="contact_info">
                     <a><p>0</p>关注</a>
                     <a><p>0</p>粉丝</a>
-                    <a><p>0</p>博客</a>
+                    <a @click="toMyBlogs"><p>{{mLabUserCount.blogs}}</p>博客</a>
                     <a><i class="fa fa-weibo"></i>微博</a>
                     <a><i class="fa fa-wechat"></i>微信</a>
                     <a><i class="fa fa-envelope"></i>邮箱</a>
                 </div>
+                <div class="user_follow" v-if="enteredCover">
+                    <a class="btn btn-success">关注</a>
+                    <a class="btn btn-info">私信</a>
+                    <a class="btn btn-default"><i class="fa fa-bars"></i></a>
+                </div>
             </div>
             <div :class="{blurfilter:enteredCover}"></div>
         </div>
-        <div class="col-md-12">
-            <div class="moodsign">
-                <div class="moodsign_edit">
-                    <a @click="enteredEdit=!enteredEdit"><i :class="[enteredEdit?'fa-angle-double-left':'fa-caret-right','fa']"></i></a>
-                    <input @keyup.enter="signing" v-model="content" type="text" v-if="enteredEdit"  placeholder="说点什么吧" class="form-control">
-                </div>
-                <moodsign-item v-for="moodsign in moodsigns" :moodsign="moodsign" :key="moodsign.msid"></moodsign-item>
-                <div class="moodsign_more">
-                    <a><div class="circle"></div></a>
-                </div>
-            </div>
+        <div class="option_bar paint-area">
+            <ul class="my_info">
+                <li @click="toMySign"><a>签名</a></li>
+                <li @click="toMyImages"><a>相册</a></li>
+                <li @click="toMyStar"><a>收藏</a></li>
+                <li @click="toMyLikes"><a>点赞</a></li>
+                <li @click="toMyComments"><a>评论</a></li>
+                <li @click="toMyBlogs"><a>博客</a></li>
+            </ul>
+        </div>
+        <moodsign-content v-if="target=='sign'" :uid="uid"></moodsign-content>
+        <my-images v-if="target=='images'" :uid="uid"></my-images>
+        <star-content v-if="target=='star'" :uid="uid"></star-content>
+        <like-content v-if="target=='likes'" :uid="uid"></like-content>
+        <div v-if="target=='blogs'">
+            <blog-item v-for="blogitem in blogpage.list" :blogitem="blogitem" :key="blogitem.blog.bid"></blog-item>
+        </div>
+        <div v-if="target=='comments'">
+            <comment-item v-for="commentitem in commentpage.list" :commentitem="commentitem" :key="commentitem.comment.cid"></comment-item>
         </div>
     </div>
 </template>
@@ -260,7 +333,7 @@
             <div class="blurfilter"></div>
         </div>
         <div id="paint_blog" class="paint-area">
-            <div class="blog_option paint-area">
+            <div class="option_bar paint-area">
                 <div class="input-group">
                     <input @keyup.enter="plateSearch" v-model="plateKey" type="text" class="form-control" placeholder="搜索">
                     <span @click="plateSearch" class="input-group-addon">
@@ -352,28 +425,26 @@
                 <i class="fa fa-edit"></i>
             </a>
         </div>
-
     </div>
 </template>
 <template id="blog_info">
     <div>
         <div id="info_title">
             <div class="info_blogger">
-                <a>
-                    <img v-if="bloginfo.mLabUser.head_img =='default'" th:src="@{/image/defaulthead.jpg}" class="circle">
-                    <img v-else :src="bloginfo.mLabUser.head_img" class="circle">
+                <a @click="toUserPage">
+                    <img :src="bloginfo.mLabUser.head_img" class="circle">
                 </a>
                 <div>
                     <h4>{{bloginfo.mLabUser.name}}</h4>
-                    <a class="btn btn-default">关注</a>
+                    <a class="btn btn-success">关注</a>
                 </div>
             </div>
             <h3>{{bloginfo.blog.title}}</h3>
             <ul>
                 <li><i class="fa fa-clock-o"></i>{{bloginfo.blog.blogged_time | dateformat}}</li>
-                <li><i class="fa fa-thumbs-o-up"></i>{{bloginfo.blog.likes}}</li>
-                <li><i class="fa fa-eye"></i>{{bloginfo.blog.views}}</li>
-                <li><i class="fa fa-commenting"></i>{{bloginfo.blog.comments}}</li>
+                <li><i class="fa fa-thumbs-o-up"></i>{{bloginfo.blogCount.likes}}</li>
+                <li><i class="fa fa-eye"></i>{{bloginfo.blogCount.views}}</li>
+                <li><i class="fa fa-commenting"></i>{{bloginfo.blogCount.comments}}</li>
             </ul>
         </div>
         <div id="info_nav">
@@ -399,14 +470,20 @@
                 <blog-tag v-for="tag in tags" :tag="tag" :key="tag.tid"></blog-tag>
             </div>
             <div class="info_footer">
-                <a><i class="fa fa-clock-o"></i> 最后修改：{{bloginfo.blog.revised_time | dateformat}}</a>
+                <a><i class="fa fa-clock-o"></i> 最后修改：{{bloginfo.blogCount.revised_time | dateformat}}</a>
                 <a class="tooltip-goal" title="若转载请联系作者获得授权，并注明地址，未经授权不得转载" data-toggle="tooltip" data-placement="top">© 著作权归作者所有</a>
             </div>
         </div>
-        <blog-comment :bid="bloginfo.blog.bid"></blog-comment>
+        <blog-comment :bid="bloginfo.blog.bid" :commentnum="bloginfo.blogCount.comments"></blog-comment>
         <div id="info_btns">
             <ul>
-                <li><a><i class="fa fa-thumbs-o-up"></i>{{bloginfo.blog.likes}}</a></li>
+                <li>
+                    <a @click="like">
+                        <i v-if="bloginfo.like" class="fa fa-thumbs-up ml-color"></i>
+                        <i v-else class="fa fa-thumbs-o-up"></i>
+                        {{bloginfo.blogCount.likes}}
+                    </a>
+                </li>
                 <li><a @click="toComment"><i class="fa fa-commenting-o"></i></a></li>
                 <li><a><i class="fa fa-star-o"></i></a></li>
                 <li><a @click="toTop"><i class="fa fa-space-shuttle fa-rotate-270"></i></a></li>
@@ -417,25 +494,22 @@
 <template id="blog_comment">
     <div id="info_comment">
         <div class="comment_edit">
-            <img th:if="${session.headImg} eq 'default'" class="circle" th:src="@{/image/defaulthead.jpg}">
-            <img th:if="${session.headImg} ne 'default'" class="circle" th:src="@{${session.headImg}}">
+            <img class="circle" th:src="@{${session.headImg}}">
             <textarea @focus="editfocus" @blur="editblur" class="form-control"></textarea>
             <input type="image" @click="reOffset" class="emoji_btn comment_emoji" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZBAMAAAA2x5hQAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAkUExURUxpcfTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAPTGAOfx6yUAAAALdFJOUwAzbVQOoYrzwdwkAoU+0gAAAM1JREFUGNN9kK0PQWEUxl8fM24iCYopwi0muuVuzGyKwATFZpJIU01RUG/RBMnHxfz+Oef9uNM84d1+23nO+zxHKVG2WWupRJkdcAwtpCK0lpbqWE01pB0QayonREMoIp7AawQrWSgGGb4pn6dSeSh68FAVXqHqy3wKrkJiDGDTg3dnp//w+WnwlwIOJauF+C7sXRVfdha4O4oIJfTbtdSxs2uqhs585A0ko8iLTMEcDE1n65A+29pYAlr72nz9dKu7GuNTcsL2fDQzB/wCPVJ69nZGb3gAAAAASUVORK5CYII=">
-            <a @click="commenting" class="btn btn-success btn-sm">发送</a>
+            <a @click="commenting" class="btn btn-primary btn-sm">发送</a>
             <p class="comment_warm"></p>
         </div>
-        <h3>{{commentItems.length}}条评论</h3>
+        <h3>{{commentnum}}条评论</h3>
         <comment-parent v-for="commentItem in commentItems" :commentitem="commentItem" :bid="bid" :key="commentItem.comment.cid" ></comment-parent>
         <a v-if="pageNum<pages" @click="moreComment" class="moreComment">查看更多 <i class="fa fa-angle-right"></i></a>
     </div>
 </template>
-<template id="comment_edit"></template>
 <template id="comment_parent_item">
     <div class="comment_item row">
         <div class="col-md-1">
-            <a>
-                <img v-if="commentitem.mLabUser.head_img == 'default'" class="circle" th:src="@{/image/defaulthead.jpg}">
-                <img v-else class="circle" :src="commentitem.mLabUser.head_img">
+            <a @click="toUserPage">
+                <img class="circle" :src="commentitem.mLabUser.head_img">
             </a>
         </div>
         <div class="col-md-11">
@@ -458,9 +532,8 @@
 <template id="comment_child_item">
     <div class="col-md-12">
         <div class="col-md-1">
-            <a>
-                <img v-if="childcomment.mLabUser.head_img == 'default'" class="circle" th:src="@{/image/defaulthead.jpg}">
-                <img v-else class="circle" :src="childcomment.mLabUser.head_img">
+            <a @click="toUserPage">
+                <img class="circle" :src="childcomment.mLabUser.head_img">
             </a>
         </div>
         <div class="col-md-11">
@@ -480,6 +553,110 @@
 </template>
 <template id="blog_tag">
     <a><span class="label label-default">{{tag.name}}</span></a>
+</template>
+<template id="my_images">
+    <div>
+        <div class="my_images">
+            <div v-for="(image,index) in myImages" class="image_item col-md-4 col-sm-4">
+                <div class="dropdown">
+                    <a @mouseenter="showTag" class="image_menu fade" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        <li><a>删除  <i class="fa fa-trash"></i></a></li>
+                    </ul>
+                </div>
+                <img @mouseenter="showTag" @mouseleave="hideTag" @click="browseImage(image.url,index)" class="border-radius" data-toggle="modal" data-target="#imageModal" :src="image.url">
+                <div @mouseenter="showTag" class="image_date fade">{{image.uploaded_time | standardDate}}</div>
+            </div>
+        </div>
+        <div id="imageModal" class="fade modal">
+            <a @click="prevImage" class="image_left"><i class="fa fa-angle-left"></i></a>
+            <img :src="bigImage">
+            <a data-dismiss="modal" class="image_close"><i class="fa fa-times"></i></a>
+            <a @click="nextImage" class="image_right"><i class="fa fa-angle-right"></i></a>
+        </div>
+    </div>
+</template>
+<template id="comment_item">
+    <div class="comment_item row mycomment">
+        <div class="col-md-12">
+            <div class="col-md-1">
+                <a>
+                    <img class="circle" :src="commentitem.mLabUser.head_img">
+                </a>
+            </div>
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-12">
+                        <b>{{commentitem.mLabUser.name}}</b>
+                        <p v-html="commentitem.comment.content"></p>
+                        <small><i class="fa fa-clock-o"></i>{{commentitem.comment.commented_time | dateformat}}</small>
+                        <ul>
+                            <li><a class="btn btn-danger btn-xs"><i class="fa fa-thumbs-up"></i>{{commentitem.comment.likes}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="star_content">
+    <div class="star_content row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <ul class="star_folder">
+                    <li>
+                        <i class="fa fa-plus-circle"></i>
+                        <a>添加文件夹</a>
+                    </li>
+                    <li v-for="starFolder in starFolders" :class="{'ml-bcg':isDefault(starFolder)}">
+                        <a @click="toFolder(starFolder.folder)">
+                            <i class="fa fa-tags"></i>
+                            {{starFolder.folderName}}
+                        </a>
+                        <div class="dropdown">
+                            <a data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+                            <ul class="dropdown-menu">
+                                <li v-if="starFolder.folder!=0"><a>编辑 <i class="fa fa-edit"></i></a></li>
+                                <li><a>删除  <i class="fa fa-trash"></i></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-9">
+                <blog-item :blogitem="blogitem" v-for="blogitem in blogitems" :key="blogitem.blog.bid"></blog-item>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="likes_content">
+    <div class="likes_content row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <ul class="star_folder">
+                    <li class="ml-bcg">
+                        <i class="fa fa-thumbs-o-up"></i>
+                        <a>博客</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-thumbs-o-up"></i>
+                        <a>评论</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-thumbs-o-up"></i>
+                        <a>签名</a>
+                    </li>
+                </ul>
+            </div>
+            <div v-if="page=='blog'" class="col-md-9">
+                <blog-item :blogitem="blogitem" v-for="blogitem in blogitems" :key="blogitem.blog.bid"></blog-item>
+            </div>
+            <div v-if="page=='comment'" class="col-md-9">
+            </div>
+            <div v-if="page=='moodsign'" class="col-md-9">
+            </div>
+        </div>
+    </div>
 </template>
 <script src="../static/plugins/dragcolor/js/modernizr.custom.js"
         th:src="@{/plugins/dragcolor/js/modernizr.custom.js}"></script>

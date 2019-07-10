@@ -5,3 +5,5 @@ ul,ol,li{list-style-type:none;}
 html,body{height: 100%;}
 .circle {border: 1px solid black;border-radius: 50%;}
 .border-radius{-moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
+.ml-color{color: #5cada1;}
+.ml-bcg{background-color:#5cada1;}

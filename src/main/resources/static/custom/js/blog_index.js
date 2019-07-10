@@ -10,7 +10,6 @@ $(function () {
         plateNo = href.substr(start,length);
     }
 
-
     //获得字符串字节长度
     function getStrLength( str ){
         return str.replace(/[\u0391-\uFFE5]/g,"aa").length; //"g" 表示全局匹配
@@ -29,10 +28,6 @@ $(function () {
         }else {
             return val;
         }
-    }
-    //进入详情页
-    function toInformation(blogitem,$this){
-        routerPush("/info",{bloginfo: blogitem})
     }
 
     function search(plateKey) {
@@ -93,10 +88,32 @@ $(function () {
         var date = (closest.getTime() - farthest.getTime()) / (1000 * 60 * 60 * 24);
         return parseInt(date);
     }
+    //博客点赞函数
+    function likeBlog(thisBlog){
+        if (thisBlog.like) {
+            thisBlog.blogCount.likes = thisBlog.blogCount.likes - 1;
+        } else {
+            thisBlog.blogCount.likes = thisBlog.blogCount.likes + 1;
+        }
+        axios.get("/blog/like",{
+            params:{
+                like:thisBlog.like,
+                bid:thisBlog.blog.bid,
+            }
+        })
+        thisBlog.like = !thisBlog.like;
+    }
+
 
     //日期格式转换
     Vue.filter("dateformat",function (value) {
         return new Date(value).toLocaleString().replace(/:\d{1,2}$/, ' ');
+    })
+    Vue.filter("standardDate",function (value) {
+        var date = new Date(value);
+        var mouth = date.getMonth() > 9 ? date.getMonth() : '0' + date.getMonth();
+        var day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+        return date.getFullYear()+'-'+mouth+'-'+day;
     })
     //获得纯文本
     Vue.filter("getSimpleText",function (html) {
@@ -108,13 +125,76 @@ $(function () {
         return msg;
     })
     var blogComponent={
+        data:function(){
+            return{
+                showBlogger: false,
+                wait: false,
+                loaded:false,
+                mLabUser:{},
+                mLabUserCount:{},
+                moodsign:{},
+                liking:false,
+            }
+        },
         props:["blogitem"],
         template:"#blog_item",
         methods:{
             toInfo:function (blogitem) {
-                toInformation(blogitem,this);
+                routerPush("/info",{bloginfo: blogitem})
             },
-
+            toUserPage:function () {
+                routerPush("/user",{
+                    uid: this.blogitem.mLabUser.uid,
+                    target:"sign",
+                })
+            },
+            like:function(){
+                if (!this.liking){
+                    this.liking = true;
+                    likeBlog(this.blogitem);
+                    this.liking = false;
+                }
+            },
+            starModal:function(){
+                app.starBlogComp = this;
+                axios.get("/blog/star/folder/get").then(function (value) {
+                    app.starFolders = value.data;
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
+            },
+            cancelStar:function(){
+                var $this = this;
+                axios.get("/blog/star/cancel/" + this.blogitem.blog.bid).then(function (value) {
+                    $this.blogitem.star = false;
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
+            },
+            showBloggerInfo:function () {
+                this.wait = true;
+                var $this = this;
+                setTimeout(function () {
+                    if ($this.wait == true) {
+                        $this.showBlogger = true;
+                        //TODO:把settimeout改为请求
+                        if($this.loaded==false) {
+                            axios.get("/mlabuser/info/" + $this.blogitem.mLabUser.uid).then(function (value) {
+                                $this.moodsign = value.data.moodsign;
+                                $this.mLabUser = value.data.mLabUser;
+                                $this.mLabUserCount = value.data.mLabUserCount;
+                                $this.loaded = true;
+                            }).catch(function (reason) {
+                                console.log(reason);
+                            })
+                        }
+                    }
+                },400)
+            },
+            hideBloggerInfo:function () {
+                this.wait = false;
+                this.showBlogger = false;
+            }
         }
     };
 
@@ -122,14 +202,19 @@ $(function () {
         props:["tag"],
         template:"#blog_tag",
     }
-
     var commentChildItemComponent={
         props:["cid","childcomment","bid"],
         template:"#comment_child_item",
         methods:{
             toggleComment:function (cid) {
                 toggle_comment(cid,this);
-            }
+            },
+            toUserPage:function () {
+                routerPush("/user",{
+                    uid: this.childcomment.mLabUser.uid,
+                    target:"sign",
+                })
+            },
         }
     }
 
@@ -185,7 +270,13 @@ $(function () {
                 }).catch(function (reason) {
                     console.log(reason);
                 })
-            }
+            },
+            toUserPage:function () {
+                routerPush("/user",{
+                    uid: this.commentitem.mLabUser.uid,
+                    target:"sign",
+                })
+            },
         },
     }
 
@@ -197,7 +288,7 @@ $(function () {
                 pages:1,
             }
         },
-        props:["bid"],
+        props:["bid","commentnum"],
         template:"#blog_comment",
         components:{
           "comment-parent":commentParentItemComponent,
@@ -271,10 +362,12 @@ $(function () {
                     params:{
                         content:content,
                         id:app.targetID,
+                        bid:this.bid,
                         plate:plateNo,
                     }
                 }).then(function (value) {
                     if (value.data.msg == true) {
+                        $this.commentnum += 1;
                         $(".comment_edit>textarea").val("");
                         if (app.targetID==$this.bid) {
                             $this.commentItems.unshift(value.data.commentItem);
@@ -332,10 +425,14 @@ $(function () {
             return {
                 Replying: false,
                 bloginfo:{
-                    blog:{},
                     mLabUser:{},
-                    },
+                    blog:{},
+                    blogCount:{},
+                    like:false,
+                    star:false,
+                },
                 tags:[],
+                liking:false,
             };
         },
         template:"#blog_info",
@@ -345,7 +442,15 @@ $(function () {
         },
         watch:{
             $route:function () {
-              this.bloginfo = routerGet(this).bloginfo;
+                this.bloginfo = routerGet(this).bloginfo;
+                var $this = this;
+                axios.get("/blog/view/"+this.bloginfo.blog.bid).then(function (value) {
+                    if(value.data==true){
+                        $this.bloginfo.blogCount.views += 1;
+                    }
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
             },
             bloginfo:function () {
                 this.$nextTick(function () {
@@ -366,6 +471,14 @@ $(function () {
                     delay: {show: 100, hide: 300}
                 })
             })
+            var $this = this;
+            axios.get("/blog/view/"+this.bloginfo.blog.bid).then(function (value) {
+                if(value.data==true){
+                    $this.bloginfo.blogCount.views += 1;
+                }
+            }).catch(function (reason) {
+                console.log(reason);
+            })
         },
         methods:{
             toIndex:function () {
@@ -381,6 +494,19 @@ $(function () {
             },
             toTop:function () {
                 $("html,body").animate({scrollTop: 0}, 500);
+            },
+            like:function(){
+                if (!this.liking) {
+                    this.liking = true;
+                    likeBlog(this.bloginfo);
+                    this.liking = false;
+                }
+            },
+            toUserPage:function () {
+                routerPush("/user",{
+                    uid: this.bloginfo.mLabUser.uid,
+                    target:"sign",
+                })
             }
         },
     };
@@ -389,53 +515,66 @@ $(function () {
         props:["moodsign"],
         template:"#moodsign_item",
     }
-
-    var mlabuserInfoComponent={
+    var moodsignContentComponent={
         data:function(){
-          return{
-              enteredCover:false,
-              enteredEdit:false,
-              content:"",
-              moodsigns:[],
-              uid:"",
-          }
+            return{
+                content:"",
+                moodsigns:[],
+                enteredEdit:false,
+            }
         },
-        template:"#mlabuser_info",
+        props:["uid"],
+        template:"#moodsign_content",
         components:{
             'moodsign-item':moodsignItemComponent,
         },
         mounted:function(){
             var $this = this;
-            this.uid = routerGet(this).uid;
-            axios.get("/sign/get",{
+            axios.get("/sign/list",{
                 params:{
                     uid:this.uid,
                 }
             }).then(function (value) {
                 $this.moodsigns = value.data.list;
-                console.log(value);
             }).catch(function (reason) {
                 console.log(reason);
             })
         },
+        watch:{
+            $route:function () {
+                var $this = this;
+                axios.get("/sign/list",{
+                    params:{
+                        uid:this.uid,
+                    }
+                }).then(function (value) {
+                    $this.moodsigns = value.data.list;
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
+            }
+        },
         methods:{
-            signing:function () {
+            signing:function (event) {
                 if (this.content==null||this.content==""){
                     return;
                 }
                 if (getStrLength(this.content)>40) {
                     alert("写得太多啦");
+                    this.content = getLegalStr(this.content, 40);
                 }else {
                     var $this = this;
                     axios.get("/sign/add",{
                         params:{
                             content: this.content,
-                            uid:app.userID,
+                            uid:this.uid,
                         }
                     }).then(function (value) {
                         if (value.data.msg = "true") {
                             $this.moodsigns.unshift(value.data.moodsign);
                             $this.content = "";
+                            event.target.parentElement.parentElement.parentElement.parentElement
+                                .__vue__.moodsign = value.data.moodsign;
                         }
                     }).catch(function (reason) {
                         console.log(reason);
@@ -443,6 +582,309 @@ $(function () {
                 }
             }
         }
+    }
+
+    var myImagesComponent={
+        props:["uid"],
+        data:function(){
+            return{
+                myImages:[],
+                bigImage:"",
+                current:0,
+            }
+        },
+        template:"#my_images",
+        mounted:function () {
+            var $this = this;
+            axios.get("/myimg/list/"+this.uid).then(function (value) {
+                $this.myImages = value.data;
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
+        watch:{
+            myImages:function () {
+                this.$nextTick(function(){
+                    /!*现在数据已经渲染完毕*!/
+                    var $myImages = $(".my_images");
+                    $myImages.imagesLoaded(function () {
+                        $myImages.masonry({
+                            itemSelector : '.image_item',
+                            isFitWidth: true,//是否根据浏览器窗口大小自动适应默认false
+                            isAnimated: true,//是否采用jquery动画进行重拍版
+                            isRTL:false,//设置布局的排列方式，即：定位砖块时，是从左向右排列还是从右向左排列。默认值为false，即从左向右
+                            isResizable: false,//是否自动布局默认true
+                            animationOptions: {
+                                duration: 800,
+                                easing: 'easeInOutBack',//如果你引用了jQeasing这里就可以添加对应的动态动画效果，如果没引用删除这行，默认是匀速变化
+                                queue: false//是否队列，从一点填充瀑布流
+                            }
+                        })
+                    });
+                })
+            }
+        },
+        methods:{
+            browseImage:function (url,index) {
+                this.bigImage = url;
+                this.cerrent = index;
+            },
+            nextImage:function () {
+                if (this.cerrent+1<this.myImages.length) {
+                    this.cerrent += 1;
+                    this.bigImage = this.myImages[this.cerrent].url;
+                }
+            },
+            prevImage:function () {
+                if (this.cerrent>0) {
+                    this.cerrent -= 1;
+                    this.bigImage = this.myImages[this.cerrent].url;
+                }
+            },
+            showTag:function (event) {
+                $(event.target).closest(".image_item").find(".image_date")
+                    .removeClass("animated fadeOut")
+                    .addClass("animated fadeIn");
+                $(event.target).closest(".image_item").find(".image_menu")
+                    .removeClass("animated fadeOut")
+                    .addClass("animated fadeIn");
+            },
+            hideTag:function (event) {
+                $(event.target).next().removeClass("animated fadeIn")
+                    .addClass("animated fadeOut");
+                $(event.target).closest(".image_item").find(".image_menu")
+                    .removeClass("animated fadeIn")
+                    .addClass("animated fadeOut");
+            }
+        }
+    }
+
+    var commentComponent={
+        template:"#comment_item",
+        props:["commentitem"],
+    }
+
+    var starContentComponent={
+        props:["uid"],
+        data:function(){
+            return{
+                blogitems:[],
+                starFolders:[],
+            }
+        },
+        template:"#star_content",
+        components:{
+            'blog-item':blogComponent,
+        },
+        mounted:function () {
+            var $this = this;
+            axios.get("/blog/star/folder/get").then(function (value) {
+                $this.starFolders = value.data;
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+            axios.get("/blog/star/get",{
+                params:{
+                    uid:this.uid,
+                    folder:0,
+                }
+            }).then(function (value) {
+                $this.blogitems = value.data;
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
+        methods:{
+            isDefault:function (starFolder) {
+                return starFolder.folder==0;
+            },
+            toFolder:function (folder) {
+                $(".ml-bcg").removeClass("ml-bcg");
+                $(event.target).parents("li").addClass("ml-bcg");
+                var $this = this;
+                axios.get("/blog/star/get",{
+                    params:{
+                        uid:this.uid,
+                        folder:folder,
+                    }
+                }).then(function (value) {
+                    $this.blogitems = value.data;
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
+            },
+        },
+    }
+
+    var likeContentComponent={
+        props:["uid"],
+        data:function(){
+            return{
+                page:"blog",
+                blogitems:[],
+            }
+        },
+        template:"#likes_content",
+        components:{
+            'blog-item':blogComponent,
+        },
+        mounted:function () {
+            var $this = this;
+            axios.get("/blog/like/get",{
+                params:{
+                    uid:this.uid,
+                }
+            }).then(function (value) {
+                $this.blogitems = value.data;
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+        },
+    }
+
+    var mlabuserInfoComponent={
+        data:function(){
+          return{
+              enteredCover:false,
+              uid:"",
+              target:"",
+              mLabUser:{},
+              mLabUserCount:{},
+              moodsign:{},
+              bcgimg:"/image/defaulthead.jpg",
+              blogpage:{},
+              commentpage:{},
+          }
+        },
+        template:"#mlabuser_info",
+        mounted:function(){
+            this.uid = routerGet(this).uid;
+            this.target = routerGet(this).target;
+            var $this = this;
+            axios.get("/mlabuser/info/"+this.uid).then(function (value) {
+                $this.moodsign = value.data.moodsign;
+                $this.mLabUser = value.data.mLabUser;
+                $this.mLabUserCount = value.data.mLabUserCount;
+                $this.bcgimg = $this.mLabUser.blogbcg_img;
+            }).catch(function (reason) {
+                console.log(reason);
+            })
+            if(this.target=="blogs"){
+                var params = "uid=" + this.uid;
+                axios.post("/blog/get",params).then(function (value) {
+                    $this.blogpage = value.data;
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
+            }else if (this.target == "comments") {
+                axios.get("/comment/list",{
+                    params:{
+                        uid:this.uid,
+                    }
+                }).then(function (value) {
+                    $this.commentpage = value.data;
+                }).catch(function (reason) {
+                    console.log(reason);
+                })
+            }
+            $(".my_info>.mybtn_active").removeClass("mybtn_active");
+            $(".my_info>li").eq(this.activeIndex).addClass("mybtn_active");
+        },
+        watch:{
+          $route:function () {
+              this.uid = routerGet(this).uid;
+              this.target = routerGet(this).target;
+              var $this = this;
+              axios.get("/mlabuser/info/"+this.uid).then(function (value) {
+                  $this.moodsign = value.data.moodsign;
+                  $this.mLabUser = value.data.mLabUser;
+                  $this.mLabUserCount = value.data.mLabUserCount;
+                  $this.bcgimg = $this.mLabUser.blogbcg_img;
+              }).catch(function (reason) {
+                  console.log(reason);
+              })
+
+              if(this.target=="blogs"){
+                  var params = "uid=" + this.uid;
+                  axios.post("/blog/get",params).then(function (value) {
+                      $this.blogpage = value.data;
+                  }).catch(function (reason) {
+                      console.log(reason);
+                  })
+              }else if (this.target == "comments") {
+                  axios.get("/comment/list",{
+                      params:{
+                          uid:this.uid,
+                      }
+                  }).then(function (value) {
+                      $this.commentpage = value.data;
+                  }).catch(function (reason) {
+                      console.log(reason);
+                  })
+              }
+              $(".my_info>.mybtn_active").removeClass("mybtn_active");
+              $(".my_info>li").eq(this.activeIndex).addClass("mybtn_active");
+          }
+        },
+        components:{
+            'moodsign-content':moodsignContentComponent,
+            'my-images':myImagesComponent,
+            'blog-item':blogComponent,
+            'comment-item':commentComponent,
+            'star-content':starContentComponent,
+            'like-content':likeContentComponent,
+        },
+        computed:{
+            activeIndex:function () {
+                var str={
+                    "sign":0,
+                    "images":1,
+                    "star":2,
+                    "likes":3,
+                    "comments":4,
+                    "blogs":5,
+                }
+                return str[this.target];
+            }
+        },
+        methods:{
+            toMySign:function(){
+                routerPush("/user",{
+                    uid: this.uid,
+                    target:"sign",
+                })
+            },
+            toMyImages:function(){
+                routerPush("/user",{
+                    uid: this.uid,
+                    target:"images",
+                })
+            },
+            toMyLikes:function(){
+                routerPush("/user",{
+                    uid: this.uid,
+                    target:"likes",
+                })
+            },
+            toMyStar:function(){
+                routerPush("/user",{
+                    uid: this.uid,
+                    target:"star",
+                })
+            },
+            toMyBlogs:function () {
+                routerPush("/user",{
+                    uid: this.uid,
+                    target:"blogs",
+                })
+            },
+            toMyComments:function () {
+                routerPush("/user",{
+                    uid: this.uid,
+                    target:"comments",
+                })
+            }
+        },
     }
 
     var blogContentComponent={
@@ -575,8 +1017,14 @@ $(function () {
         template: "#hotblog",
         methods:{
             toInfo:function (blogitem) {
-                toInformation(blogitem,this);
-            }
+                routerPush("/info",{bloginfo: blogitem})
+            },
+            toUserPage:function () {
+                routerPush("/user",{
+                    uid: this.hotblog.mLabUser.uid,
+                    target:"sign",
+                })
+            },
         },
     };
     var mLabUserCountComponent={
@@ -588,7 +1036,7 @@ $(function () {
         template:"#mlabuser_count",
         mounted:function () {
             var $this = this;
-            axios.get("/count/get").then(function(value) {
+            axios.get("/count/mlabuser/get").then(function(value) {
                 $this.mLabUserCount = value.data;
             }).catch(function (reason) {
                 console.log(reason);
@@ -807,6 +1255,7 @@ $(function () {
             }
         },
     }
+
     var routes=[
         {
             path:'/index',
@@ -842,27 +1291,43 @@ $(function () {
     var app=new Vue({
         el:"#app",
         data:{
-            moodsign:"HelloWorld",//TODO:签名
+            moodsign:{},//TODO:签名
             editCache:false,
             plates:false,//板块列表开关
             allKey:"",
             userID:"",
             plateNo:0,//用于区分博客页当前的结果集属于哪个板块
             targetID:"",//当前评论框指向的id
+            starFolders:[],
+            showFolderInput:false,
+            folderName:"",
+            checkedFolder:[0],
+            starBlogComp:{},
         },
         components:{
             'right-nav':rightNavComponent
         },
         router:routerObj,
+        watch:{
+            showFolderInput:function () {
+                this.$nextTick(function () {
+                    $("#starModal .input-group>.form-control").focus();
+                })
+            }
+        },
         mounted:function () {
             this.plateNo = plateNo;
             axios.get("/mlabuser/isLogin").then(function (value) {
                 app.userID = value.data.userID;
+                app.moodsign = value.data.moodsign;
             }).catch(function (reason) {
                 console.log(reason);
             })
         },
         methods:{
+            toIndex:function () {
+                search("");
+            },
             toggleEdit:function () {
                 if (this.$route.name != 'edit') {
                     routerObj.push({name:'edit'})
@@ -871,7 +1336,91 @@ $(function () {
                 }
             },
             toUserPage:function(){
-                routerPush("/user",{uid: app.userID})
+                routerPush("/user",{
+                    uid: app.userID,
+                    target:"sign",
+                })
+            },
+            toMyImages:function(){
+                routerPush("/user",{
+                    uid: app.userID,
+                    target:"images",
+                })
+            },
+            toMyLikes:function(){
+                routerPush("/user",{
+                    uid: app.userID,
+                    target:"likes",
+                })
+            },
+            toMyStar:function(){
+                routerPush("/user",{
+                    uid: app.userID,
+                    target:"star",
+                })
+            },
+            toMyComments:function(){
+                routerPush("/user",{
+                    uid: app.userID,
+                    target:"comments",
+                })
+            },
+            addFolder:function(){
+                if (this.folderName==null||this.folderName==""){
+                    return;
+                }
+                if (getStrLength(this.folderName)>20){
+                    alert("名字太长啦");
+                    this.folderName=getLegalStr(this.folderName, 20);
+                }else {
+                    this.showFolderInput = false;
+                    var $this = this;
+                    axios.get("/blog/star/folder/add",{
+                        params:{
+                            folderName:this.folderName,
+                            folder:this.starFolders[this.starFolders.length-1].folder,
+                        }
+                    }).then(function (value) {
+                        $this.starFolders.push(value.data);
+                    }).catch(function (reason) {
+                        console.log(reason);
+                    })
+                }
+
+            },
+            checkFolder:function(folder){
+                var target;
+                if (event.target.tagName=="A"){
+                    target = event.target;
+                }else {
+                    target = event.target.parentElement;
+                }
+                var index= this.checkedFolder.indexOf(folder);
+                if(index>=0){
+                    this.checkedFolder.splice(index, 1);
+                    $(target.firstElementChild).removeClass("fa-check-square")
+                        .addClass("fa-square-o");
+                }else {
+                    this.checkedFolder.push(folder);
+                    $(target.firstElementChild).addClass("fa-check-square")
+                        .removeClass("fa-square-o");
+                }
+            },
+            star:function(){
+                if (this.starFolders == null || this.checkedFolder.length == 0) {
+                    alert("至少选择一个收藏夹")
+                    return;
+                }else {
+                    axios.post("/blog/star",{
+                        bid:this.starBlogComp.blogitem.blog.bid,
+                        folders:this.checkedFolder,
+                    }).then(function (value) {
+                        app.starBlogComp.blogitem.star = true;
+                        $("#starModal").modal('hide');
+                    }).catch(function (reason) {
+                        console.log(reason);
+                    })
+                }
             },
             /*油画工具淡入淡出*/
             togglePalette:function () {
@@ -895,5 +1444,8 @@ $(function () {
                 })
             }
         }
+    })
+    $('#starModal').on('hidden.bs.modal', function (e) {
+        app.showFolderInput = false;
     })
 })

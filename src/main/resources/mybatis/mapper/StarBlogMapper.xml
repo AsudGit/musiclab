@@ -7,4 +7,24 @@
     <select id="list" resultType="StarBlog">
         SELECT * FROM starblog
     </select>
+    <select id="get" resultType="StarBlog_status">
+        select * from starblog
+        <where>
+            <if test="uid!=null and uid!=''">
+                and uid=#{uid}
+            </if>
+            <if test="bid!=null and bid!=''">
+                and bid=#{bid}
+            </if>
+            <if test="folder!=null and folder!=0">
+                and folder=#{folder}
+            </if>
+        </where>
+    </select>
+    <insert id="add" parameterType="StarBlog">
+        insert into starblog(sbid, uid, bid, folder) values(#{sbid},#{uid},#{bid},#{folder})
+    </insert>
+    <delete id="delete" parameterType="String">
+        delete from starblog where sbid=#{sbid}
+    </delete>
 </mapper>

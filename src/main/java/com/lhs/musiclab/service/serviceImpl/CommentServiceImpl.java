@@ -44,31 +44,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Async
-    public void commentsIncr(Integer plate) {
-        Map map=(HashMap)redisTemplate.opsForValue().get("total:"+plate);
-        map.put("commentNums", (int)map.get("commentNums")+1);
-        redisTemplate.opsForValue().set("total:"+plate,map);
-    }
-
-    @Override
     public Integer countCommentsByUid(String uid) {
         return commentMapper.countCommentsByUid(uid);
     }
 
     @Override
     @Cacheable
-    public PageInfo<CommentItem> list(String id, Integer start, Integer size) {
+    public PageInfo<CommentItem> list(Comment comment, Integer start, Integer size) {
         PageHelper.startPage(start, size);
-        List<CommentItem> commentList = commentMapper.list(id);
+        List<CommentItem> commentList = commentMapper.list(comment);
         PageInfo<CommentItem> pageInfo = new PageInfo<>(commentList);
         return pageInfo;
-    }
-
-    @Override
-    @Cacheable
-    public List<CommentItem> list(String id) {
-        return commentMapper.list(id);
     }
 
     @Override

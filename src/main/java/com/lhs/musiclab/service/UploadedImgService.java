@@ -9,5 +9,7 @@ public interface UploadedImgService {
 
     public List<UploadedImg> list();
 
+    public List<UploadedImg> list(String uid);
+
     public void delete(UploadedImg uploadedImg);
 }

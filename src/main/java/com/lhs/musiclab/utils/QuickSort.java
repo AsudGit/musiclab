@@ -57,7 +57,7 @@ public class QuickSort {
 
         }
     }
-    public static void sort(List<Tag> list, int head, int tail){
+    public static void sortForTag(List<Tag> list, int head, int tail){
         int i=head,j=tail,t=i;
         Tag pivot = list.get(i);
         if(list.size()>0){
@@ -79,43 +79,42 @@ public class QuickSort {
             }
             list.set(t,pivot);
             if(t+1<tail){
-                sort(list,t+1,tail);
+                sortForTag(list,t+1,tail);
             }
             if(t-1>head){
-                sort(list,head,t-1);
+                sortForTag(list,head,t-1);
             }
         }
     }
 
 
-    public static void linkedlistSort(LinkedList<BlogItem> linkedList, int head, int tail){
+    public static void sortForBlogItem(List<BlogItem> list, int head, int tail){
         int i=head,j=tail,t=i;
-        BlogItem pivot = linkedList.get(i);
-        if(linkedList.size()>0){
-                while (i < j) {
-                    if (t == j) {
+        BlogItem pivot = list.get(i);
+        if(list.size()>0){
+            while (i < j) {
+                if (t == j) {
+                    i++;
+                    while (i < j && ((pivot.compareTo(list.get(i))>0)^DESC)) {
                         i++;
-                        while (i < j && ((pivot.compareTo(linkedList.get(i))>0)^DESC)) {
-                            i++;
-                        }
-                        linkedList.set(j,linkedList.get(i));
-                        t = i;
-                    } else {
-                        while (i < j && ((pivot.compareTo(linkedList.get(j))<0)^DESC)) {
-                            j--;
-                        }
-                        linkedList.set(i, linkedList.get(j));
-                        t = j;
                     }
+                    list.set(j,list.get(i));
+                    t = i;
+                } else {
+                    while (i < j && ((pivot.compareTo(list.get(j))<0)^DESC)) {
+                        j--;
+                    }
+                    list.set(i,list.get(j));
+                    t = j;
                 }
-                linkedList.set(t, pivot);
-                if(t+1<tail){
-                    linkedlistSort(linkedList,t+1,tail);
-                }
-                if(t-1>head){
-                    linkedlistSort(linkedList,head,t-1);
-                }
-
             }
+            list.set(t,pivot);
+            if(t+1<tail){
+                sortForBlogItem(list,t+1,tail);
+            }
+            if(t-1>head){
+                sortForBlogItem(list,head,t-1);
+            }
+        }
     }
 }

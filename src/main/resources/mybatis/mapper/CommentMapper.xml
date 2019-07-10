@@ -20,7 +20,6 @@
             <result column="head_img" property="head_img"></result>
         </association>
     </resultMap>
-
     <select id="countCommentsByUid" resultType="Integer">
         select count(1) from comment where uid=#{uid}
     </select>
@@ -34,12 +33,17 @@
         where id in (select cid from comment c join blog b on c.id=b.bid where b.plate=#{plate})
     </select>
 
-    <select id="list" resultMap="commentItem">
+    <select id="list" parameterType="Comment" resultMap="commentItem">
         SELECT c.*,c.uid 'cuid',m.name,m.head_img
         FROM comment c join mlabuser m on c.uid=m.uid
-        <if test="_parameter !=null and _parameter!=''">
-            where id = #{id}
-        </if>
+        <where>
+            <if test="id !=null and id!=''">
+            and id = #{id}
+            </if>
+            <if test="uid!=null and uid!=''">
+                and c.uid=#{uid}
+            </if>
+        </where>
         ORDER BY commented_time DESC
     </select>
 

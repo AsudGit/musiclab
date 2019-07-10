@@ -13,7 +13,7 @@
         VALUES(#{msid},#{content},#{signed_time},#{uid})
     </insert>
 
-    <select id="get" resultType="MoodSign">
+    <select id="listByUid" resultType="MoodSign">
         select * from moodsign
         <where>
             <if test="_parameter!=null and _parameter!=''">
@@ -21,5 +21,9 @@
             </if>
         </where>
         ORDER BY signed_time DESC
+    </select>
+
+    <select id="getByUid" resultType="MoodSign">
+        select * from moodsign where uid = #{uid} order by signed_time DESC limit 0,1
     </select>
 </mapper>

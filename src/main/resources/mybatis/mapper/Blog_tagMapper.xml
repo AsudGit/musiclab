@@ -4,9 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lhs.musiclab.dao.Blog_tagMapper">
-    <select id="list" resultType="Blog_tag">
-        SELECT * FROM blog_tag
-    </select>
     <insert id="add" parameterType="Blog_tag">
         insert into blog_tag(id, bid, tid) VALUES(#{id},#{bid},#{tid});
     </insert>

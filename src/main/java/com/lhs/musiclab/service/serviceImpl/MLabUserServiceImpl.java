@@ -45,6 +45,7 @@ public class MLabUserServiceImpl implements MLabUserService {
     public List<MLabUser> get(MLabUser mLabUser) {
         return mLabUserMapper.get(mLabUser);
     }
+    
 
     @Override
     @Cacheable

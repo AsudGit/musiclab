@@ -17,14 +17,12 @@ public class WebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/musicIndex").setViewName("music_index");
-        registry.addViewController("/test2").setViewName("test2");
-
     }
     //配置拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //TODO:拦截有问题,把请求都拦截了
-        registry.addInterceptor(new UserLoginIntecept()).addPathPatterns("/blog/*","/musicIndex");
-//                .excludePathPatterns("/index.html","/index","/custom/**","/image/**","/plugins/**");
+        registry.addInterceptor(new UserLoginIntecept()).addPathPatterns("/**")
+                .excludePathPatterns("/index.html", "/index","/musicIndex","/mlabuser/**","/sendsms/**","/custom/**","/image/**","/plugins/**");
     }
 }

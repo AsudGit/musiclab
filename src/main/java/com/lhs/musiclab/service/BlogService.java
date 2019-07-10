@@ -3,22 +3,24 @@ package com.lhs.musiclab.service;
 import com.github.pagehelper.PageInfo;
 import com.lhs.musiclab.pojo.Blog;
 import com.lhs.musiclab.pojo.BlogItem;
+import com.lhs.musiclab.pojo.StarFolder;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public interface BlogService {
-    public Integer add(Blog blog);
-
-    public List<Blog> list();
-
-    public LinkedList<BlogItem> linkedlist();
+    public List<BlogItem> listForBlogItem();
 
     public Integer countBlogsByPlate(Integer plate);
 
     public Integer countBlogsByUid(String uid);
 
-    public void newsIncr(Integer plate);
+    public List<BlogItem> getHotBlog();
+
+    public void setHotBlogForRedis();
+
+    public Integer add(Blog blog);
 
     public void delete(Blog blog);
 

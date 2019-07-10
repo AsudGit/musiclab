@@ -13,7 +13,7 @@ public interface CommentMapper {
 
     public List<CommentItem> listByIdLimit(String id,Integer start,Integer size);
 
-    public List<CommentItem> list(String id);
+    public List<CommentItem> list(Comment comment);
 
     public Integer countCommentsByUid(String uid);
 

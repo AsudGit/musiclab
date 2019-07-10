@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
 public class TagServiceImpl implements TagService {
     @Autowired
     private TagMapper tagMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     @CacheEvict(allEntries = true)
@@ -52,5 +55,20 @@ public class TagServiceImpl implements TagService {
     @Override
     public Tag get(Tag tag) {
         return tagMapper.get(tag);
+    }
+
+    @Override
+    public List<Tag> getHotTag(Integer start,Integer size) {
+        List<Tag> list = (List<Tag>) redisTemplate.opsForValue().get("hot:tag");
+        if (list==null){
+            setHotTagForRedis(start,size);
+            list = (List<Tag>) redisTemplate.opsForValue().get("hot:tag");
+        }
+        return list;
+    }
+    @Override
+    public void setHotTagForRedis(Integer start,Integer size){
+        List<Tag> list=tagMapper.listByLimit(start,size);
+        redisTemplate.opsForValue().set("hot:tag",list);
     }
 }

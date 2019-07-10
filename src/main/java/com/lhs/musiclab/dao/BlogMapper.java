@@ -2,15 +2,14 @@ package com.lhs.musiclab.dao;
 
 import com.lhs.musiclab.pojo.Blog;
 import com.lhs.musiclab.pojo.BlogItem;
+import com.lhs.musiclab.pojo.StarFolder;
 
 import java.util.LinkedList;
 import java.util.List;
 public interface BlogMapper {
     public Integer add(Blog blog);
 
-    public List<Blog> list();
-
-    public LinkedList<BlogItem> linkedlist();
+    public List<BlogItem> listForBlogItem();
 
     public Integer countBlogsByPlate(Integer plate);
 

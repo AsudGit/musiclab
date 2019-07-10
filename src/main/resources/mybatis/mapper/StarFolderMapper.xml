@@ -7,4 +7,10 @@
     <select id="list" resultType="StarFolder">
         SELECT * FROM starfolder
     </select>
+    <select id="get" resultType="StarFolder">
+        SELECT * FROM starfolder where uid=#{uid} order by folder ASC
+    </select>
+    <insert id="add" parameterType="StarFolder">
+        INSERT into starfolder(uid, folder, foldername) values(#{uid},#{folder},#{folderName})
+    </insert>
 </mapper>

@@ -3,24 +3,40 @@
  */
 
 $(function () {
+    var msg = $(".prompt").text();
+    if (msg!=null&&msg!=""){
+        Notification.create(
+            // 消息通知框的标题
+            msg,
+            // 消息通知框的内容
+            "请登陆或者注册后再浏览",
+            // 图片
+            "/image/human.png",
+            // 效果
+            "bounceIn",
+            // 定位
+            1,
+            3
+        );
+    }
     /*
      获取日期
      */
     var myDate = new Date()
     var month = myDate.getMonth() > 9 ? (myDate.getMonth() + 1) : ('0' + (myDate.getMonth() + 1));
-    var date = myDate.getDate() > 10 ? myDate.getDate() : ('0' + myDate.getDate());
+    var date = myDate.getDate() > 9 ? myDate.getDate() : ('0' + myDate.getDate());
     $(".datediv h1").text(month);
     $(".datediv h4").text("/" + date);
     $(".box-content .post").html("© "+myDate.getFullYear()+" Copyright BY LinHuaSheng" +
         "<br>粤ICP备18046160号" );
 
-    $(".box").mouseenter(function () {
+    /*$(".box").mouseenter(function () {
         $(".apk").removeClass("fadeOutLeftBig")
             .addClass("fadeInLeftBig");
     }).mouseleave(function () {
         $(".apk").removeClass("fadeInLeftBig")
             .addClass("fadeOutLeftBig");
-    })
+    })*/
     /*
      封面标题淡入淡出
      */
