@@ -48,6 +48,7 @@
     <logger name="java.sql.PreparedStatement" level="DEBUG"/>
     <!--设置项目日志输出级别为debug-->
     <logger name="com.lhs.musiclab" level="DEBUG"/>
+    <logger name="o.s.w.s.m.m.a" level="DEBUG"/>
 
     <!-- 日志输出级别 -->
     <root level="INFO">

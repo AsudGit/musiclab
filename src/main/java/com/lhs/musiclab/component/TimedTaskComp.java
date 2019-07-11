@@ -98,7 +98,7 @@ public class TimedTaskComp {
         redisTemplate.delete(keys);
         logger.info("----------------------blogcount表同步结束----------------------");
     }
-
+    @Async
     public void updateLikeBlogs(){
         logger.info("----------------------同步likeblogs表----------------------");
         Set<String> keys = redisTemplate.keys("like:blog:*");
@@ -117,7 +117,7 @@ public class TimedTaskComp {
         redisTemplate.delete(keys);
         logger.info("----------------------likeblogs表同步结束----------------------");
     }
-
+    @Async
     public void updateStarBlogs(){
         logger.info("----------------------同步starblogs表----------------------");
         Set<String> keys = redisTemplate.keys("star:blog:*");
