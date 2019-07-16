@@ -7,7 +7,7 @@
 
 ## DEMO
 
-[访问云服务器上的实例](https://www.jianshu.com "musiclab音乐论坛")
+[访问云服务器上的实例](https://www.musiclab.club "musiclab音乐论坛")
 
 ## 采用的技术
 
