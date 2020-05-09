@@ -15,8 +15,8 @@ public class SendCode {
     static final String product = "Dysmsapi";//短信API产品名称（短信产品名固定，无需修改）
     static final String domain = "dysmsapi.aliyuncs.com";//短信API产品域名（接口地址固定，无需修改）
     //替换成你的AK
-    static final String accessKeyid="LTAIYdFuNMTQ9RFG";//你的accessKeyId,参考本文档步骤2
-    static final String accessKeySecret="HQ8ZSgPB9IDHXtvFWTflZQsa1K3kw2";//你的accessKeySecret，参考本文档步骤2
+    static final String accessKeyid="";//你的accessKeyId,参考本文档步骤2
+    static final String accessKeySecret="";//你的accessKeySecret，参考本文档步骤2
     public static final String CODE_NUMBER = "0123456789";//随机验证码候选字符串
     public static final String CODE_NUMBER_CHAR = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";//随机验证码候选字符串
     public static final int CODE_LENGTH = 6;//验证码长度
